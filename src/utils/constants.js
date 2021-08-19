@@ -88,7 +88,16 @@ const OwOlist = [// 表情包和表情路径
   { 'title': '蛋糕', 'url': 'dangao.gif' },
   { 'title': '发红包', 'url': 'fahongbao.gif' }
 ]
+const userTag = [
+  '天然呆',
+  '小萌新',
+  '学霸',
+  '萌萌哒',
+  '技术宅',
+  '忠实粉'
+]
 export {
   shareClass,
-  OwOlist
+  OwOlist,
+  userTag
 }

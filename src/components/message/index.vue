@@ -46,10 +46,10 @@
     <div ref="listDom"
          class="tmsg-comments">
       <a href="#"
-         class="tmsg-comments-tip">活捉 {{ commentList?commentList.length:0 }} 条</a>
+         class="tmsg-comments-tip">活捉 {{ list?list.length:0 }} 条</a>
       <div class="tmsg-commentshow">
         <ul class="tmsg-commentlist">
-          <li v-for="(item,index) in commentList"
+          <li v-for="(item,index) in list"
               :key="'common'+index"
               class="tmsg-c-item">
             <article class="">
@@ -63,22 +63,22 @@
                   {{ item.label }}
                 </div>
                 <div class="i-time">
-                  <time>{{ item.time }}</time>
+                  <time>{{ initDate(item.createDate) }}</time>
                 </div>
               </header>
               <section>
                 <p v-html="analyzeEmoji(item.content)">{{ analyzeEmoji(item.content) }}</p>
-                <div v-if="haslogin"
+                <div v-if="userId"
                      class="tmsg-replay"
-                     @click="respondMsg(item.comment_id,item.comment_id)">
+                     @click="respondMsg(item._id,item._id)">
                   回复
                 </div>
               </section>
             </article>
-            <ul v-show="item.ChildsSon"
+            <ul v-if="item.children && item.children.length>0"
                 class="tmsg-commentlist"
                 style="padding-left:60px;">
-              <li v-for="(citem,cindex) in item.ChildsSon"
+              <li v-for="(citem,cindex) in item.children"
                   :key="'citem'+cindex"
                   class="tmsg-c-item">
                 <article class="">
@@ -86,20 +86,20 @@
                     <img :src="citem.avatar"
                          :onerror="$store.state.errorImg">
                     <div class="i-name">
-                      {{ citem.username }} <span>回复</span> {{ citem.reply_name }}
+                      {{ citem.username }} <span>回复</span> {{ citem.parentUsername }}
                     </div>
                     <div class="i-class">
                       {{ citem.label }}
                     </div>
                     <div class="i-time">
-                      <time>{{ citem.time }}</time>
+                      <time>{{ initDate(citem.createDate) }}</time>
                     </div>
                   </header>
                   <section>
                     <p v-html="analyzeEmoji(citem.content)">{{ citem.content }}</p>
-                    <div v-show="haslogin"
+                    <div v-show="userId"
                          class="tmsg-replay"
-                         @click="respondMsg(citem.comment_id,item.comment_id)">
+                         @click="respondMsg(citem._id,item._id)">
                       回复
                     </div>
                   </section>
@@ -125,6 +125,7 @@ import commentAPI from '@/api/comment'
 import { OwOlist } from '@/utils/constants'
 import { analyzeEmoji } from '@/utils'
 import { mapActions, mapGetters } from 'vuex'
+import { initDate, filterName } from '@/utils/index.js'
 export default {
   name: 'Message',
   components: { // 定义组件
@@ -309,8 +310,6 @@ export default {
       pageId: 0, // 当前第几页
       aid: 0, // 文章id
       hasMore: true,
-      haslogin: false,
-      userId: '', // 用户id
       leaveId: 0, // 回复评论的当前的commentId
       leavePid: '', // 赞赏等其他模块的分类id
       pid: '', // 回复评论的一级commentId
@@ -333,10 +332,11 @@ export default {
     // var that = this;
     // that.routeChange();
   },
-  mounted() { // 页面加载完成后
-
+  async mounted() { // 页面加载完成后
+    await this.routeChange()
   },
   methods: { // 事件处理器
+    initDate,
     ...mapActions('user', ['login']),
     // 选择表情包
     choseEmoji(inner) {
@@ -345,7 +345,27 @@ export default {
     // 编译表情替换成图片展示出来
     analyzeEmoji,
     // 发送留言
-    sendMsg() { // 留言
+    async sendMsg() {
+      if (this.textarea) {
+        const res = await commentAPI.add({ content: this.textarea, articleId: this.id, parentId: this.pid })
+        if (res.code === 0) {
+          // this.routeChange()
+          this.textarea = ''
+          this.removeRespond()
+          const timer = setTimeout(() => {
+            this.sendTip = '发送~'
+            clearTimeout(timer)
+          }, 1000)
+        }
+      } else {
+        this.sendTip = '内容不能为空~'
+        const timer = setTimeout(() => {
+          this.sendTip = '发送~'
+          clearTimeout(timer)
+        }, 3000)
+      }
+    },
+    sendMsg2() { // 留言
       // var that = this;
       // if(that.textarea){
       //     that.sendTip = '咻~~';
@@ -380,26 +400,13 @@ export default {
     },
     respondMsg(leavePid, pid) { // 回复留言
       // console.log(leavePid,pid);
-      var that = this
-      if (localStorage.getItem('userInfo')) {
+      if (this.userId) {
         var dom = event.currentTarget
         dom = dom.parentNode
         this.isRespond = true
         this.leavePid = leavePid
         this.pid = pid
         dom.appendChild(this.$refs.respondBox)
-      } else {
-        that.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => { // 确定，跳转至登录页面
-          // 储存当前页面路径，登录成功后跳回来
-          localStorage.setItem('logUrl', that.$route.fullPath)
-          that.$router.push({ path: '/Login?login=1' })
-        }).catch(() => {
-
-        })
       }
     },
     removeRespond() { // 取消回复留言
@@ -411,12 +418,12 @@ export default {
       that.aid = that.$route.query.aid === undefined ? 1 : parseInt(that.$route.query.aid)// 获取传参的aid
       // 判断当前用户是否登录
       if (localStorage.getItem('userInfo')) {
-        that.haslogin = true
+        that.userId = true
         that.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         that.userId = that.userInfo.userId
         //   console.log(that.userInfo);
       } else {
-        that.haslogin = false
+        that.userId = false
       }
       // 是否重新加载数据 还是累计加载
       that.pageId = initData ? 0 : that.pageId
@@ -462,7 +469,9 @@ export default {
       const options = {
         keywords: this.keywords,
         pageSize: this.pageSize,
-        currentPage: this.current
+        currentPage: this.current,
+        articleId: this.id,
+        state: 1
       }
 
       const res = await commentAPI.getList(options)
@@ -479,11 +488,11 @@ export default {
     },
     addMoreFun() { // 查看更多
       ++this.current
-      this.showCommentList(false)
+      this.getList(false)
     },
-    routeChange() { // 重新加载
-      // var that = this;
-      // this.showCommentList(true);
+    async routeChange() { // 重新加载
+      this.current = 1
+      await this.getList(true)
     }
   }
 }

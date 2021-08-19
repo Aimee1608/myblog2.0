@@ -5,6 +5,7 @@ import {
   getToken,
   removeToken
 } from '@/utils/auth'
+
 const getDefaultState = () => {
   return {
     token: getToken(),
@@ -12,7 +13,8 @@ const getDefaultState = () => {
     userId: '',
     role: 'normal',
     status: 3,
-    avatar: ''
+    avatar: '',
+    userInfo: {}
   }
 }
 
@@ -42,6 +44,9 @@ const mutations = {
     }
     state.role = userRole[status]
     state.status = status
+  },
+  SET_USER: (state, userInfo) => {
+    state.userInfo = userInfo
   }
 }
 
@@ -77,6 +82,7 @@ const actions = {
         commit('SET_NAME', username)
         commit('SET_ROLE', status)
         commit('SET_AVATAR', avatar)
+        commit('SET_USER', data)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -109,6 +115,30 @@ const actions = {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
       resolve()
+    })
+  },
+
+  edit({
+    commit
+  }, userInfo) {
+    return new Promise((resolve, reject) => {
+      userAPI.edit(userInfo).then((response) => {
+        const { data } = response
+        const {
+          userId,
+          username,
+          status,
+          avatar
+        } = data
+        commit('SET_ID', userId)
+        commit('SET_NAME', username)
+        commit('SET_ROLE', status)
+        commit('SET_AVATAR', avatar)
+        commit('SET_USER', data)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
     })
   }
 }

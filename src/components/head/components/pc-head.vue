@@ -62,13 +62,13 @@
           <i class="fa fa-fw fa-user-circle userImg" />
           <ul class="haslogin-info">
             <li>
-              <a href="#/UserInfo">个人中心</a>
+              <a @click="goHandle('user')">个人中心</a>
             </li>
             <li>
-              <a href="#/LikeCollect?like=1">喜欢列表</a>
+              <a @click="goHandle('likeCollect?like=1')">喜欢列表</a>
             </li>
             <li>
-              <a href="#/LikeCollect?like=2">收藏列表</a>
+              <a @click="goHandle('likeCollect?like=2')">收藏列表</a>
             </li>
             <li>
               <a href="javascript:void(0);"
@@ -94,7 +94,10 @@ export default {
     searchEnterFun() { this.$emit('searchEnterFun') },
     searchChangeFun() { this.$emit('searchChangeFun') },
     logoinFun() { this.$emit('logoinFun') },
-    userlogout() { this.$emit('userlogout') }
+    userlogout() { this.$emit('userlogout') },
+    goHandle(value) {
+      this.$emit('goHandle', value)
+    }
   }
 }
 </script>

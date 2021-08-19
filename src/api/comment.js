@@ -1,9 +1,17 @@
 import request from './index'
-const PATH = '/collect'
+const PATH = '/comment'
 
-function edit(data) {
+function getList(params) {
   return request({
-    url: `${PATH}/edit`,
+    url: `${PATH}/getList`,
+    method: 'get',
+    params
+  })
+}
+
+function add(data) {
+  return request({
+    url: `${PATH}/add`,
     method: 'post',
     data
   })
@@ -18,6 +26,7 @@ function getInfo(params) {
 }
 
 export default {
+  getList,
   getInfo,
-  edit
+  add
 }

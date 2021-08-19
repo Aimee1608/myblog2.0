@@ -1,5 +1,5 @@
 import request from './index'
-const PATH = '/comment'
+const PATH = '/collect'
 
 function edit(data) {
   return request({

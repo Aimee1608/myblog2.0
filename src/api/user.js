@@ -22,8 +22,17 @@ function getInfo() {
   })
 }
 
+function edit(data) {
+  return request({
+    url: `${PATH}/edit`,
+    method: 'post',
+    data
+  })
+}
+
 export default {
   login,
   logout,
-  getInfo
+  getInfo,
+  edit
 }

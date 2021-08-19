@@ -13,6 +13,7 @@
                   @searchEnterFun="searchEnterFun"
                   @searchChangeFun="searchChangeFun"
                   @logoinFun="logoinFun"
+                  @goHandle="goHandle"
                   @userlogout="userlogout" />
           <!-- 移动端 -->
           <H5Head class="h5-head"
@@ -123,6 +124,9 @@ export default {
     },
     async userlogout() {
       await this.$store.dispatch('user/logout')
+    },
+    goHandle(path) {
+      this.$router.push(path)
     }
   }
 }
