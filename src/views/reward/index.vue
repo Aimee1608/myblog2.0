@@ -1,9 +1,11 @@
 <!-- 赞赏模块 -->
 <template>
   <div class="tRewardBox tcommonBox">
-    <div class="reward-title"> 赞赏 </div> 
+    <div class="reward-title"> 赞赏 </div>
     <div class="reward-img">
-      <img src="@/assets/img/timg.jpg" alt="" class="maxW">
+      <img src="@/assets/img/timg.jpg"
+           alt=""
+           class="maxW">
     </div>
     <div class="reward-description-title">@赞赏说明：</div>
     <div class="reward-content">
@@ -13,24 +15,35 @@
     <hr>
     <div class="reward-description-title">@赞赏方式：</div>
     <el-row :gutter="30">
-      <el-col :span="12" class="donate-item">
+      <el-col :span="12"
+              class="donate-item">
         <div class="donate-tip">
-          <img src="@/assets/img/aimee/reward-wechat.jpg" />
+          <img src="@/assets/img/aimee/reward-wechat.jpg">
           <span>微信扫一扫，向我赞赏</span>
         </div>
       </el-col>
-      <el-col :span="12" class="donate-item">
+      <el-col :span="12"
+              class="donate-item">
         <div class="donate-tip">
-          <img src="@/assets/img/aimee/reward-zfb.jpg" :onerror="$store.state.errorImg">
+          <img src="@/assets/img/aimee/reward-zfb.jpg"
+               :onerror="$store.state.errorImg">
           <span>支付宝扫一扫，向我赞赏</span>
         </div>
       </el-col>
     </el-row>
     <div class="reward-description-title">@赞赏记录：</div>
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="pay_time" label="日期" align="center"></el-table-column>
-      <el-table-column prop="name" label="赞赏人" align="center"></el-table-column>
-      <el-table-column prop="money" label="金额" align="center"></el-table-column>
+    <el-table :data="tableData"
+              border
+              style="width: 100%">
+      <el-table-column prop="pay_time"
+                       label="日期"
+                       align="center" />
+      <el-table-column prop="name"
+                       label="赞赏人"
+                       align="center" />
+      <el-table-column prop="money"
+                       label="金额"
+                       align="center" />
     </el-table>
   </div>
 </template>
@@ -39,43 +52,43 @@
 
 export default {
   name: 'Reward',
-  data () { //选项 / 数据
+  components: { // 定义组件
+
+  },
+  data() { // 选项 / 数据
     return {
-      tableData: [{//赞赏数据
+      tableData: [{// 赞赏数据
         pay_time: '2016-05-02',
         name: '王小虎',
         money: '555'
       }]
     }
   },
-  methods: { //事件处理器
-  
-  },
-  components: { //定义组件
+  created() { // 生命周期函数
 
   },
-  created () { //生命周期函数
+  methods: { // 事件处理器
 
   }
 }
 </script>
 
 <style scoped lang="less">
-.tRewardBox{
+.tRewardBox {
   padding-bottom: 40px;
-  .reward-description-title{
+  .reward-description-title {
     font-size: 20px;
     font-weight: 700;
     padding: 10px;
     margin-bottom: 10px;
   }
-  .reward-title{
+  .reward-title {
     font-size: 25px;
     font-weight: 700;
     text-align: center;
     padding: 30px 0;
   }
-  .reward-content{
+  .reward-content {
     font-size: 15px;
     line-height: 24px;
     padding: 5px 20px;
@@ -97,7 +110,7 @@ export default {
 }
 .tRewardBox .donate-item div {
   display: inline-block;
-  width: 150px;
+  width: 160px;
   padding: 0 6px;
   text-align: center;
   box-sizing: border-box;

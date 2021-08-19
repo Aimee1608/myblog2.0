@@ -2,48 +2,67 @@
   <!-- 移动端导航 -->
   <div class="mobileBox">
     <div class="hideMenu">
-      <i @click="pMenu=!pMenu" class="el-icon-menu"></i>
+      <i class="el-icon-menu"
+         @click="pMenu=!pMenu" />
       <el-collapse-transition>
-        <el-menu :default-active="activeIndex" class="mlistmenu" v-show="!pMenu" :unique-opened="true" :router="true">
+        <el-menu v-show="!pMenu"
+                 :default-active="activeIndex"
+                 class="mlistmenu"
+                 :unique-opened="true"
+                 :router="true">
           <el-menu-item index="/Home">
-            <i class="fa fa-wa fa-home"></i> 首页
+            <i class="fa fa-wa fa-home" /> 首页
           </el-menu-item>
           <el-menu-item index="/Share">
-            <i class="fa fa-wa fa-archive"></i> 归档
+            <i class="fa fa-wa fa-archive" /> 归档
           </el-menu-item>
           <el-submenu index="2">
             <template slot="title">
-              <i class="fa fa-wa fa-flask"></i> 实验室
+              <i class="fa fa-wa fa-flask" /> 实验室
             </template>
-            <el-menu-item v-for="(item,index) in projectList" :key="'class2'+index" index>
-              <a :href="item.nav_url" target="_blank">{{item.nav_name}}</a>
+            <el-menu-item v-for="(item,index) in projectList"
+                          :key="'class2'+index"
+                          index>
+              <a :href="item.nav_url"
+                 target="_blank">{{ item.nav_name }}</a>
             </el-menu-item>
           </el-submenu>
           <el-menu-item index="/Reward">
-            <i class="fa fa-wa fa-cny"></i> 赞赏
+            <i class="fa fa-wa fa-cny" /> 赞赏
           </el-menu-item>
           <el-menu-item index="/Friendslink">
-            <i class="fa fa-wa fa-users"></i> 伙伴
+            <i class="fa fa-wa fa-users" /> 伙伴
           </el-menu-item>
           <el-menu-item index="/Aboutme">
-            <i class="fa fa-wa fa-vcard"></i> 关于
+            <i class="fa fa-wa fa-vcard" /> 关于
           </el-menu-item>
-          <el-menu-item v-show="!haslogin" index @click="logoinFun(1)">登录</el-menu-item>
-          <el-menu-item v-show="!haslogin" index @click="logoinFun(0)">注册</el-menu-item>
-          <el-submenu v-show="haslogin" index="3">
+          <el-menu-item v-show="!haslogin"
+                        index
+                        @click="logoinFun(1)">登录</el-menu-item>
+          <el-menu-item v-show="!haslogin"
+                        index
+                        @click="logoinFun(0)">注册</el-menu-item>
+          <el-submenu v-show="haslogin"
+                      index="3">
             <template slot="title">
-              <i class="fa fa-wa fa-user-circle-o"></i> 我的
+              <i class="fa fa-wa fa-user-circle-o" /> 我的
             </template>
             <el-menu-item index="/UserInfo">个人中心</el-menu-item>
             <el-menu-item index="/LikeCollect?like=1">喜欢的文章</el-menu-item>
             <el-menu-item index="/LikeCollect?like=2">收藏的文章</el-menu-item>
-            <el-menu-item index @click="userlogout">退出登录</el-menu-item>
+            <el-menu-item index
+                          @click="userlogout">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-collapse-transition>
       <div class="searchBox">
-        <el-input placeholder v-model="searchkey" @keyup.enter.native="searchEnterFun" @change="searchChangeFun">
-          <i slot="suffix" class="el-input__icon el-icon-search" @click="searchEnterFun"></i>
+        <el-input v-model="searchkey"
+                  placeholder
+                  @keyup.enter.native="searchEnterFun"
+                  @change="searchChangeFun">
+          <i slot="suffix"
+             class="el-input__icon el-icon-search"
+             @click="searchEnterFun" />
         </el-input>
       </div>
     </div>
@@ -53,20 +72,20 @@
 <script>
 export default {
   name: 'H5Head',
+  components: {},
   props: ['activeIndex', 'classList', 'projectList', 'searchkey', 'haslogin'],
-  data () {
+  data() {
     return {
       pMenu: false
     }
   },
-  components: {},
+  created() { },
   methods: {
-    searchEnterFun () { },
-    searchChangeFun () { },
-    logoinFun () { },
-    userlogout () { }
-  },
-  created () { }
+    searchEnterFun() { this.$emit('searchEnterFun') },
+    searchChangeFun() { this.$emit('searchChangeFun') },
+    logoinFun() { this.$emit('logoinFun') },
+    userlogout() { this.$emit('userlogout') }
+  }
 }
 </script>
 

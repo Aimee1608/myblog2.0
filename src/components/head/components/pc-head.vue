@@ -1,45 +1,65 @@
 <template>
   <!-- pc端导航 -->
   <div class="headBox">
-    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :router="true" text-color="#ffffff" active-text-color="#ffffff">
+    <el-menu :default-active="activeIndex"
+             class="el-menu-demo"
+             mode="horizontal"
+             :router="true"
+             text-color="#ffffff"
+             active-text-color="#ffffff">
       <el-menu-item index="/">
-        <i class="fa fa-wa fa-home"></i> 首页
+        <i class="fa fa-wa fa-home" /> 首页
       </el-menu-item>
-      <el-submenu index="" :popper-append-to-body="false">
+      <el-submenu index=""
+                  :popper-append-to-body="false">
         <template slot="title">
-          <i class="fa fa-wa fa-flask"></i> 实验室
+          <i class="fa fa-wa fa-flask" /> 实验室
         </template>
-        <el-menu-item v-for="(item,index) in projectList" :key="'class2'+index" index>
-          <a :href="item.nav_url" target="_blank">{{item.nav_name}}</a>
+        <el-menu-item v-for="(item,index) in projectList"
+                      :key="'class2'+index"
+                      index>
+          <a :href="item.nav_url"
+             target="_blank">{{ item.nav_name }}</a>
         </el-menu-item>
       </el-submenu>
       <el-menu-item index="/archive">
-        <i class="fa fa-wa fa-archive"></i> 归档
+        <i class="fa fa-wa fa-archive" /> 归档
       </el-menu-item>
       <el-menu-item index="/reward">
-        <i class="fa fa-wa fa-cny"></i> 赞赏
+        <i class="fa fa-wa fa-cny" /> 赞赏
       </el-menu-item>
       <el-menu-item index="/friendslink">
-        <i class="fa fa-wa fa-users"></i> 伙伴
+        <i class="fa fa-wa fa-users" /> 伙伴
       </el-menu-item>
       <el-menu-item index="/aboutme">
-        <i class="fa fa-wa fa-vcard"></i> 关于
+        <i class="fa fa-wa fa-vcard" /> 关于
       </el-menu-item>
-      <div index class="pcsearchbox">
-        <i class="el-icon-search pcsearchicon"></i>
-        <div class="pcsearchinput" :class="searchkey?'hasSearched':''">
-          <el-input placeholder="搜索" v-model="searchkey" @keyup.enter.native="searchEnterFun" @change="searchChangeFun">
-            <i slot="suffix" class="el-input__icon el-icon-search" @click="searchEnterFun"></i>
+      <div index
+           class="pcsearchbox">
+        <i class="el-icon-search pcsearchicon" />
+        <div class="pcsearchinput"
+             :class="searchkey?'hasSearched':''">
+          <el-input v-model="searchkey"
+                    placeholder="搜索"
+                    @keyup.enter.native="searchEnterFun"
+                    @change="searchChangeFun">
+            <i slot="suffix"
+               class="el-input__icon el-icon-search"
+               @click="searchEnterFun" />
           </el-input>
         </div>
       </div>
       <div class="userInfo">
-        <div v-show="!haslogin" class="nologin">
-          <a href="javascript:void(0);" @click="logoinFun(1)">登录&nbsp;</a>|
-          <a href="javascript:void(0);" @click="logoinFun(0)">&nbsp;注册</a>
+        <div v-show="!haslogin"
+             class="nologin">
+          <a href="javascript:void(0);"
+             @click="logoinFun(1)">登录&nbsp;</a>|
+          <a href="javascript:void(0);"
+             @click="logoinFun(0)">&nbsp;注册</a>
         </div>
-        <div v-show="haslogin" class="haslogin">
-          <i class="fa fa-fw fa-user-circle userImg"></i>
+        <div v-show="haslogin"
+             class="haslogin">
+          <i class="fa fa-fw fa-user-circle userImg" />
           <ul class="haslogin-info">
             <li>
               <a href="#/UserInfo">个人中心</a>
@@ -51,7 +71,8 @@
               <a href="#/LikeCollect?like=2">收藏列表</a>
             </li>
             <li>
-              <a href="javascript:void(0);" @click="userlogout">退出登录</a>
+              <a href="javascript:void(0);"
+                 @click="userlogout">退出登录</a>
             </li>
           </ul>
         </div>
@@ -63,18 +84,18 @@
 <script>
 export default {
   name: 'PCHead',
+  components: {},
   props: ['activeIndex', 'classList', 'projectList', 'searchkey', 'haslogin'],
-  data () {
+  data() {
     return {}
   },
-  components: {},
+  created() { },
   methods: {
-    searchEnterFun () { },
-    searchChangeFun () { },
-    logoinFun () { },
-    userlogout () { }
-  },
-  created () { }
+    searchEnterFun() { this.$emit('searchEnterFun') },
+    searchChangeFun() { this.$emit('searchChangeFun') },
+    logoinFun() { this.$emit('logoinFun') },
+    userlogout() { this.$emit('userlogout') }
+  }
 }
 </script>
 

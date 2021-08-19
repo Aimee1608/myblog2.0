@@ -1,41 +1,19 @@
 <!-- 文章详情模块 -->
 <template>
   <div class="detailBox tcommonBox">
-    <span class="s-round-date">
-      <span class="month" v-html="showInitDate(detailObj.create_time,'month')+'月'"></span>
-      <span class="day" v-html="showInitDate(detailObj.create_time,'date')"></span>
-    </span>
-    <header>
-      <h1>
-        <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
-          {{detailObj.title}}
-        </a>
-      </h1>
-      <h2>
-        <i class="fa fa-fw fa-user"></i>发表于 <span>{{create_time}}</span> •
-        <i class="fa fa-fw fa-eye"></i>{{detailObj.browse_count}} 次围观 •
-        <i class="fa fa-fw fa-comments"></i>活捉 {{detailObj.comment_count}} 条 •
-        <span class="rateBox">
-          <i class="fa fa-fw fa-heart"></i>{{likeCount}}点赞
-          <i class="fa fa-fw fa-star"></i>{{collectCount}}收藏
-        </span>
-      </h2>
-      <div class="ui label">
-        <a :href="'#/Share?classId='+detailObj.class_id">{{detailObj.cate_name}}</a>
-      </div>
-    </header>
-    <div class="article-content" v-html="detailObj.content"></div>
-    <div class="dshareBox bdsharebuttonbox" data-tag="share_1">
-      分享到:
-      <a href="javascript:void(0);" class="ds-weibo fa fa-fw fa-weibo" data-cmd="tsina"></a>
-      <a href="javascript:void(0);" class="ds-qq fa fa-fw fa-qq" data-cmd="tqq"></a>
-      <a href="javascript:void(0);" class="ds-wechat fa fa-fw fa-wechat" data-cmd="weixin"></a>
+    <articleHead :item="detailObj" />
+    <div class="article-content"
+         v-html="content" />
+    <div class="dshareBox bdsharebuttonbox"
+         data-tag="share_1">
       <div class="dlikeColBox">
-        <div class="dlikeBox" @click="likecollectHandle(1)">
-          <i :class="likeArt?'fa fa-fw fa-heart':'fa fa-fw fa-heart-o'"></i>喜欢 | {{likeCount}}
+        <div class="dlikeBox"
+             @click="likecollectHandle(1)">
+          <i :class="likeArt?'fa fa-fw fa-heart':'fa fa-fw fa-heart-o'" />喜欢 | {{ detailObj.likeCount }}
         </div>
-        <div class="dcollectBox" @click="likecollectHandle(2)">
-          <i :class="collectArt?'fa fa-fw fa-star':'fa fa-fw fa-star-o'"></i>收藏 | {{collectCount}}
+        <div class="dcollectBox"
+             @click="likecollectHandle(2)">
+          <i :class="collectArt?'fa fa-fw fa-star':'fa fa-fw fa-star-o'" />收藏 | {{ detailObj.collectCount }}
         </div>
       </div>
     </div>
@@ -43,141 +21,172 @@
       <div class="donate-word">
         <span @click="pdonate=!pdonate">赞赏</span>
       </div>
-      <el-row :class="pdonate?'donate-body':'donate-body donate-body-show'" :gutter="30">
-        <el-col :span="12" class="donate-item">
+      <el-row :class="pdonate?'donate-body':'donate-body donate-body-show'"
+              :gutter="30">
+        <el-col :span="12"
+                class="donate-item">
           <div class="donate-tip">
-            <img :src="detailObj.wechat_image?detailObj.wechat_image: 'static/img/tou.jpg'" />
+            <img src="./../../assets/img/aimee/reward-wechat.jpg">
             <span>微信扫一扫，向我赞赏</span>
           </div>
         </el-col>
-        <el-col :span="12" class="donate-item">
+        <el-col :span="12"
+                class="donate-item">
           <div class="donate-tip">
-            <img :src="detailObj.alipay_image?detailObj.alipay_image:'static/img/tou.jpg'" />
+            <img src="./../../assets/img/aimee/reward-zfb.jpg">
             <span>支付宝扫一扫，向我赞赏</span>
           </div>
         </el-col>
       </el-row>
     </div>
+    <Message :id="id" />
   </div>
 </template>
 
 <script>
 // import {getArticleInfo,getArtLikeCollect,initDate} from '../utils/server.js'
+import { mapActions, mapGetters } from 'vuex'
+import Marked from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
+import articleAPI from '@/api/article'
+import collectAPI from '@/api/collect'
+import likeAPI from '@/api/like'
+import { initDate } from '@/utils'
+import articleHead from '@/components/articleHead'
+import Message from '@/components/message'
+Marked.setOptions({
+  renderer: new Marked.Renderer(),
+  highlight(code) {
+    return hljs.highlightAuto(code).value
+  },
+  pedantic: false,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+  xhtml: false
+})
 export default {
   name: 'Detail',
-  data () { //选项 / 数据
+  components: { // 定义组件
+    articleHead,
+    Message
+  },
+  data() { // 选项 / 数据
     return {
-      aid: '',//文章ID
-      pdonate: true,//打开赞赏控制,
-      detailObj: {
-        id: 1,
-        title: '文章标题',
-        create_time: '1578955555',
-        browse_count: '33',
-        comment_count: '44',
-        cate_name: 'dddd',
-        wechat_image: '',
-        alipay_image: '',
-        content: 'sdjfkadjfklajdfkaljfaklsdjfklajdfaksfjksd'
-      },//返回详情数据
-      likeArt: false,//是否点赞
-      likeCount: 400,//点赞数量
-      collectCount: 500,//收藏数量
-      collectArt: false,//是否收藏
-      haslogin: false,//是否已经登录
-      userId: '',//用户id
+      aid: '', // 文章ID
+      pdonate: true, // 打开赞赏控制,
+      detailObj: {}, // 返回详情数据
+      likeArt: false, // 是否点赞
+      likeCount: 400, // 点赞数量
+      collectCount: 500, // 收藏数量
+      collectArt: false, // 是否收藏
       create_time: '',
-      content: ''
+      content: '',
+      id: ''
     }
   },
-  methods: { //事件处理器
-    showInitDate: function () {//年月日的编辑
-      // console.log(detailObj.create_time,date,full);
-      // return initDate(date, full);
-    },
-    likecollectHandle: function () {//用户点击喜欢0,用户点击收藏1
-      // var that = this;
-      // if (localStorage.getItem('userInfo')) {//判断是否登录
-      //   var tip = '';
-      //   if (islike == 1) {
-      //     if (!that.likeArt) {
-      //       that.likeCount += 1;
-      //       that.likeArt = true;
-      //       tip = '已点赞';
-      //     } else {
-      //       that.likeCount -= 1;
-      //       that.likeArt = false;
-      //       tip = '已取消点赞'
-      //     }
-
-      //   } else {
-      //     if (!that.collectArt) {
-      //       that.collectCount += 1;
-      //       that.collectArt = true;
-      //       tip = '已收藏';
-      //     } else {
-      //       that.collectCount -= 1;
-      //       that.collectArt = false;
-      //       tip = '已取消收藏';
-      //     }
-      //   }
-      //   getArtLikeCollect(that.userId,that.aid,islike,function(msg){
-      //       // console.log('喜欢收藏成功',msg);
-      //       that.$message({
-      //            message: tip,
-      //            type: 'success'
-      //          });
-      //   })
-      // } else {//未登录 前去登录。
-      //   that.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     type: 'warning'
-      //   }).then(() => {//确定，跳转至登录页面
-      //     //储存当前页面路径，登录成功后跳回来
-      //     localStorage.setItem('logUrl', that.$route.fullPath);
-      //     that.$router.push({ path: '/Login?login=1' });
-      //   }).catch(() => {//取消关闭弹窗
-
-      //   });
-      // }
-    },
-    routeChange: function () {
-      var that = this;
-      that.aid = that.$route.query.aid == undefined ? 1 : parseInt(that.$route.query.aid);//获取传参的aid
-      //判断用户是否存在
-      if (localStorage.getItem('userInfo')) {
-        that.haslogin = true;
-        that.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        that.userId = that.userInfo.userId;
-        // console.log(that.userInfo);
-      } else {
-        that.haslogin = false;
-      }
-      //获取详情接口
-      // getArticleInfo(that.aid,that.userId,function(msg){
-      //     // console.log('文章详情',msg);
-      //     that.detailObj = msg;
-      //     that.likeCount = msg.like_count?msg.like_count:0;
-      //     that.collectCount = msg.collect_count?msg.collect_count:0;
-      //     that.likeArt = msg.user_like_start==0?false:true;
-      //     that.collectArt = msg.user_collect_start==0?false:true;
-      //     that.create_time = initDate(that.detailObj.create_time,'all');
-      // })
-    }
+  computed: {
+    ...mapGetters([
+      'userId'
+    ])
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
     //  '$route':'routeChange'
   },
-  components: { //定义组件
-
-  },
-  created () { //生命周期函数
-    // var that = this;
+  async created() { // 生命周期函数
+    // var this = this;
 
     // this.routeChange();
+    this.id = this.$route.params.id
+    await this.getInfo(this.id)
   },
+  methods: { // 事件处理器
+    ...mapActions('user', ['login']),
+    showInitDate: initDate,
+    async likecollectHandle(islike) { // 用户点击喜欢0,用户点击收藏1
+      if (this.userId) { // 判断是否登录
+        var tip = ''
+        let res
+        if (islike === 1) {
+          if (!this.likeArt) {
+            this.likeCount += 1
+            this.likeArt = true
+            tip = '已点赞'
+          } else {
+            this.likeCount -= 1
+            this.likeArt = false
+            tip = '已取消点赞'
+          }
+          res = await likeAPI.edit({ id: this.id, value: this.likeArt })
+        } else {
+          if (!this.collectArt) {
+            this.collectCount += 1
+            this.collectArt = true
+            tip = '已收藏'
+          } else {
+            this.collectCount -= 1
+            this.collectArt = false
+            tip = '已取消收藏'
+          }
+          res = await collectAPI.edit({ id: this.id, value: this.collectArt })
+        }
+        if (res.code == 0) {
+          this.$message({
+            message: tip,
+            type: 'success'
+          })
+          this.detailObj = res.data
+        }
+      } else { // 未登录 前去登录。
+        this.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => { // 确定，跳转至登录页面
+          // 储存当前页面路径，登录成功后跳回来
+          localStorage.setItem('logUrl', this.$route.fullPath)
+          this.login()
+        }).catch(() => { // 取消关闭弹窗
+
+        })
+      }
+    },
+    async getInfo(id) {
+      const res = await articleAPI.getInfo({ id })
+      console.log('articleAPI.info---res', res)
+
+      this.detailObj = res.data
+      this.content = Marked(this.detailObj.content)
+      const likeRes = await likeAPI.getInfo({ id })
+      const collectRes = await collectAPI.getInfo({ id })
+      if (likeRes.code == 0 && likeRes.data._id) {
+        this.likeArt = true
+      }
+      if (collectRes.code == 0 && collectRes.data._id) {
+        this.collectArt = true
+      }
+    },
+    routeChange() {
+      // var this = this
+      this.aid = this.$route.query.aid == undefined ? 1 : parseInt(this.$route.query.aid)// 获取传参的aid
+
+      // 获取详情接口
+      // getArticleInfo(this.aid,this.userId,function(msg){
+      //     // console.log('文章详情',msg);
+      //     this.detailObj = msg;
+      //     this.likeCount = msg.like_count?msg.like_count:0;
+      //     this.collectCount = msg.collect_count?msg.collect_count:0;
+      //     this.likeArt = msg.user_like_start==0?false:true;
+      //     this.collectArt = msg.user_collect_start==0?false:true;
+      //     this.create_time = initDate(this.detailObj.create_time,'all');
+      // })
+    }
+  }
 
 }
 </script>
@@ -250,58 +259,12 @@ export default {
 .dshareBox {
   margin-top: 40px;
   position: relative;
+  display: flex;
+  justify-content: flex-end;
 }
-.dshareBox a {
-  position: relative;
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  border-radius: 50%;
-  line-height: 32px;
-  text-align: center;
-  vertical-align: middle;
-  margin: 4px;
-  background: #fff;
-  transition: background 0.6s ease-out;
-}
-.dshareBox .ds-weibo {
-  border: 1px solid #ff763b;
-  color: #ff763b;
-}
-.dshareBox .ds-weibo:hover {
-  color: #fff;
-  background: #ff763b;
-}
-.dshareBox .ds-qq {
-  color: #56b6e7;
-  border: 1px solid #56b6e7;
-}
-.dshareBox .ds-qq:hover {
-  color: #fff;
-  background: #56b6e7;
-}
-.dshareBox .ds-wechat {
-  color: #7bc549;
-  border: 1px solid #7bc549;
-}
-.dshareBox .ds-wechat:hover {
-  color: #fff;
-  background: #7bc549;
-}
-.dshareBox .ds-wechat:hover .wechatShare {
-  opacity: 1;
-  visibility: visible;
-}
-.detailBox .bdshare-button-style0-32 a {
-  float: none;
-  background-image: none;
-  text-indent: inherit;
-}
+
 /*点赞 收藏*/
 .dlikeColBox {
-  display: inline-block;
-  float: right;
 }
 .dlikeBox,
 .dcollectBox {
@@ -313,6 +276,7 @@ export default {
   border-radius: 35px;
   border: 1px solid #e26d6d;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 /*赞赏*/

@@ -3,13 +3,19 @@
     <div class="archive-title">归档</div>
     <div class="archive-class-title">分类</div>
     <ul class="archive-class-all">
-      <li v-for="item in classList" :key="item.id"><a href="/category">{{item.name}}</a><span>（{{item.count}}）</span></li>
+      <li v-for="item in classList"
+          :key="item.id"><a href="/category">{{ item.name }}</a><span>（{{ item.count }}）</span></li>
     </ul>
-    <div class="article-time" v-for="item in articleList" :key="item.year">
-      <div class="archive-class-title">{{item.year}}</div>
+    <div v-for="item in articleList"
+         :key="item.year"
+         class="article-time">
+      <div class="archive-class-title">{{ item.year }}</div>
       <el-timeline>
-        <el-timeline-item v-for="a in item.list" :key="a.id" :hide-timestamp="true">
-          <span class="archive-class-item-time">{{a.time}}</span> <a class="archive-class-item-title" href="">{{a.title}}</a>
+        <el-timeline-item v-for="a in item.list"
+                          :key="a.id"
+                          :hide-timestamp="true">
+          <span class="archive-class-item-time">{{ a.time }}</span> <a class="archive-class-item-title"
+             href="">{{ a.title }}</a>
         </el-timeline-item>
       </el-timeline>
     </div>
@@ -19,7 +25,8 @@
 <script>
 export default {
   name: 'Archive',
-  data () {
+  components: {},
+  data() {
     return {
       classList: [
         {
@@ -127,9 +134,8 @@ export default {
       ]
     }
   },
-  components: {},
-  methods: {},
-  created () { }
+  created() { },
+  methods: {}
 }
 </script>
 

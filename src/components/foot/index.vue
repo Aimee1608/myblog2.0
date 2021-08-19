@@ -1,28 +1,35 @@
 <template>
   <div class="footBack footBackQian">
-    <div class="footer-img"></div>
+    <div class="footer-img" />
     <div class="fcontainer">
       <p>
         博客已萌萌哒运行
-        <span v-html="longTime">{{longTime}}</span>
+        <span v-html="longTime">{{ longTime }}</span>
         <span class="timeJump">(●'◡'●)ﾉ♥</span>
       </p>
       <p>
         托管于
-        <a href="https://github.com/Aimee1608/myblogvue" target="_blank">GitHub</a>.
-        <a href="https://www.aliyun.com/?spm=a2c49.11131515.0.0.5Z9AkR" target="_blank">阿里云</a> 提供静态文件云存储服务.
-        <a href="https://tongji.baidu.com/web/welcome/login" target="_blank">百度统计</a> 提供网站统计服务.
-        <a href="https://www.cloudxns.net/Order/index.html" target="_blank">CloudXNS</a> 提供 DNS 解析服务.
+        <a href="https://github.com/Aimee1608/myblogvue"
+           target="_blank">GitHub</a>.
+        <a href="https://www.aliyun.com/?spm=a2c49.11131515.0.0.5Z9AkR"
+           target="_blank">阿里云</a> 提供静态文件云存储服务.
+        <a href="https://tongji.baidu.com/web/welcome/login"
+           target="_blank">百度统计</a> 提供网站统计服务.
+        <a href="https://www.cloudxns.net/Order/index.html"
+           target="_blank">CloudXNS</a> 提供 DNS 解析服务.
       </p>
       <p>
         © 2018
         <a href="#">Mango Ya</a>. 由
-        <a href="https://cn.vuejs.org/" target="_blank">Vue</a> 强力驱动. Theme By
-        <a href="https://diygod.me/" target="_blank">diygod.me</a>. 京ICP备17071595号-1.
+        <a href="https://cn.vuejs.org/"
+           target="_blank">Vue</a> 强力驱动. Theme By
+        <a href="https://diygod.me/"
+           target="_blank">diygod.me</a>. 京ICP备17071595号-1.
       </p>
       <p>
         <span>Made with</span>
-        <img class="fheart" src="@/assets/img/heart02.png" />
+        <img class="fheart"
+             src="@/assets/img/heart02.png">
         <span>by Aimee.</span>
       </p>
     </div>
@@ -32,30 +39,30 @@
 <script>
 export default {
   name: 'Foot',
-  data () {
+  components: {},
+  data() {
     return {
       longTime: 0
     }
   },
-  components: {},
+  created() {
+    this.runTime()
+  },
   methods: {
-    runTime () {
-      //运行倒计时
+    runTime() {
+      // 运行倒计时
       var oldTime = new Date('2016/06/01 00:00:00')
       setInterval(() => {
         const nowTime = new Date()
         const longTime = nowTime - oldTime
-        const days = parseInt(longTime / 1000 / 60 / 60 / 24, 10) //计算剩余的天数
-        const hours = parseInt((longTime / 1000 / 60 / 60) % 24, 10) //计算剩余的小时
-        const minutes = parseInt((longTime / 1000 / 60) % 60, 10) //计算剩余的分钟
-        const seconds = parseInt((longTime / 1000) % 60, 10) //计算剩余的秒数
+        const days = parseInt(longTime / 1000 / 60 / 60 / 24, 10) // 计算剩余的天数
+        const hours = parseInt((longTime / 1000 / 60 / 60) % 24, 10) // 计算剩余的小时
+        const minutes = parseInt((longTime / 1000 / 60) % 60, 10) // 计算剩余的分钟
+        const seconds = parseInt((longTime / 1000) % 60, 10) // 计算剩余的秒数
         this.longTime =
           days + '天' + hours + '小时' + minutes + '分' + seconds + '秒'
       }, 1000)
     }
-  },
-  created () {
-    this.runTime()
   }
 }
 </script>

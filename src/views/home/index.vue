@@ -9,18 +9,18 @@
 import Article from './../../components/article/index'
 export default {
   name: 'Home',
-  data () { //选项 / 数据
+  components: { // 定义组件
+    Article
+  },
+  data() { // 选项 / 数据
     return {
 
     }
   },
-  methods: { //事件处理器
+  created() { // 生命周期函数
 
   },
-  components: { //定义组件
-    Article
-  },
-  created () { //生命周期函数
+  methods: { // 事件处理器
 
   }
 }

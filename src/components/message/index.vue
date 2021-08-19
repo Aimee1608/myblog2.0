@@ -1,19 +1,30 @@
 <!-- 留言评论模块 -->
 <template>
-  <div class="tmsgBox" ref="tmsgBox">
-    <div class="tmsg-respond" ref="respondBox">
-      <h3>发表评论 <small v-show="isRespond" class="tcolorm" @click="removeRespond">取消回复</small></h3>
+  <div ref="tmsgBox"
+       class="tmsgBox">
+    <div ref="respondBox"
+         class="tmsg-respond">
+      <h3>发表评论 <small v-show="isRespond"
+               class="tcolorm"
+               @click="removeRespond">取消回复</small></h3>
       <form class="">
-        <el-input type="textarea" :rows="2" placeholder="说点什么呢``" v-model="textarea">
-        </el-input>
+        <el-input v-model="textarea"
+                  type="textarea"
+                  :rows="2"
+                  placeholder="说点什么呢``" />
         <div :class="pBody?'OwO':'OwO OwO-open'">
-          <div class="OwO-logo" @click="pBody=!pBody">
+          <div class="OwO-logo"
+               @click="pBody=!pBody">
             <span>OwO表情</span>
           </div>
           <div class="OwO-body">
             <ul class="OwO-items OwO-items-show">
-              <li class="OwO-item" v-for="(oitem,index) in OwOlist" :key="'oitem'+index" @click="choseEmoji(oitem.title)">
-                <img :src="require('@/assets/img/emot/image/'+oitem.url)" alt="">
+              <li v-for="(oitem,index) in OwOlist"
+                  :key="'oitem'+index"
+                  class="OwO-item"
+                  @click="choseEmoji(oitem.title)">
+                <img :src="require('@/assets/img/emot/image/'+oitem.url)"
+                     alt="">
               </li>
             </ul>
             <div class="OwO-bar">
@@ -24,55 +35,71 @@
           </div>
         </div>
         <el-row class="tmsg-r-info">
-          <el-col :span="24" class="info-submit">
-            <p class="tcolors-bg" @click="sendMsg">{{sendTip}}</p>
+          <el-col :span="24"
+                  class="info-submit">
+            <p class="tcolors-bg"
+               @click="sendMsg">{{ sendTip }}</p>
           </el-col>
         </el-row>
       </form>
     </div>
-    <div class="tmsg-comments" ref="listDom">
-      <a href="#" class="tmsg-comments-tip">活捉 {{commentList?commentList.length:0}} 条</a>
+    <div ref="listDom"
+         class="tmsg-comments">
+      <a href="#"
+         class="tmsg-comments-tip">活捉 {{ commentList?commentList.length:0 }} 条</a>
       <div class="tmsg-commentshow">
         <ul class="tmsg-commentlist">
-          <li class="tmsg-c-item" v-for="(item,index) in commentList" :key="'common'+index">
+          <li v-for="(item,index) in commentList"
+              :key="'common'+index"
+              class="tmsg-c-item">
             <article class="">
               <header>
-                <img :src="item.avatar" :onerror="$store.state.errorImg">
+                <img :src="item.avatar"
+                     :onerror="$store.state.errorImg">
                 <div class="i-name">
-                  {{item.username}}
+                  {{ item.username }}
                 </div>
                 <div class="i-class">
-                  {{item.label}}
+                  {{ item.label }}
                 </div>
                 <div class="i-time">
-                  <time>{{item.time}}</time>
+                  <time>{{ item.time }}</time>
                 </div>
               </header>
               <section>
-                <p v-html="analyzeEmoji(item.content)">{{analyzeEmoji(item.content)}}</p>
-                <div v-if="haslogin" class="tmsg-replay" @click="respondMsg(item.comment_id,item.comment_id)">
+                <p v-html="analyzeEmoji(item.content)">{{ analyzeEmoji(item.content) }}</p>
+                <div v-if="haslogin"
+                     class="tmsg-replay"
+                     @click="respondMsg(item.comment_id,item.comment_id)">
                   回复
                 </div>
               </section>
             </article>
-            <ul v-show="item.ChildsSon" class="tmsg-commentlist" style="padding-left:60px;">
-              <li class="tmsg-c-item" v-for="(citem,cindex) in item.ChildsSon" :key="'citem'+cindex">
+            <ul v-show="item.ChildsSon"
+                class="tmsg-commentlist"
+                style="padding-left:60px;">
+              <li v-for="(citem,cindex) in item.ChildsSon"
+                  :key="'citem'+cindex"
+                  class="tmsg-c-item">
                 <article class="">
                   <header>
-                    <img :src="citem.avatar" :onerror="$store.state.errorImg">
+                    <img :src="citem.avatar"
+                         :onerror="$store.state.errorImg">
                     <div class="i-name">
-                      {{citem.username}} <span>回复</span> {{citem.reply_name}}
+                      {{ citem.username }} <span>回复</span> {{ citem.reply_name }}
                     </div>
                     <div class="i-class">
-                      {{citem.label}}
+                      {{ citem.label }}
                     </div>
                     <div class="i-time">
-                      <time>{{citem.time}}</time>
+                      <time>{{ citem.time }}</time>
                     </div>
                   </header>
                   <section>
-                    <p v-html="analyzeEmoji(citem.content)">{{citem.content}}</p>
-                    <div v-show="haslogin" class="tmsg-replay" @click="respondMsg(citem.comment_id,item.comment_id)">
+                    <p v-html="analyzeEmoji(citem.content)">{{ citem.content }}</p>
+                    <div v-show="haslogin"
+                         class="tmsg-replay"
+                         @click="respondMsg(citem.comment_id,item.comment_id)">
                       回复
                     </div>
                   </section>
@@ -82,8 +109,11 @@
           </li>
 
         </ul>
-        <h1 v-show='hasMore' class="tcolors-bg" @click="addMoreFun">查看更多</h1>
-        <h1 v-show='!hasMore' class="tcolors-bg">没有更多</h1>
+        <h1 v-show="hasMore"
+            class="tcolors-bg"
+            @click="addMoreFun">查看更多</h1>
+        <h1 v-show="!hasMore"
+            class="tcolors-bg">没有更多</h1>
       </div>
     </div>
   </div>
@@ -91,288 +121,231 @@
 
 <script>
 // import {ArticleComment,OtherComment,setArticleComment,setOuthComment} from '../utils/server.js'
+import commentAPI from '@/api/comment'
+import { OwOlist } from '@/utils/constants'
+import { analyzeEmoji } from '@/utils'
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  data () { //选项 / 数据
+  name: 'Message',
+  components: { // 定义组件
+
+  },
+  props: ['id'],
+  computed: {
+    ...mapGetters([
+      'userId'
+    ])
+  },
+  data() { // 选项 / 数据
     return {
-      respondBox: '',//评论表单
+      respondBox: '', // 评论表单
       listDom: '',
-      tmsgBox: '',//总评论盒子
+      tmsgBox: '', // 总评论盒子
       isRespond: false,
-      textarea: '',//文本框输入内容
-      pBody: true,//表情打开控制
+      textarea: '', // 文本框输入内容
+      pBody: true, // 表情打开控制
       commentList: [
         {
-          "comment_id": 671,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "fadfadf",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-07-24 15:52:21",
-          "state": 0,
-          "username": "adfa",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 671,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': 'fadfadf',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-07-24 15:52:21',
+          'state': 0,
+          'username': 'adfa',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 670,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "123",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-07-22 10:52:30",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 670,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '123',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-07-22 10:52:30',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 669,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "[感冒][伤心]",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-07-21 13:31:38",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 669,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '[感冒][伤心]',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-07-21 13:31:38',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 658,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "666666，想看小姐姐照片[嘻嘻]",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-07-12 22:09:03",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 658,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '666666，想看小姐姐照片[嘻嘻]',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-07-12 22:09:03',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 645,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "                  ",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-06-28 21:52:45",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 645,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '                  ',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-06-28 21:52:45',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 644,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "666[可爱][黑线]",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-06-28 21:52:25",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 644,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '666[可爱][黑线]',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-06-28 21:52:25',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 628,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "[吃惊][挤眼][挤眼][害羞][给力]",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-06-16 15:26:52",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 628,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '[吃惊][挤眼][挤眼][害羞][给力]',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-06-16 15:26:52',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 627,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "没几个空格和",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-06-16 15:25:52",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 627,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '没几个空格和',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-06-16 15:25:52',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 622,
-          "user_id": 0,
-          "leave_id": 4,
-          "content": "没几个空格和[色][色]",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-06-15 18:15:22",
-          "state": 0,
-          "username": "游客",
-          "avatar": "http://mangoya.cn/static/img/demo.jpg",
-          "label": "萌萌哒",
-          "ChildsSon": [
+          'comment_id': 622,
+          'user_id': 0,
+          'leave_id': 4,
+          'content': '没几个空格和[色][色]',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-06-15 18:15:22',
+          'state': 0,
+          'username': '游客',
+          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
+          'label': '萌萌哒',
+          'ChildsSon': [
 
           ]
         },
         {
-          "comment_id": 621,
-          "user_id": 355,
-          "leave_id": 4,
-          "content": "[心]",
-          "leave_pid": 0,
-          "pid": 0,
-          "time": "2020-06-14 17:20:31",
-          "state": 0,
-          "username": "核桃仁给人的",
-          "avatar": "http://mangoya.cn/upload/introme/20200614/48f739b146cdc899c25d18148566c4b2.jpg",
-          "label": "技术宅",
-          "ChildsSon": [
+          'comment_id': 621,
+          'user_id': 355,
+          'leave_id': 4,
+          'content': '[心]',
+          'leave_pid': 0,
+          'pid': 0,
+          'time': '2020-06-14 17:20:31',
+          'state': 0,
+          'username': '核桃仁给人的',
+          'avatar': 'http://mangoya.cn/upload/introme/20200614/48f739b146cdc899c25d18148566c4b2.jpg',
+          'label': '技术宅',
+          'ChildsSon': [
 
           ]
         }
-      ],//评论列表
-      pageId: 0,//当前第几页
-      aid: 0,//文章id
+      ], // 评论列表
+      pageId: 0, // 当前第几页
+      aid: 0, // 文章id
       hasMore: true,
       haslogin: false,
-      userId: '',//用户id
-      leaveId: 0,//回复评论的当前的commentId
-      leavePid: '',//赞赏等其他模块的分类id
-      pid: '',//回复评论的一级commentId
+      userId: '', // 用户id
+      leaveId: 0, // 回复评论的当前的commentId
+      leavePid: '', // 赞赏等其他模块的分类id
+      pid: '', // 回复评论的一级commentId
       sendTip: '发送~',
-      OwOlist: [//表情包和表情路径
-        { 'title': '微笑', 'url': 'weixiao.gif' },
-        { 'title': '嘻嘻', 'url': 'xixi.gif' },
-        { 'title': '哈哈', 'url': 'haha.gif' },
-        { 'title': '可爱', 'url': 'keai.gif' },
-        { 'title': '可怜', 'url': 'kelian.gif' },
-        { 'title': '挖鼻', 'url': 'wabi.gif' },
-        { 'title': '吃惊', 'url': 'chijing.gif' },
-        { 'title': '害羞', 'url': 'haixiu.gif' },
-        { 'title': '挤眼', 'url': 'jiyan.gif' },
-        { 'title': '闭嘴', 'url': 'bizui.gif' },
-        { 'title': '鄙视', 'url': 'bishi.gif' },
-        { 'title': '爱你', 'url': 'aini.gif' },
-        { 'title': '泪', 'url': 'lei.gif' },
-        { 'title': '偷笑', 'url': 'touxiao.gif' },
-        { 'title': '亲亲', 'url': 'qinqin.gif' },
-        { 'title': '生病', 'url': 'shengbing.gif' },
-        { 'title': '太开心', 'url': 'taikaixin.gif' },
-        { 'title': '白眼', 'url': 'baiyan.gif' },
-        { 'title': '右哼哼', 'url': 'youhengheng.gif' },
-        { 'title': '左哼哼', 'url': 'zuohengheng.gif' },
-        { 'title': '嘘', 'url': 'xu.gif' },
-        { 'title': '衰', 'url': 'shuai.gif' },
-        { 'title': '吐', 'url': 'tu.gif' },
-        { 'title': '哈欠', 'url': 'haqian.gif' },
-        { 'title': '抱抱', 'url': 'baobao.gif' },
-        { 'title': '怒', 'url': 'nu.gif' },
-        { 'title': '疑问', 'url': 'yiwen.gif' },
-        { 'title': '馋嘴', 'url': 'chanzui.gif' },
-        { 'title': '拜拜', 'url': 'baibai.gif' },
-        { 'title': '思考', 'url': 'sikao.gif' },
-        { 'title': '汗', 'url': 'han.gif' },
-        { 'title': '困', 'url': 'kun.gif' },
-        { 'title': '睡', 'url': 'shui.gif' },
-        { 'title': '钱', 'url': 'qian.gif' },
-        { 'title': '失望', 'url': 'shiwang.gif' },
-        { 'title': '酷', 'url': 'ku.gif' },
-        { 'title': '色', 'url': 'se.gif' },
-        { 'title': '哼', 'url': 'heng.gif' },
-        { 'title': '鼓掌', 'url': 'guzhang.gif' },
-        { 'title': '晕', 'url': 'yun.gif' },
-        { 'title': '悲伤', 'url': 'beishang.gif' },
-        { 'title': '抓狂', 'url': 'zhuakuang.gif' },
-        { 'title': '黑线', 'url': 'heixian.gif' },
-        { 'title': '阴险', 'url': 'yinxian.gif' },
-        { 'title': '怒骂', 'url': 'numa.gif' },
-        { 'title': '互粉', 'url': 'hufen.gif' },
-        { 'title': '书呆子', 'url': 'shudaizi.gif' },
-        { 'title': '愤怒', 'url': 'fennu.gif' },
-        { 'title': '感冒', 'url': 'ganmao.gif' },
-        { 'title': '心', 'url': 'xin.gif' },
-        { 'title': '伤心', 'url': 'shangxin.gif' },
-        { 'title': '猪', 'url': 'zhu.gif' },
-        { 'title': '熊猫', 'url': 'xiongmao.gif' },
-        { 'title': '兔子', 'url': 'tuzi.gif' },
-        { 'title': '喔克', 'url': 'ok.gif' },
-        { 'title': '耶', 'url': 'ye.gif' },
-        { 'title': '棒棒', 'url': 'good.gif' },
-        { 'title': '不', 'url': 'no.gif' },
-        { 'title': '赞', 'url': 'zan.gif' },
-        { 'title': '来', 'url': 'lai.gif' },
-        { 'title': '弱', 'url': 'ruo.gif' },
-        { 'title': '草泥马', 'url': 'caonima.gif' },
-        { 'title': '神马', 'url': 'shenma.gif' },
-        { 'title': '囧', 'url': 'jiong.gif' },
-        { 'title': '浮云', 'url': 'fuyun.gif' },
-        { 'title': '给力', 'url': 'geili.gif' },
-        { 'title': '围观', 'url': 'weiguan.gif' },
-        { 'title': '威武', 'url': 'weiwu.gif' },
-        { 'title': '话筒', 'url': 'huatong.gif' },
-        { 'title': '蜡烛', 'url': 'lazhu.gif' },
-        { 'title': '蛋糕', 'url': 'dangao.gif' },
-        { 'title': '发红包', 'url': 'fahongbao.gif' }
-      ]
+      //
+      list: [],
+      OwOlist,
+      pageSize: 10,
+      current: 1,
+      total: 0,
+      totalPage: 0
     }
   },
-  methods: { //事件处理器
-    //选择表情包
-    choseEmoji: function (inner) {
-      this.textarea += '[' + inner + ']';
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    // '$route':'routeChange'
+  },
+  created() { // 生命周期函数
+    // console.log(this.$route);
+    // var that = this;
+    // that.routeChange();
+  },
+  mounted() { // 页面加载完成后
+
+  },
+  methods: { // 事件处理器
+    ...mapActions('user', ['login']),
+    // 选择表情包
+    choseEmoji(inner) {
+      this.textarea += '[' + inner + ']'
     },
-    analyzeEmoji: function (cont) {//编译表情替换成图片展示出来
-      var pattern1 = /\[[\u4e00-\u9fa5]+\]/g;
-      var pattern2 = /\[[\u4e00-\u9fa5]+\]/;
-      var content = cont.match(pattern1);
-      var str = cont;
-      if (content) {
-        for (var i = 0; i < content.length; i++) {
-          for (var j = 0; j < this.OwOlist.length; j++) {
-            if ("[" + this.OwOlist[j].title + "]" == content[i]) {
-              var src = this.OwOlist[j].url;
-              break;
-            }
-          }
-          str = str.replace(pattern2, '<img src="' + require('@/assets/img/emot/image/' + src) + '"/>');
-        }
-        // console.log(str);
-      }
-      return str;
-    },
-    //发送留言
-    sendMsg: function () {//留言
+    // 编译表情替换成图片展示出来
+    analyzeEmoji,
+    // 发送留言
+    sendMsg() { // 留言
       // var that = this;
       // if(that.textarea){
       //     that.sendTip = '咻~~';
@@ -405,49 +378,49 @@ export default {
       //     },3000)
       // }
     },
-    respondMsg: function (leavePid, pid) {//回复留言
+    respondMsg(leavePid, pid) { // 回复留言
       // console.log(leavePid,pid);
-      var that = this;
+      var that = this
       if (localStorage.getItem('userInfo')) {
-        var dom = event.currentTarget;
-        dom = dom.parentNode;
-        this.isRespond = true;
-        this.leavePid = leavePid;
-        this.pid = pid;
-        dom.appendChild(this.$refs.respondBox);
+        var dom = event.currentTarget
+        dom = dom.parentNode
+        this.isRespond = true
+        this.leavePid = leavePid
+        this.pid = pid
+        dom.appendChild(this.$refs.respondBox)
       } else {
         that.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(() => {//确定，跳转至登录页面
-          //储存当前页面路径，登录成功后跳回来
-          localStorage.setItem('logUrl', that.$route.fullPath);
-          that.$router.push({ path: '/Login?login=1' });
+        }).then(() => { // 确定，跳转至登录页面
+          // 储存当前页面路径，登录成功后跳回来
+          localStorage.setItem('logUrl', that.$route.fullPath)
+          that.$router.push({ path: '/Login?login=1' })
         }).catch(() => {
 
-        });
+        })
       }
     },
-    removeRespond: function () {//取消回复留言
-      this.isRespond = false;
-      this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom);
+    removeRespond() { // 取消回复留言
+      this.isRespond = false
+      this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom)
     },
-    showCommentList: function (initData) {//评论列表
-      var that = this;
-      that.aid = that.$route.query.aid == undefined ? 1 : parseInt(that.$route.query.aid);//获取传参的aid
-      //判断当前用户是否登录
+    showCommentList(initData) { // 评论列表
+      var that = this
+      that.aid = that.$route.query.aid === undefined ? 1 : parseInt(that.$route.query.aid)// 获取传参的aid
+      // 判断当前用户是否登录
       if (localStorage.getItem('userInfo')) {
-        that.haslogin = true;
-        that.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        that.userId = that.userInfo.userId;
+        that.haslogin = true
+        that.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        that.userId = that.userInfo.userId
         //   console.log(that.userInfo);
       } else {
-        that.haslogin = false;
+        that.haslogin = false
       }
-      //是否重新加载数据 还是累计加载
-      that.pageId = initData ? 0 : that.pageId;
-      //公用设置数据方法
+      // 是否重新加载数据 还是累计加载
+      that.pageId = initData ? 0 : that.pageId
+      // 公用设置数据方法
       // function setData(result){
       //     if(result.code==1001){//查询数据
       //         var msg = result.data;
@@ -485,28 +458,33 @@ export default {
 
       // }
     },
-    addMoreFun: function () {//查看更多
-      // this.showCommentList(false);
+    async getList(initData) {
+      const options = {
+        keywords: this.keywords,
+        pageSize: this.pageSize,
+        currentPage: this.current
+      }
+
+      const res = await commentAPI.getList(options)
+      console.log('list---data', res.data)
+      const {
+        list,
+        pagination
+      } = res.data
+      this.list = this.list.concat(list)
+      this.total = pagination.total
+      this.totalPage = pagination.totalPage
+      this.current = pagination.currentPage
+      this.listLoading = false
     },
-    routeChange: function () {//重新加载
+    addMoreFun() { // 查看更多
+      ++this.current
+      this.showCommentList(false)
+    },
+    routeChange() { // 重新加载
       // var that = this;
       // this.showCommentList(true);
     }
-  },
-  components: { //定义组件
-
-  },
-  watch: {
-    // 如果路由有变化，会再次执行该方法
-    // '$route':'routeChange'
-  },
-  created () { //生命周期函数
-    // console.log(this.$route);
-    // var that = this;
-    // that.routeChange();
-  },
-  mounted () {//页面加载完成后
-
   }
 }
 </script>

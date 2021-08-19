@@ -4,19 +4,38 @@
       <el-row class="container">
         <el-col :span="24">
           <!-- pc端导航 -->
-          <PCHead class="pc-head" :activeIndex="activeIndex" :classList="classList" :projectList="projectList" :searchkey="searchkey" :haslogin="haslogin" @searchEnterFun="searchEnterFun" @searchChangeFun="searchChangeFun" @logoinFun="logoinFun" @userlogout="userlogout" />
+          <PCHead class="pc-head"
+                  :active-index="activeIndex"
+                  :class-list="classList"
+                  :project-list="projectList"
+                  :searchkey="searchkey"
+                  :haslogin="haslogin"
+                  @searchEnterFun="searchEnterFun"
+                  @searchChangeFun="searchChangeFun"
+                  @logoinFun="logoinFun"
+                  @userlogout="userlogout" />
           <!-- 移动端 -->
-          <H5Head class="h5-head" :activeIndex="activeIndex" :classList="classList" :projectList="projectList" :searchkey="searchkey" :haslogin="haslogin" @searchEnterFun="searchEnterFun" @searchChangeFun="searchChangeFun" @logoinFun="logoinFun" @userlogout="userlogout" />
+          <H5Head class="h5-head"
+                  :active-index="activeIndex"
+                  :class-list="classList"
+                  :project-list="projectList"
+                  :searchkey="searchkey"
+                  :haslogin="haslogin"
+                  @searchEnterFun="searchEnterFun"
+                  @searchChangeFun="searchChangeFun"
+                  @logoinFun="logoinFun"
+                  @userlogout="userlogout" />
         </el-col>
       </el-row>
     </div>
     <div class="headImgBox">
       <div class="scene">
-        <div><span id="like"></span></div>
+        <div><span id="like" /></div>
       </div>
       <div class="h-information">
         <a href="#/Aboutme">
-          <img src="@/assets/img/tou.png" alt="">
+          <img src="@/assets/img/tou.png"
+               alt="">
         </a>
         <h2 class="h-description">
           <a href="#/Aboutme">
@@ -29,11 +48,20 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import H5Head from './components/h5-head.vue'
 import PCHead from './components/pc-head.vue'
+
+import {
+  getToken
+} from '@/utils/auth' // get token from cookie
 export default {
   name: 'Head',
-  data () {
+  components: {
+    H5Head,
+    PCHead
+  },
+  data() {
     return {
       activeIndex: '/',
       classList: [
@@ -66,23 +94,39 @@ export default {
       ],
       searchkey: '',
       haslogin: false,
-      pMenu: true //手机端菜单打开
+      pMenu: true // 手机端菜单打开
     }
   },
-  components: {
-    H5Head,
-    PCHead
+  computed: {
+    ...mapGetters([
+      'sidebar',
+      'username',
+      'userId',
+      'avatar'
+    ])
+  },
+  async created() {
+    await this.getActiveCate()
+    const hasToken = getToken()
+    if (hasToken) {
+      await this.getInfo()
+      this.haslogin = true
+    }
   },
   methods: {
-    searchEnterFun () { },
-    searchChangeFun () { },
-    logoinFun () { },
-    userlogout () { }
-  },
-  created () { }
+    ...mapActions('user', ['getInfo', 'login']),
+    ...mapActions('common', ['getActiveCate']),
+    searchEnterFun() { },
+    searchChangeFun() { },
+    logoinFun() {
+      this.login()
+    },
+    async userlogout() {
+      await this.$store.dispatch('user/logout')
+    }
+  }
 }
 </script>
-
 
 <style scoped lang="less">
 /*********头部导航栏********/

@@ -2,11 +2,14 @@
   <div>
     <div class="shareTitle">
       <div class="ui label">
-        <a>{{className}}</a>
+        <a>{{ className }}</a>
       </div>
-      <ul v-if="tagList" class="shareclassTwo">
-        <li v-for="item in tagList" :key="item.id">
-          <a href="" :class="item.id==tagId?'active':''">{{item.name}}</a>
+      <ul v-if="tagList"
+          class="shareclassTwo">
+        <li v-for="item in tagList"
+            :key="item.id">
+          <a href=""
+             :class="item.id==tagId?'active':''">{{ item.name }}</a>
         </li>
       </ul>
     </div>
@@ -18,7 +21,10 @@
 import Article from '@/components/article/index'
 export default {
   name: '',
-  data () {
+  components: {
+    Article
+  },
+  data() {
     return {
       classId: 1,
       className: '分享镜',
@@ -35,11 +41,8 @@ export default {
       ]
     }
   },
-  components: {
-    Article
-  },
-  methods: {},
-  created () { }
+  created() { },
+  methods: {}
 }
 </script>
 

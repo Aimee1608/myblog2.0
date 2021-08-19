@@ -2,7 +2,8 @@
   <div class="rightlistBox">
     <section>
       <div class="r1-head">
-        <img src="@/assets/img/headtou02.jpg" alt="">
+        <img src="@/assets/img/headtou02.jpg"
+             alt="">
         <h1>
           <span>女王</span>Aimee
         </h1>
@@ -11,57 +12,89 @@
         <p>你能抓到我么？</p>
         <div class="catch-me">
           <div class="">
-            <el-tooltip class="item" content="Github" placement="top">
-              <a :href="catchMeObj.git" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+            <el-tooltip class="item"
+                        content="Github"
+                        placement="top">
+              <a :href="catchMeObj.git"
+                 target="_blank"><i class="fa fa-fw fa-github" /></a>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="QQ" placement="top">
-              <a :href="catchMeObj.qq" target="_blank"><i class="fa fa-fw fa-qq"></i></a>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="QQ"
+                        placement="top">
+              <a :href="catchMeObj.qq"
+                 target="_blank"><i class="fa fa-fw fa-qq" /></a>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="微博" placement="top">
-              <a :href="catchMeObj.sina" target="_blank"><i class="fa fa-fw fa-weibo"></i></a>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="微博"
+                        placement="top">
+              <a :href="catchMeObj.sina"
+                 target="_blank"><i class="fa fa-fw fa-weibo" /></a>
             </el-tooltip>
           </div>
           <div class="">
-            <el-tooltip class="item" effect="dark" content="微信" placement="top">
-              <a :href="catchMeObj.wechat" target="_blank"><i class="fa fa-fw fa-wechat"></i></a>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="微信"
+                        placement="top">
+              <a :href="catchMeObj.wechat"
+                 target="_blank"><i class="fa fa-fw fa-wechat" /></a>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="CSDN" placement="top">
-              <a :href="catchMeObj.csdn" target="_blank"><i class="">C</i></a>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="CSDN"
+                        placement="top">
+              <a :href="catchMeObj.csdn"
+                 target="_blank"><i class="">C</i></a>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="简历" placement="top">
-              <a :href="catchMeObj.job" target="_blank"><i class="fa fa-fw fa-file-word-o"></i></a>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="简历"
+                        placement="top">
+              <a :href="catchMeObj.job"
+                 target="_blank"><i class="fa fa-fw fa-file-word-o" /></a>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="更多" placement="top">
-              <a href="#/Aboutme"><i class="el-icon-more"></i></a>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="更多"
+                        placement="top">
+              <a href="#/Aboutme"><i class="el-icon-more" /></a>
             </el-tooltip>
           </div>
         </div>
       </div>
     </section>
-    <section :class="fixDo?'rs2 fixed':'rs2'" @click="lovemeFun">
+    <section :class="fixDo?'rs2 fixed':'rs2'"
+             @click="lovemeFun">
       <p>
         Do you like me?
       </p>
       <div class="">
-        <i :class="loveme?'heart active':'heart'"></i>
-        <span>{{likeNum}}</span>
+        <i :class="loveme?'heart active':'heart'" />
+        <span>{{ likeNum }}</span>
       </div>
     </section>
-    <div v-show="fixDo" class="rs2 rs2-block"></div>
-    <section></section>
+    <div v-show="fixDo"
+         class="rs2 rs2-block" />
+    <section />
     <section class="rs3">
       <h2 class="ui label">
         这些人都排着队来跟我说话
       </h2>
       <ul class="rs3-textwidget">
-        <li class="rs3-item" v-for="(item,index) in artCommentList" :key="'artCommentList'+index">
-          <a :href="'#/DetailShare?aid='+item.id" target="_blank">
+        <li v-for="(item,index) in artCommentList"
+            :key="'artCommentList'+index"
+            class="rs3-item">
+          <a :href="'#/DetailShare?aid='+item.id"
+             target="_blank">
             <div class="rs3-photo">
-              <img :src="item.avatar" :onerror="errorAvatar" />
+              <img :src="item.avatar"
+                   :onerror="errorAvatar">
             </div>
             <div class="rs3-inner">
-              <p class="rs3-author">{{item.nickname}} 在「{{item.title}}」中说:</p>
-              <p class="rs3-text">{{item.content}}</p>
+              <p class="rs3-author">{{ item.nickname }} 在「{{ item.title }}」中说:</p>
+              <p class="rs3-text">{{ item.content }}</p>
             </div>
           </a>
         </li>
@@ -72,14 +105,18 @@
         大家都排队来看这些
       </h2>
       <ul>
-        <li v-for="(item,index) in browseList" :key="'browseList'+index">
-          <a :href="'#/DetailShare?aid='+item.id">{{item.title}}</a> —— {{item.browse_count}} 次围观
+        <li v-for="(item,index) in browseList"
+            :key="'browseList'+index">
+          <a :href="'#/DetailShare?aid='+item.id">{{ item.title }}</a> —— {{ item.browse_count }} 次围观
         </li>
       </ul>
     </section>
     <!-- 右侧上滑小图片 -->
-    <div class="toTop  hidden" :style="'top:'+top" @click="toTopfun">
-      <img src="@/assets/img/scroll.png" alt="">
+    <div class="toTop  hidden"
+         :style="'top:'+top"
+         @click="toTopfun">
+      <img src="@/assets/img/scroll.png"
+           alt="">
     </div>
   </div>
 </template>
@@ -88,13 +125,13 @@
 import { mapState } from 'vuex'
 export default {
   name: 'Right',
-  data () {
+  data() {
     return {
       top: 0, // 小猫高度
       fixDo: false,
       loveme: false,
-      gotoTop: false,//返回顶部
-      going: false,//是否正在执行上滑动作
+      gotoTop: false, // 返回顶部
+      going: false, // 是否正在执行上滑动作
       browseList: [
         {
           id: '2',
@@ -111,7 +148,7 @@ export default {
           title: 'ddsfsdfsdfsdfsd',
           browse_count: '999998888'
         }
-      ],//浏览量最多
+      ], // 浏览量最多
       artCommentList: [
         {
           id: '1',
@@ -141,10 +178,10 @@ export default {
           title: 'dffffffff',
           content: 'fsdfsdfsdfsdfsdfsdfsdfsdf'
         }
-      ],//评论量最多
-      likeNum: 0,//do you like me 点击量
-      initLikeNum: 0,//初始化喜欢数量
-      catchMeObj: {//抓住我 个人信息{
+      ], // 评论量最多
+      likeNum: 0, // do you like me 点击量
+      initLikeNum: 0, // 初始化喜欢数量
+      catchMeObj: {// 抓住我 个人信息{
         git: 'https://github.com/Aimee1608',
         qq: 'static/img/aimee/QQ.jpg',
         sina: 'https://weibo.com/u/2242812941',
@@ -152,7 +189,7 @@ export default {
         csdn: 'http://blog.csdn.net/Aimee1608',
         job: 'http://aimee.mangoya.cn'
 
-      },
+      }
     }
   },
   computed: {
@@ -160,37 +197,7 @@ export default {
       'errorAvatar'
     ])
   },
-  methods: {
-    lovemeFun () {
-      if (!this.loveme) {
-        this.likeNum += 1
-        // GetLike(1,function(){
-        // })
-      }
-      this.loveme = true;
-      var timer = setTimeout(() => {
-        this.loveme = false
-        clearTimeout(timer)
-      }, 3000)
-    },
-    toTopfun () {
-      this.gotoTop = false;
-      this.going = true;
-      var timer = setInterval(() => {
-        //获取滚动条距离顶部高度
-        var osTop = document.documentElement.scrollTop || document.body.scrollTop;
-        var ispeed = Math.floor(-osTop / 7);
-        document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed;
-        //到达顶部，清除定时器
-        if (osTop == 0) {
-          this.going = false;
-          clearInterval(timer);
-          timer = null;
-        }
-      }, 30)
-    },
-  },
-  created () {
+  created() {
     const clientHeight = document.documentElement.clientHeight
     let topHieght = 0
     if (clientHeight < 900) {
@@ -200,24 +207,53 @@ export default {
     }
     this.top = '-950px'
     window.addEventListener('scroll', () => {
-      var t = document.documentElement.scrollTop || document.body.scrollTop;
+      var t = document.documentElement.scrollTop || document.body.scrollTop
       // console.log(t);
       if (!this.going) {
         if (t > 600) {
-          this.gotoTop = true;
+          this.gotoTop = true
           this.top = -topHieght + 'px'
         } else {
-          this.gotoTop = false;
+          this.gotoTop = false
           this.top = '-950px'
         }
       }
       if (t > 1200) {
-        this.fixDo = true;
+        this.fixDo = true
       } else {
-        this.fixDo = false;
+        this.fixDo = false
       }
-
     })
+  },
+  methods: {
+    lovemeFun() {
+      if (!this.loveme) {
+        this.likeNum += 1
+        // GetLike(1,function(){
+        // })
+      }
+      this.loveme = true
+      var timer = setTimeout(() => {
+        this.loveme = false
+        clearTimeout(timer)
+      }, 3000)
+    },
+    toTopfun() {
+      this.gotoTop = false
+      this.going = true
+      var timer = setInterval(() => {
+        // 获取滚动条距离顶部高度
+        var osTop = document.documentElement.scrollTop || document.body.scrollTop
+        var ispeed = Math.floor(-osTop / 7)
+        document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed
+        // 到达顶部，清除定时器
+        if (osTop === 0) {
+          this.going = false
+          clearInterval(timer)
+          timer = null
+        }
+      }, 30)
+    }
   }
 }
 </script>
