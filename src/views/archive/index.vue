@@ -4,18 +4,30 @@
     <div class="archive-class-title">分类</div>
     <ul class="archive-class-all">
       <li v-for="item in classList"
-          :key="item.id"><a href="/category">{{ item.name }}</a><span>（{{ item.count }}）</span></li>
+          :key="item._id"
+          :class="item._id === classId ? 'class-selected': ''"><a href="javascript:void(0);"
+           @click="goClassList(item._id)">{{ item.name }}</a><span>（{{ item.count }}）</span></li>
     </ul>
+    <div v-if="children.length>0"
+         class="archive-class-children">
+      <div v-for="item in children"
+           :key="item._id"
+           :class="['archive-class-children-item',item._id === child && 'archive-class-children-item-selected']">
+        <a href="javascript:void(0);"
+           @click="goClassListChildren(item._id)">{{ item.name }}</a><span>（{{ item.count }}）</span>
+      </div>
+    </div>
     <div v-for="item in articleList"
          :key="item.year"
          class="article-time">
       <div class="archive-class-title">{{ item.year }}</div>
       <el-timeline>
         <el-timeline-item v-for="a in item.list"
-                          :key="a.id"
+                          :key="a._id"
                           :hide-timestamp="true">
-          <span class="archive-class-item-time">{{ a.time }}</span> <a class="archive-class-item-title"
-             href="">{{ a.title }}</a>
+          <span class="archive-class-item-time">{{ getTimeLine(a.createDate) }}</span> <a class="archive-class-item-title"
+             href="javascript:void(0);"
+             @click="goDetail(a._id)">{{ a.title }}</a>
         </el-timeline-item>
       </el-timeline>
     </div>
@@ -23,119 +35,70 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import articleAPI from '@/api/article'
+import { getTimeLine } from '@/utils'
 export default {
   name: 'Archive',
   components: {},
   data() {
     return {
       classList: [
-        {
-          id: 1,
-          name: '分享镜',
-          count: 8
-        },
-        {
-          id: 2,
-          name: '创作集',
-          count: 8
-        },
-        {
-          id: 3,
-          name: '事件簿',
-          count: 89
-        },
-        {
-          id: 4,
-          name: '闲言碎语',
-          count: 8
-        }
+
       ],
       articleList: [
-        {
-          year: '2020',
-          list: [
-            {
-              id: 1,
-              time: '10-09',
-              title: '科学的 Web 调试代理实践'
-            },
-            {
-              id: 2,
-              time: '10-09',
-              title: '科学的 Web 调试代理实践'
-            },
-            {
-              id: 3,
-              time: '10-09',
-              title: '科学的 Web 调试代理实践'
-            },
-            {
-              id: 4,
-              time: '10-09',
-              title: '科学的 Web 调试代理实践'
-            },
-            {
-              id: 5,
-              time: '10-09',
-              title: '科学的 Web 调试代理实践'
-            },
-            {
-              id: 6,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            },
-            {
-              id: 9,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            }
-          ]
-        },
-        {
-          year: '2019',
-          list: [
-            {
-              id: 1,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            },
-            {
-              id: 2,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            },
-            {
-              id: 3,
-              time: '10-09',
-              title: 'sjsddjskskskksksksksksksk'
-            },
-            {
-              id: 4,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            },
-            {
-              id: 5,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            },
-            {
-              id: 6,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            },
-            {
-              id: 9,
-              time: '10-09',
-              title: 'sjsjskskskksksksksksksk'
-            }
-          ]
-        }
-      ]
+      ],
+      classId: null,
+      child: null,
+      children: []
     }
   },
-  created() { },
-  methods: {}
+  async created() {
+    this.classId = this.$route.query.classId || null
+    this.child = this.$route.query.child || null
+    if (this.child) {
+      await this.getAllList(this.child)
+    } else {
+      await this.getAllList(this.classId)
+    }
+    this.children = this.getClassChildren(this.classId)
+  },
+  methods: {
+    ...mapActions('common', ['goDetail']),
+    getTimeLine,
+    async getAllList(classId) {
+      const res = await articleAPI.getListByClass({ classId })
+      this.classList = res.data.classList
+      this.articleList = res.data.articleList
+      console.log('res--', res)
+    },
+    getClassChildren(id) {
+      const item = this.classList.find((item) => item._id === id) || {}
+      return item.children || []
+    },
+    async goClassList(id) {
+      this.classId = id
+      this.children = this.getClassChildren(id)
+      await this.getAllList(id)
+      this.$router.push({
+        name: 'Archive',
+        query: {
+          classId: id
+        }
+      })
+    },
+    async goClassListChildren(id) {
+      this.child = id
+      await this.getAllList(id)
+      this.$router.push({
+        name: 'Archive',
+        query: {
+          classId: this.classId,
+          child: id
+        }
+      })
+    }
+  }
 }
 </script>
 
@@ -161,7 +124,8 @@ export default {
     margin-bottom: 40px;
     li {
       display: inline-block;
-      padding-right: 20px;
+      // margin-right: 20px;
+      padding: 8px 10px;
       a {
         color: #ab3300;
         &:hover {
@@ -170,6 +134,39 @@ export default {
       }
       span {
         color: #bbb;
+      }
+    }
+    li.class-selected {
+      // color: #fff;
+      background-color: rgba(171, 51, 0, 0.6);
+      border-radius: 4px;
+      a,
+      span {
+        color: #fff;
+      }
+    }
+  }
+  .archive-class-children {
+    width: 100%;
+    display: flex;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    .archive-class-children-item {
+      color: #333333;
+      margin-right: 10px;
+      a {
+        color: #333333;
+        &:hover {
+          color: #ff4d00;
+        }
+      }
+      span {
+        color: #bbb;
+      }
+    }
+    .archive-class-children-item-selected {
+      a {
+        color: #ff4d00;
       }
     }
   }

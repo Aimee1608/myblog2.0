@@ -2,8 +2,7 @@
 <template>
   <div class="detailBox tcommonBox">
     <articleHead :item="detailObj" />
-    <div class="article-content"
-         v-html="content" />
+    <Content :content="content" />
     <div class="dshareBox bdsharebuttonbox"
          data-tag="share_1">
       <div class="dlikeColBox">
@@ -45,35 +44,23 @@
 
 <script>
 // import {getArticleInfo,getArtLikeCollect,initDate} from '../utils/server.js'
-import { mapActions, mapGetters } from 'vuex'
-import Marked from 'marked'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/monokai-sublime.css'
+import { mapActions, mapState } from 'vuex'
+
 import articleAPI from '@/api/article'
 import collectAPI from '@/api/collect'
 import likeAPI from '@/api/like'
 import { initDate } from '@/utils'
 import articleHead from '@/components/articleHead'
 import Message from '@/components/message'
-Marked.setOptions({
-  renderer: new Marked.Renderer(),
-  highlight(code) {
-    return hljs.highlightAuto(code).value
-  },
-  pedantic: false,
-  gfm: true,
-  tables: true,
-  breaks: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  xhtml: false
-})
+import Content from './components/content'
+import _ from 'lodash'
+
 export default {
   name: 'Detail',
   components: { // 定义组件
     articleHead,
-    Message
+    Message,
+    Content
   },
   data() { // 选项 / 数据
     return {
@@ -90,26 +77,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'userId'
+    ...mapState('user', [
+      'haslogin'
     ])
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    //  '$route':'routeChange'
+    '$route': 'routeChange'
   },
   async created() { // 生命周期函数
-    // var this = this;
-
-    // this.routeChange();
-    this.id = this.$route.params.id
-    await this.getInfo(this.id)
+    await this.routeChange()
   },
   methods: { // 事件处理器
     ...mapActions('user', ['login']),
     showInitDate: initDate,
     async likecollectHandle(islike) { // 用户点击喜欢0,用户点击收藏1
-      if (this.userId) { // 判断是否登录
+      if (this.haslogin) { // 判断是否登录
         var tip = ''
         let res
         if (islike === 1) {
@@ -140,7 +123,7 @@ export default {
             message: tip,
             type: 'success'
           })
-          this.detailObj = res.data
+          await this.getInfo(this.id)
         }
       } else { // 未登录 前去登录。
         this.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
@@ -160,31 +143,22 @@ export default {
       const res = await articleAPI.getInfo({ id })
       console.log('articleAPI.info---res', res)
 
-      this.detailObj = res.data
-      this.content = Marked(this.detailObj.content)
-      const likeRes = await likeAPI.getInfo({ id })
-      const collectRes = await collectAPI.getInfo({ id })
-      if (likeRes.code == 0 && likeRes.data._id) {
-        this.likeArt = true
-      }
-      if (collectRes.code == 0 && collectRes.data._id) {
-        this.collectArt = true
+      this.detailObj = _.cloneDeep(res.data)
+      this.content = this.detailObj.content
+      if (this.haslogin) {
+        const likeRes = await likeAPI.getInfo({ id })
+        const collectRes = await collectAPI.getInfo({ id })
+        if (likeRes.code === 0 && likeRes.data._id) {
+          this.likeArt = true
+        }
+        if (collectRes.code === 0 && collectRes.data._id) {
+          this.collectArt = true
+        }
       }
     },
-    routeChange() {
-      // var this = this
-      this.aid = this.$route.query.aid == undefined ? 1 : parseInt(this.$route.query.aid)// 获取传参的aid
-
-      // 获取详情接口
-      // getArticleInfo(this.aid,this.userId,function(msg){
-      //     // console.log('文章详情',msg);
-      //     this.detailObj = msg;
-      //     this.likeCount = msg.like_count?msg.like_count:0;
-      //     this.collectCount = msg.collect_count?msg.collect_count:0;
-      //     this.likeArt = msg.user_like_start==0?false:true;
-      //     this.collectArt = msg.user_collect_start==0?false:true;
-      //     this.create_time = initDate(this.detailObj.create_time,'all');
-      // })
+    async routeChange() {
+      this.id = this.$route.params.id
+      await this.getInfo(this.id)
     }
   }
 

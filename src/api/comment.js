@@ -25,8 +25,16 @@ function getInfo(params) {
   })
 }
 
+function getTopComment(params) {
+  return request({
+    url: `${PATH}/getTopComment`,
+    method: 'get',
+    params
+  })
+}
 export default {
   getList,
   getInfo,
-  add
+  add,
+  getTopComment
 }

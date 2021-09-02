@@ -4,17 +4,28 @@ import detail from '@/views/detail/index'
 import home from '@/views/home/index'
 import friendslink from '@/views/friendslink/index'
 import archive from '@/views/archive/index'
-import category from '@/views/category/index'
 import aboutme from '@/views/aboutme/index'
 import reward from '@/views/reward/index'
 import user from '@/views/user/index'
-import login from '@/views/login/index'
-import addArticle from '@/views/addArticle'
+import likeCollect from '@/views/likeCollect'
 
 Vue.use(Router)
-
+let savedPosition = false
 export default new Router({
   mode: 'hash',
+  scrollBehavior: (to, from) => {
+    // console.log('to, from, savedPosition', to, from, savedPosition)
+    if (savedPosition) {
+      return {
+        y: 670
+      }
+    } else {
+      savedPosition = true
+      return {
+        y: 0
+      }
+    }
+  },
   routes: [
     {
       path: '/',
@@ -39,14 +50,6 @@ export default new Router({
       component: archive,
       meta: {
         title: '归档'
-      }
-    },
-    {
-      path: '/category',
-      name: 'Category',
-      component: category,
-      meta: {
-        title: '分类'
       }
     },
     {
@@ -82,19 +85,11 @@ export default new Router({
       }
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: login,
+      path: '/likeCollect',
+      name: 'LikeCollect',
+      component: likeCollect,
       meta: {
-        title: '登录'
-      }
-    },
-    {
-      path: '/addArticle',
-      name: 'AddArticle',
-      component: addArticle,
-      meta: {
-        title: '登录'
+        title: '喜欢/收藏'
       }
     },
     {

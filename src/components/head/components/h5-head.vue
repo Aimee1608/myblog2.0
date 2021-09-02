@@ -10,11 +10,8 @@
                  class="mlistmenu"
                  :unique-opened="true"
                  :router="true">
-          <el-menu-item index="/Home">
+          <el-menu-item index="/">
             <i class="fa fa-wa fa-home" /> 首页
-          </el-menu-item>
-          <el-menu-item index="/Share">
-            <i class="fa fa-wa fa-archive" /> 归档
           </el-menu-item>
           <el-submenu index="2">
             <template slot="title">
@@ -27,37 +24,36 @@
                  target="_blank">{{ item.nav_name }}</a>
             </el-menu-item>
           </el-submenu>
-          <el-menu-item index="/Reward">
+          <el-menu-item index="/archive">
+            <i class="fa fa-wa fa-archive" /> 归档
+          </el-menu-item>
+          <el-menu-item index="/reward">
             <i class="fa fa-wa fa-cny" /> 赞赏
           </el-menu-item>
-          <el-menu-item index="/Friendslink">
+          <el-menu-item index="/friendslink">
             <i class="fa fa-wa fa-users" /> 伙伴
           </el-menu-item>
-          <el-menu-item index="/Aboutme">
+          <el-menu-item index="/aboutme">
             <i class="fa fa-wa fa-vcard" /> 关于
           </el-menu-item>
           <el-menu-item v-show="!haslogin"
                         index
                         @click="logoinFun(1)">登录</el-menu-item>
-          <el-menu-item v-show="!haslogin"
-                        index
-                        @click="logoinFun(0)">注册</el-menu-item>
           <el-submenu v-show="haslogin"
                       index="3">
             <template slot="title">
               <i class="fa fa-wa fa-user-circle-o" /> 我的
             </template>
-            <el-menu-item index="/UserInfo">个人中心</el-menu-item>
-            <el-menu-item index="/LikeCollect?like=1">喜欢的文章</el-menu-item>
-            <el-menu-item index="/LikeCollect?like=2">收藏的文章</el-menu-item>
+            <el-menu-item index="/userInfo">个人中心</el-menu-item>
+            <el-menu-item index="/likeCollect?like=1">喜欢的文章</el-menu-item>
+            <el-menu-item index="/likeCollect?collect=1">收藏的文章</el-menu-item>
             <el-menu-item index
                           @click="userlogout">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-collapse-transition>
       <div class="searchBox">
-        <el-input v-model="searchkey"
-                  placeholder
+        <el-input placeholder
                   @keyup.enter.native="searchEnterFun"
                   @change="searchChangeFun">
           <i slot="suffix"
@@ -73,7 +69,7 @@
 export default {
   name: 'H5Head',
   components: {},
-  props: ['activeIndex', 'classList', 'projectList', 'searchkey', 'haslogin'],
+  props: ['activeIndex', 'classList', 'projectList', 'haslogin'],
   data() {
     return {
       pMenu: false
@@ -82,7 +78,7 @@ export default {
   created() { },
   methods: {
     searchEnterFun() { this.$emit('searchEnterFun') },
-    searchChangeFun() { this.$emit('searchChangeFun') },
+    searchChangeFun(value) { this.$emit('searchChangeFun', value) },
     logoinFun() { this.$emit('logoinFun') },
     userlogout() { this.$emit('userlogout') }
   }

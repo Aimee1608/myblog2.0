@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'aimee-test-token'
+const TokenKey = 'aimee-blog-token'
 
 export function getToken() {
   return Cookies.get(TokenKey)

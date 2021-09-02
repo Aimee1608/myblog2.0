@@ -1,4 +1,5 @@
-
+import Cookies from 'js-cookie'
+import md5 from 'md5'
 const sidebarStatus = 'log-admin-sidebarStatus'
 const defaultState = {
   sidebar: {
@@ -21,6 +22,14 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  SET_LOGID: (state) => {
+    const logId = Cookies.get('aimee_blog_log_id')
+    if (!logId) {
+      const newLogId = md5(window.navigator.userAgent + parseInt(Math.random() * 1000, 10) +
+        new Date().getTime())
+      Cookies.set('aimee_blog_log_id', newLogId, { expires: 1 / 12 })
+    }
   }
 }
 
@@ -33,6 +42,9 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  setLogId({ commit }) {
+    commit('SET_LOGID')
   }
 }
 

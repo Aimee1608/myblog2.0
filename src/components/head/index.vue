@@ -5,10 +5,8 @@
         <el-col :span="24">
           <!-- pc端导航 -->
           <PCHead class="pc-head"
-                  :active-index="activeIndex"
-                  :class-list="classList"
-                  :project-list="projectList"
-                  :searchkey="searchkey"
+                  :activeIndex="activeIndex"
+                  :projectList="projectList"
                   :haslogin="haslogin"
                   @searchEnterFun="searchEnterFun"
                   @searchChangeFun="searchChangeFun"
@@ -17,10 +15,8 @@
                   @userlogout="userlogout" />
           <!-- 移动端 -->
           <H5Head class="h5-head"
-                  :active-index="activeIndex"
-                  :class-list="classList"
-                  :project-list="projectList"
-                  :searchkey="searchkey"
+                  :activeIndex="activeIndex"
+                  :projectList="projectList"
                   :haslogin="haslogin"
                   @searchEnterFun="searchEnterFun"
                   @searchChangeFun="searchChangeFun"
@@ -31,17 +27,17 @@
     </div>
     <div class="headImgBox">
       <div class="scene">
-        <div><span id="like" /></div>
+        <div><span id="luke" /></div>
       </div>
       <div class="h-information">
-        <a href="#/Aboutme">
+        <span @click="goHandle({name: 'Aboutme'})">
           <img src="@/assets/img/tou.png"
                alt="">
-        </a>
+        </span>
         <h2 class="h-description">
-          <a href="#/Aboutme">
+          <span @click="goHandle({name: 'Aboutme'})">
             Write the Code. Change the World.
-          </a>
+          </span>
         </h2>
       </div>
     </div>
@@ -49,13 +45,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import H5Head from './components/h5-head.vue'
 import PCHead from './components/pc-head.vue'
-
-import {
-  getToken
-} from '@/utils/auth' // get token from cookie
+import { projectList } from '@/utils/constants'
+import Typeit from '@/utils/Typeit'
 export default {
   name: 'Head',
   components: {
@@ -65,40 +59,13 @@ export default {
   data() {
     return {
       activeIndex: '/',
-      classList: [
-        {
-          id: 1,
-          cate_name: '999'
-        },
-        {
-          id: 2,
-          cate_name: '999'
-        },
-        {
-          id: 3,
-          cate_name: '999'
-        }
-      ],
-      projectList: [
-        {
-          nav_url: 'dddd',
-          nav_name: 'ddddd'
-        },
-        {
-          nav_url: 'dddd',
-          nav_name: 'ddddd'
-        },
-        {
-          nav_url: 'dddd',
-          nav_name: 'ddddd'
-        }
-      ],
+      projectList,
       searchkey: '',
-      haslogin: false,
       pMenu: true // 手机端菜单打开
     }
   },
   computed: {
+    ...mapState('user', ['haslogin']),
     ...mapGetters([
       'sidebar',
       'username',
@@ -107,26 +74,77 @@ export default {
     ])
   },
   async created() {
+    this.changeTitle()
+    this.setLogId()
     await this.getActiveCate()
-    const hasToken = getToken()
-    if (hasToken) {
-      await this.getInfo()
-      this.haslogin = true
-    }
+  },
+  mounted() { // 页面元素加载完成
+    const timer = setTimeout(() => {
+      Typeit('#luke') // 打字机效果
+      clearTimeout(timer)
+    }, 500)
   },
   methods: {
-    ...mapActions('user', ['getInfo', 'login']),
+    ...mapActions('user', ['getInfo', 'login', 'logout']),
     ...mapActions('common', ['getActiveCate']),
-    searchEnterFun() { },
-    searchChangeFun() { },
+    ...mapActions('app', ['setLogId']),
+    searchEnterFun() {
+      // console.log('9999', this.searchkey)
+      if (this.searchkey) {
+        this.$router.push({
+          name: 'Home',
+          query: {
+            keywords: this.searchkey
+          }
+        })
+      }
+    },
+    searchChangeFun(value) {
+      this.searchkey = value
+      console.log('999988', this.searchkey)
+      if (!this.searchkey) {
+        this.$router.push({ name: 'Home' })
+      }
+    },
     logoinFun() {
+      const loading = this.$loading({
+        lock: true,
+        text: '跳转中请稍等...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.5)'
+      })
       this.login()
+      setTimeout(() => {
+        loading.close()
+        this.$message.error('跳转超时，可尝试开启vpn')
+      }, 30000)
     },
     async userlogout() {
-      await this.$store.dispatch('user/logout')
+      this.$confirm('是否确认退出?', '退出提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        await this.logout()
+      })
     },
     goHandle(path) {
       this.$router.push(path)
+    },
+    changeTitle() {
+      var hiddenProperty = 'hidden' in document ? 'hidden'
+        : 'webkitHidden' in document ? 'webkitHidden'
+          : 'mozHidden' in document ? 'mozHidden'
+            : null
+      var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange')
+      var onVisibilityChange = () => {
+        if (document[hiddenProperty]) { // 被隐藏
+          document.title = '藏好啦(つд⊂)'
+        } else {
+          document.title = '被发现啦(*´∇｀*)' // 当前窗口打开
+        }
+      }
+      document.addEventListener(visibilityChangeEvent, onVisibilityChange)
     }
   }
 }

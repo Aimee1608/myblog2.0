@@ -1,8 +1,6 @@
 <!-- 首页 -->
 <template>
-  <div>
-    <Article />
-  </div>
+  <Article type="home" />
 </template>
 
 <script>

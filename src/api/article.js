@@ -8,7 +8,13 @@ function getList(params) {
     params
   })
 }
-
+function getListByClass(params) {
+  return request({
+    url: `${PATH}/getListByClass`,
+    method: 'get',
+    params
+  })
+}
 function getInfo(params) {
   return request({
     url: `${PATH}/getInfo`,
@@ -19,5 +25,6 @@ function getInfo(params) {
 
 export default {
   getList,
+  getListByClass,
   getInfo
 }

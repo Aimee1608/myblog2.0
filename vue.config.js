@@ -7,7 +7,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/v1': {
-        target: 'http://aimeeserver.mangoya.cn:8999/v1',
+        target: 'http://aimeeserver.mangoya.cn:8899/v1',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

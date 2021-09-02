@@ -48,3 +48,8 @@ export function analyzeEmoji(cont) { // 编译表情替换成图片展示出来
   }
   return str
 }
+
+export function getTimeLine(time) {
+  return Moment(time).format('MM-DD')
+}
+

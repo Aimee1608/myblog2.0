@@ -1,6 +1,6 @@
 <!-- 用户中心 -->
 <template>
-  <div v-if="userId">
+  <div v-if="haslogin">
     <div v-if="isEdit"
          class="tcommonBox">
       <header>
@@ -13,10 +13,9 @@
           <li class="avatarlist">
             <span class="leftTitle">头像</span>
             <div class="avatar-uploader">
-              <img :src="editUser.avatar"
-                   class="avatar" />
+              <HeadImg :src="editUser.avatar"
+                       class="avatar" />
             </div>
-
           </li>
           <li class="username">
             <span class="leftTitle">昵称</span>
@@ -72,9 +71,9 @@
                        :show-file-list="false"
                        :on-success="handleLogoSuccess"
                        :before-upload="beforeLogoUpload">
-              <img v-if="userInfo.image"
-                   src="./../../assets/img/tou.jpg"
-                   class="avatar">
+              <HeadImg v-if="userInfo.image"
+                       src="./../../assets/img/tou.jpg"
+                       class="avatar" />
               <i v-else
                  class="el-icon-plus avatar-uploader-icon" />
               <div slot="tip"
@@ -92,59 +91,9 @@
         </div>
       </section>
     </div>
-    <div v-show="!isEdit"
-         class="tcommonBox">
-      <header>
-        <h1>
-          个人中心
-          <button class="gotoEdit"
-                  @click="gotoEdit"><i class="fa fa-wa fa-edit" />编辑</button>
-        </h1>
-      </header>
-      <section>
-        <ul class="userInfoBox">
-          <li class="avatarlist">
-            <span class="leftTitle">头像</span>
-            <div class="avatar-uploader">
-              <img :src="userInfo.avatar"
-                   class="avatar" />
-            </div>
-          </li>
-          <li class="username">
-            <span class="leftTitle">昵称</span>
-            <span>{{ userInfo.username || "无" }}</span>
-          </li>
-          <li>
-            <span class="leftTitle">个性标签</span>
-            <span>{{ userInfo.label?userInfo.label:"未设置" }}</span>
-          </li>
-          <li>
-            <span class="leftTitle">是否展示友链</span>
-            <span>{{userInfo.webBlogState ? '是': '否'}}</span>
-          </li>
-          <li>
-            <span class="leftTitle">网站名称</span>
-            <span>{{ userInfo.webBlogName||"无" }}</span>
-          </li>
-          <li>
-            <span class="leftTitle">网站地址</span>
-            <p class="rightInner">{{ userInfo.webBlog || "无" }}</p>
-          </li>
-          <li>
-            <span class="leftTitle">网站简介</span>
-            <p class="rightInner">{{ userInfo.webBlogDesc || "无" }}</p>
-          </li>
-          <li class="avatarlist">
-            <span class="leftTitle">网站logo</span>
-            <div class="avatar-uploader">
-              <img :src="userInfo.webBlogIcon"
-                   class="avatar">
-            </div>
-          </li>
-        </ul>
-
-      </section>
-    </div>
+    <Detail v-show="!isEdit"
+            :userInfo="userInfo"
+            @gotoEdit="gotoEdit" />
   </div>
 </template>
 
@@ -152,6 +101,7 @@
 import { mapActions, mapState } from 'vuex'
 import { userTag } from '@/utils/constants'
 import _ from 'lodash'
+import Detail from './components/detail.vue'
 export default {
   name: 'UserInfo',
   data() { // 选项 / 数据
@@ -166,10 +116,13 @@ export default {
   computed: {
     ...mapState('user', [
       'username',
-      'userId',
+      'haslogin',
       'avatar',
       'userInfo'
     ])
+  },
+  components: {
+    Detail
   },
   methods: { // 事件处理器
     ...mapActions('user', ['edit']),
@@ -218,7 +171,7 @@ export default {
 
     async saveInfoFun() {
       if (this.editUser.webBlogState) {
-        var pattern = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+        var pattern = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
         // const pattern = new RegExp('(https?|ftp|file)://[-w+&@#/%=~|?!:,.;]+[-w+&@#/%=~|]')
         // console.log(pattern.test(that.userInfo.url));
         console.log('this.editUser.webBlog', this.editUser)
@@ -243,9 +196,6 @@ export default {
       this.isEdit = !this.isEdit
       this.editUser = _.cloneDeep(this.userInfo)
     }
-  },
-  created() {
-
   }
 }
 </script>

@@ -86,14 +86,13 @@
         <li v-for="(item,index) in artCommentList"
             :key="'artCommentList'+index"
             class="rs3-item">
-          <a :href="'#/DetailShare?aid='+item.id"
-             target="_blank">
+          <a href="javascript:void(0);"
+             @click="item.isArticle ? goDetail(item.articleId) : goOther(item.articleId)">
             <div class="rs3-photo">
-              <img :src="item.avatar"
-                   :onerror="errorAvatar">
+              <HeadImg :src="item.avatar" />
             </div>
             <div class="rs3-inner">
-              <p class="rs3-author">{{ item.nickname }} 在「{{ item.title }}」中说:</p>
+              <p class="rs3-author">{{ item.username }} 在「{{ item.title }}」中说:</p>
               <p class="rs3-text">{{ item.content }}</p>
             </div>
           </a>
@@ -107,7 +106,8 @@
       <ul>
         <li v-for="(item,index) in browseList"
             :key="'browseList'+index">
-          <a :href="'#/DetailShare?aid='+item.id">{{ item.title }}</a> —— {{ item.browse_count }} 次围观
+          <a href="javascript:void(0);"
+             @click="goDetail(item.articleId)">{{ item.title }}</a> —— {{ item.count }} 次围观
         </li>
       </ul>
     </section>
@@ -122,7 +122,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions } from 'vuex'
+import commentAPI from '@/api/comment'
+import loveAPI from '@/api/love'
 export default {
   name: 'Right',
   data() {
@@ -132,53 +134,8 @@ export default {
       loveme: false,
       gotoTop: false, // 返回顶部
       going: false, // 是否正在执行上滑动作
-      browseList: [
-        {
-          id: '2',
-          title: 'ddsfsdfsdfsdfsd',
-          browse_count: '99999'
-        },
-        {
-          id: '3',
-          title: 'ddsfsdfsdfsdfsd',
-          browse_count: '99999'
-        },
-        {
-          id: '4',
-          title: 'ddsfsdfsdfsdfsd',
-          browse_count: '999998888'
-        }
-      ], // 浏览量最多
-      artCommentList: [
-        {
-          id: '1',
-          avatar: '../../assets/img/tou.jpg',
-          nickname: 'aimee',
-          title: 'dffffffff',
-          content: 'fsdfsdfsdfsdfsdfsdfsdfsdf00'
-        },
-        {
-          id: '2',
-          avatar: '../../assets/img/tou.jpg',
-          nickname: 'aimee',
-          title: 'dffffffff',
-          content: 'fsdfsdfsdfsdfsdfsdfsdfsdf'
-        },
-        {
-          id: '3',
-          avatar: '../../assets/img/tou.jpg',
-          nickname: 'aimee',
-          title: 'dffffffff',
-          content: 'fsdfsdfsdfsdfsdfsdfsdfsdf'
-        },
-        {
-          id: '4',
-          avatar: '../../assets/img/tou.jpg',
-          nickname: 'aimee',
-          title: 'dffffffff',
-          content: 'fsdfsdfsdfsdfsdfsdfsdfsdf'
-        }
-      ], // 评论量最多
+      browseList: [], // 浏览量最多
+      artCommentList: [], // 评论量最多
       likeNum: 0, // do you like me 点击量
       initLikeNum: 0, // 初始化喜欢数量
       catchMeObj: {// 抓住我 个人信息{
@@ -192,51 +149,66 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState([
-      'errorAvatar'
-    ])
+  async created() {
+    this.init()
+    await this.getTopComment()
   },
-  created() {
-    const clientHeight = document.documentElement.clientHeight
-    let topHieght = 0
-    if (clientHeight < 900) {
-      topHieght = 1000 - clientHeight
-    } else {
-      topHieght = 100
-    }
-    this.top = '-950px'
-    window.addEventListener('scroll', () => {
-      var t = document.documentElement.scrollTop || document.body.scrollTop
-      // console.log(t);
-      if (!this.going) {
-        if (t > 600) {
-          this.gotoTop = true
-          this.top = -topHieght + 'px'
-        } else {
-          this.gotoTop = false
-          this.top = '-950px'
-        }
-      }
-      if (t > 1200) {
-        this.fixDo = true
-      } else {
-        this.fixDo = false
-      }
-    })
+  beforeDestroy() {
+    window.removeEventListener('scroll')
   },
   methods: {
-    lovemeFun() {
-      if (!this.loveme) {
-        this.likeNum += 1
-        // GetLike(1,function(){
-        // })
+    ...mapActions('common', ['goDetail']),
+    async getTopComment() {
+      const res = await commentAPI.getTopComment()
+      if (res.code === 0) {
+        const { browseList, commentList, loveCount } = res.data
+        this.artCommentList = commentList
+        this.browseList = browseList
+        this.likeNum = loveCount
       }
-      this.loveme = true
-      var timer = setTimeout(() => {
-        this.loveme = false
-        clearTimeout(timer)
-      }, 3000)
+    },
+    init() {
+      const clientHeight = document.documentElement.clientHeight
+      let topHieght = 0
+      if (clientHeight < 900) {
+        topHieght = 1000 - clientHeight
+      } else {
+        topHieght = 100
+      }
+      this.top = '-950px'
+      window.addEventListener('scroll', () => {
+        var t = document.documentElement.scrollTop || document.body.scrollTop
+        // console.log(t);
+        if (!this.going) {
+          if (t > 600) {
+            this.gotoTop = true
+            this.top = -topHieght + 'px'
+          } else {
+            this.gotoTop = false
+            this.top = '-950px'
+          }
+        }
+        if (t > 1200) {
+          this.fixDo = true
+        } else {
+          this.fixDo = false
+        }
+      })
+    },
+    async lovemeFun() {
+      if (!this.loveme) {
+        const res = await loveAPI.add()
+        if (res.data.status === 1) {
+          this.likeNum += 1
+          this.loveme = true
+          const timer = setTimeout(() => {
+            this.loveme = false
+            clearTimeout(timer)
+          }, 3000)
+        } else if (res.data.status === -1) {
+          this.$message({ message: '已定点赞过哦', duration: 3000 })
+        }
+      }
     },
     toTopfun() {
       this.gotoTop = false
@@ -253,6 +225,9 @@ export default {
           timer = null
         }
       }, 30)
+    },
+    goOther(path) {
+      this.$router.push('/' + path)
     }
   }
 }

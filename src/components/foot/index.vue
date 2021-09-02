@@ -19,7 +19,7 @@
            target="_blank">CloudXNS</a> 提供 DNS 解析服务.
       </p>
       <p>
-        © 2018
+        © 2021
         <a href="#">Mango Ya</a>. 由
         <a href="https://cn.vuejs.org/"
            target="_blank">Vue</a> 强力驱动. Theme By

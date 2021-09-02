@@ -34,8 +34,7 @@
       <el-menu-item index="/aboutme">
         <i class="fa fa-wa fa-vcard" /> 关于
       </el-menu-item>
-      <div index
-           class="pcsearchbox">
+      <div class="pcsearchbox">
         <i class="el-icon-search pcsearchicon" />
         <div class="pcsearchinput"
              :class="searchkey?'hasSearched':''">
@@ -52,23 +51,26 @@
       <div class="userInfo">
         <div v-show="!haslogin"
              class="nologin">
-          <a href="javascript:void(0);"
-             @click="logoinFun(1)">登录&nbsp;</a>|
-          <a href="javascript:void(0);"
-             @click="logoinFun(0)">&nbsp;注册</a>
+          <el-tooltip effect="dark"
+                      content="跳往github授权登录"
+                      placement="left-end">
+            <a href="javascript:void(0);"
+               @click="logoinFun(1)">登录</a>
+          </el-tooltip>
+
         </div>
         <div v-show="haslogin"
              class="haslogin">
           <i class="fa fa-fw fa-user-circle userImg" />
           <ul class="haslogin-info">
             <li>
-              <a @click="goHandle('user')">个人中心</a>
+              <a @click="goHandle({name: 'User'})">个人中心</a>
             </li>
             <li>
-              <a @click="goHandle('likeCollect?like=1')">喜欢列表</a>
+              <a @click="goHandle({name: 'LikeCollect', query:{like: 1}})">喜欢列表</a>
             </li>
             <li>
-              <a @click="goHandle('likeCollect?like=2')">收藏列表</a>
+              <a @click="goHandle({name: 'LikeCollect', query:{collect: 1}})">收藏列表</a>
             </li>
             <li>
               <a href="javascript:void(0);"
@@ -85,14 +87,16 @@
 export default {
   name: 'PCHead',
   components: {},
-  props: ['activeIndex', 'classList', 'projectList', 'searchkey', 'haslogin'],
+  props: ['activeIndex', 'projectList', 'haslogin'],
   data() {
-    return {}
+    return {
+      searchkey: ''
+    }
   },
   created() { },
   methods: {
     searchEnterFun() { this.$emit('searchEnterFun') },
-    searchChangeFun() { this.$emit('searchChangeFun') },
+    searchChangeFun(value) { this.$emit('searchChangeFun', value) },
     logoinFun() { this.$emit('logoinFun') },
     userlogout() { this.$emit('userlogout') },
     goHandle(value) {

@@ -46,7 +46,7 @@
     <div ref="listDom"
          class="tmsg-comments">
       <a href="#"
-         class="tmsg-comments-tip">活捉 {{ list?list.length:0 }} 条</a>
+         class="tmsg-comments-tip">活捉 {{ total }} 条</a>
       <div class="tmsg-commentshow">
         <ul class="tmsg-commentlist">
           <li v-for="(item,index) in list"
@@ -54,12 +54,12 @@
               class="tmsg-c-item">
             <article class="">
               <header>
-                <img :src="item.avatar"
-                     :onerror="$store.state.errorImg">
+                <HeadImg :src="item.avatar" />
                 <div class="i-name">
                   {{ item.username }}
                 </div>
-                <div class="i-class">
+                <div v-show="item.label"
+                     class="i-class">
                   {{ item.label }}
                 </div>
                 <div class="i-time">
@@ -68,9 +68,9 @@
               </header>
               <section>
                 <p v-html="analyzeEmoji(item.content)">{{ analyzeEmoji(item.content) }}</p>
-                <div v-if="userId"
+                <div v-if="haslogin"
                      class="tmsg-replay"
-                     @click="respondMsg(item._id,item._id)">
+                     @click="respondMsg({leaveIndex: index, pIndex: -1, pid: item._id})">
                   回复
                 </div>
               </section>
@@ -83,12 +83,12 @@
                   class="tmsg-c-item">
                 <article class="">
                   <header>
-                    <img :src="citem.avatar"
-                         :onerror="$store.state.errorImg">
+                    <HeadImg :src="citem.avatar" />
                     <div class="i-name">
                       {{ citem.username }} <span>回复</span> {{ citem.parentUsername }}
                     </div>
-                    <div class="i-class">
+                    <div v-show="citem.label"
+                         class="i-class">
                       {{ citem.label }}
                     </div>
                     <div class="i-time">
@@ -97,9 +97,9 @@
                   </header>
                   <section>
                     <p v-html="analyzeEmoji(citem.content)">{{ citem.content }}</p>
-                    <div v-show="userId"
+                    <div v-show="haslogin"
                          class="tmsg-replay"
-                         @click="respondMsg(citem._id,item._id)">
+                         @click="respondMsg({leaveIndex: index, pIndex: cindex, pid: citem._id})">
                       回复
                     </div>
                   </section>
@@ -124,7 +124,7 @@
 import commentAPI from '@/api/comment'
 import { OwOlist } from '@/utils/constants'
 import { analyzeEmoji } from '@/utils'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { initDate, filterName } from '@/utils/index.js'
 export default {
   name: 'Message',
@@ -133,8 +133,8 @@ export default {
   },
   props: ['id'],
   computed: {
-    ...mapGetters([
-      'userId'
+    ...mapState('user', [
+      'haslogin'
     ])
   },
   data() { // 选项 / 数据
@@ -144,178 +144,13 @@ export default {
       tmsgBox: '', // 总评论盒子
       isRespond: false,
       textarea: '', // 文本框输入内容
-      pBody: true, // 表情打开控制
-      commentList: [
-        {
-          'comment_id': 671,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': 'fadfadf',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-07-24 15:52:21',
-          'state': 0,
-          'username': 'adfa',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 670,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '123',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-07-22 10:52:30',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 669,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '[感冒][伤心]',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-07-21 13:31:38',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 658,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '666666，想看小姐姐照片[嘻嘻]',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-07-12 22:09:03',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 645,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '                  ',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-06-28 21:52:45',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 644,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '666[可爱][黑线]',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-06-28 21:52:25',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 628,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '[吃惊][挤眼][挤眼][害羞][给力]',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-06-16 15:26:52',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 627,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '没几个空格和',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-06-16 15:25:52',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 622,
-          'user_id': 0,
-          'leave_id': 4,
-          'content': '没几个空格和[色][色]',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-06-15 18:15:22',
-          'state': 0,
-          'username': '游客',
-          'avatar': 'http://mangoya.cn/static/img/demo.jpg',
-          'label': '萌萌哒',
-          'ChildsSon': [
-
-          ]
-        },
-        {
-          'comment_id': 621,
-          'user_id': 355,
-          'leave_id': 4,
-          'content': '[心]',
-          'leave_pid': 0,
-          'pid': 0,
-          'time': '2020-06-14 17:20:31',
-          'state': 0,
-          'username': '核桃仁给人的',
-          'avatar': 'http://mangoya.cn/upload/introme/20200614/48f739b146cdc899c25d18148566c4b2.jpg',
-          'label': '技术宅',
-          'ChildsSon': [
-
-          ]
-        }
-      ], // 评论列表
-      pageId: 0, // 当前第几页
-      aid: 0, // 文章id
       hasMore: true,
-      leaveId: 0, // 回复评论的当前的commentId
-      leavePid: '', // 赞赏等其他模块的分类id
+      leaveIndex: 0, // 赞赏等其他模块的分类id
+      pIndex: -1,
       pid: '', // 回复评论的一级commentId
       sendTip: '发送~',
-      //
       list: [],
+      pBody: true,
       OwOlist,
       pageSize: 10,
       current: 1,
@@ -347,7 +182,7 @@ export default {
     // 发送留言
     async sendMsg() {
       if (this.textarea) {
-        const res = await commentAPI.add({ content: this.textarea, articleId: this.id, parentId: this.pid })
+        const res = await commentAPI.add({ content: this.textarea, articleId: this.id, parentId: this.isRespond ? this.pid : null })
         if (res.code === 0) {
           // this.routeChange()
           this.textarea = ''
@@ -356,6 +191,15 @@ export default {
             this.sendTip = '发送~'
             clearTimeout(timer)
           }, 1000)
+          if (this.isRespond) {
+            if (this.pIndex == -1) {
+              this.list[this.leaveIndex].children.unshift(res)
+            } else {
+              this.list[this.leaveIndex].children.push(res)
+            }
+          } else {
+            this.list.unshift(res.data)
+          }
         }
       } else {
         this.sendTip = '内容不能为空~'
@@ -365,46 +209,14 @@ export default {
         }, 3000)
       }
     },
-    sendMsg2() { // 留言
-      // var that = this;
-      // if(that.textarea){
-      //     that.sendTip = '咻~~';
-      //     if(that.leaveId==0){
-      //       //   console.log(that.textarea,that.userId,that.aid,that.leavePid,that.pid);
-      //         setArticleComment(that.textarea,that.userId,that.aid,that.leavePid,that.pid,function(msg){
-      //           //   console.log(msg);
-      //             that.textarea = '';
-      //             that.routeChange();
-      //             that.removeRespond();
-      //             var timer02 = setTimeout(function(){
-      //                 that.sendTip = '发送~';
-      //                 clearTimeout(timer02);
-      //             },1000)
-      //         })
-      //     }else{
-      //         //其他模块留言回复
-      //         setOuthComment(that.textarea,that.userId,that.aid,that.leaveId,that.leavePid,that.pid,function(msg){
-      //           //   console.log(msg);
-      //             that.textarea = '';
-      //             that.removeRespond();
-      //           that.routeChange();
-      //         })
-      //     }
-      // }else{
-      //     that.sendTip = '内容不能为空~'
-      //     var timer = setTimeout(function(){
-      //         that.sendTip = '发送~';
-      //         clearTimeout(timer);
-      //     },3000)
-      // }
-    },
-    respondMsg(leavePid, pid) { // 回复留言
+    respondMsg({ leaveIndex, pIndex, pid }) { // 回复留言
       // console.log(leavePid,pid);
-      if (this.userId) {
+      if (this.haslogin) {
         var dom = event.currentTarget
         dom = dom.parentNode
         this.isRespond = true
-        this.leavePid = leavePid
+        this.leaveIndex = leaveIndex
+        this.pIndex = pIndex
         this.pid = pid
         dom.appendChild(this.$refs.respondBox)
       }
@@ -412,58 +224,6 @@ export default {
     removeRespond() { // 取消回复留言
       this.isRespond = false
       this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom)
-    },
-    showCommentList(initData) { // 评论列表
-      var that = this
-      that.aid = that.$route.query.aid === undefined ? 1 : parseInt(that.$route.query.aid)// 获取传参的aid
-      // 判断当前用户是否登录
-      if (localStorage.getItem('userInfo')) {
-        that.userId = true
-        that.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        that.userId = that.userInfo.userId
-        //   console.log(that.userInfo);
-      } else {
-        that.userId = false
-      }
-      // 是否重新加载数据 还是累计加载
-      that.pageId = initData ? 0 : that.pageId
-      // 公用设置数据方法
-      // function setData(result){
-      //     if(result.code==1001){//查询数据
-      //         var msg = result.data;
-      //       //   console.log("留言数据",result.data);
-      //         if(msg.length>0&&msg.length<8){
-      //             that.hasMore = false
-      //         }else{
-      //             that.hasMore = true;
-      //         }
-      //         that.commentList = initData ? msg : that.commentList.concat(msg);
-      //         that.pageId = msg[msg.length-1].comment_id;
-      //     }else{//查询数据为空
-      //         that.hasMore = false;
-      //         that.commentList = initData ? [] : that.commentList
-      //     }
-      // }
-      // if(that.$route.name=='DetailShare'){//文章列表的评论
-      //     that.leaveId = 0;
-      //     ArticleComment(that.aid,that.pageId,function(result){//查询列表
-      //           setData(result);
-      //     })
-      // }else{//其他评论
-      //     if(that.$route.name == 'Reward'){//（1：赞赏 2：友情链接 3：留言板 4：关于我）
-      //         that.leaveId = 1
-      //     }else if(that.$route.name == 'FriendsLink'){
-      //         that.leaveId = 2
-      //     }else if(that.$route.name == 'Message'){
-      //         that.leaveId = 3
-      //     }else if(that.$route.name == 'Aboutme'){
-      //         that.leaveId = 4
-      //     }
-      //     OtherComment(that.leaveId,that.pageId,function(result){
-      //         setData(result);
-      //     })
-
-      // }
     },
     async getList(initData) {
       const options = {
@@ -480,10 +240,11 @@ export default {
         list,
         pagination
       } = res.data
-      this.list = this.list.concat(list)
-      this.total = pagination.total
+      this.list = initData ? list : this.list.concat(list)
+      this.total = pagination.countTotal
       this.totalPage = pagination.totalPage
       this.current = pagination.currentPage
+      this.hasMore = pagination.totalPage > pagination.currentPage
       this.listLoading = false
     },
     addMoreFun() { // 查看更多

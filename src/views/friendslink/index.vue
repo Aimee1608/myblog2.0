@@ -1,78 +1,48 @@
 <!-- 友情链接模块 -->
 <template>
-  <div class="tFriendsBox tcommonBox">
-    <div class="friendslink-title">棒棒哒</div>
-    <el-row>
-      <el-col v-for="(item,index) in friendslink"
-              :key="'f'+index"
-              :span="12"
-              class="tf-item">
-        <a :href="item.url"
-           target="_blank">
-          <img :src="item.image"
-               :onerror="errorAvatar">
-          <h4>{{ item.name }}</h4>
-          <p>{{ item.description }}</p>
-        </a>
-      </el-col>
-    </el-row>
+  <div>
+    <div class="tFriendsBox tcommonBox">
+      <div class="friendslink-title">棒棒哒</div>
+      <el-row>
+        <el-col v-for="(item,index) in friendslink"
+                :key="'f'+index"
+                :span="12"
+                class="tf-item">
+          <a :href="item.webBlog"
+             target="_blank">
+            <HeadImg :src="item.avwebBlogIconatar" />
+            <h4>{{ item.webBlogName }}</h4>
+            <p>{{ item.webBlogDesc }}</p>
+          </a>
+        </el-col>
+      </el-row>
+    </div>
+    <Message id="friendslink" />
   </div>
 </template>
 
 <script>
 
-import { mapState } from 'vuex'
+import userAPI from '@/api/user'
+import Message from '@/components/message'
 export default {
   name: 'Friendslink',
+  components: {
+    Message
+  },
   data() { // 选项 / 数据
     return {
-      friendslink: [
-        {
-          image: '',
-          url: 'http://www.baidu.com',
-          name: '友1',
-          description: '描述描述描述'
-        },
-        {
-          image: '',
-          url: 'http://www.baidu.com',
-          name: '友2',
-          description: '描述描述描述'
-        },
-        {
-          image: '',
-          url: 'http://www.baidu.com',
-          name: '友3',
-          description: '描述描述描述'
-        },
-        {
-          image: '',
-          url: 'http://www.baidu.com',
-          name: '友4',
-          description: '描述描述描述'
-        },
-        {
-          image: '',
-          url: 'http://www.baidu.com',
-          name: '友5',
-          description: '描述描述描述'
-        }
-      ]// 友情链接
+      friendslink: []// 友情链接
     }
   },
-  computed: {
-    ...mapState([
-      'errorAvatar'
-    ])
-  },
-  created() { // 生命周期函数
-
+  async created() { // 生命周期函数
+    await this.getList()
   },
   methods: { // 事件处理器
-
-  },
-  components: { // 定义组件
-
+    async getList() {
+      const res = await userAPI.getWebBlogUser()
+      this.friendslink = res.data
+    }
   }
 }
 </script>

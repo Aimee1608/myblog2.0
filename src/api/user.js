@@ -22,6 +22,12 @@ function getInfo() {
   })
 }
 
+function getWebBlogUser() {
+  return request({
+    url: `${PATH}/getWebBlogUser`,
+    method: 'get'
+  })
+}
 function edit(data) {
   return request({
     url: `${PATH}/edit`,
@@ -34,5 +40,6 @@ export default {
   login,
   logout,
   getInfo,
-  edit
+  edit,
+  getWebBlogUser
 }

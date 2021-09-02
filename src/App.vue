@@ -282,6 +282,10 @@ body {
   color: #fff;
   line-height: 100%;
 }
+
+#nprogress .bar {
+  background: @tcolorm !important; //自定义颜色
+}
 </style>
 <style lang="less">
 @media screen and (max-width: 500px) {

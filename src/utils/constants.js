@@ -96,8 +96,23 @@ const userTag = [
   '技术宅',
   '忠实粉'
 ]
+const projectList = [
+  {
+    nav_url: 'http://food.mangoya.cn/',
+    nav_name: '美食美荟'
+  },
+  {
+    nav_url: './static/img/meishi.jpg',
+    nav_name: '美食美荟小程序'
+  },
+  {
+    nav_url: 'http://aimee.mangoya.cn/',
+    nav_name: 'resume'
+  }
+]
 export {
   shareClass,
   OwOlist,
-  userTag
+  userTag,
+  projectList
 }

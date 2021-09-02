@@ -14,6 +14,7 @@ const getDefaultState = () => {
     role: 'normal',
     status: 3,
     avatar: '',
+    haslogin: false,
     userInfo: {}
   }
 }
@@ -47,6 +48,7 @@ const mutations = {
   },
   SET_USER: (state, userInfo) => {
     state.userInfo = userInfo
+    state.haslogin = true
   }
 }
 

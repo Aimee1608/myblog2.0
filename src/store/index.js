@@ -13,12 +13,6 @@ const store = new Vuex.Store({
     user,
     common
   },
-  // state() {
-  //   return {
-  //     name: 'aimee',
-  //     errorAvatar: 'this.onerror=null;this.src="' + require('./../assets/img/tou.jpg') + '"'
-  //   }
-  // },
   getters
 })
 

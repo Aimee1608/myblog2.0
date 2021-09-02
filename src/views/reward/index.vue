@@ -25,8 +25,8 @@
       <el-col :span="12"
               class="donate-item">
         <div class="donate-tip">
-          <img src="@/assets/img/aimee/reward-zfb.jpg"
-               :onerror="$store.state.errorImg">
+          <HeadImg src="@/assets/img/aimee/reward-zfb.jpg" />
+
           <span>支付宝扫一扫，向我赞赏</span>
         </div>
       </el-col>
