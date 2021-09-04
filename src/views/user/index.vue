@@ -63,22 +63,23 @@
           <li v-show="editUser.webBlogState"
               class="avatarlist">
             <span class="leftTitle">网站logo</span>
+            <div>
+              <img :src="editUser.webBlogIcon">
+            </div>
             <!-- 上传图片 -->
-            <!-- :action="this.$store.state.host+'Userinfo/UploadImg'" -->
-            <!-- action="http://www.vuebook.com/port/Userinfo/UploadImg" -->
-            <el-upload class="avatar-uploader"
-                       action="Userinfo/UploadImg"
-                       :show-file-list="false"
-                       :on-success="handleLogoSuccess"
-                       :before-upload="beforeLogoUpload">
-              <HeadImg v-if="userInfo.image"
-                       src="./../../assets/img/tou.jpg"
-                       class="avatar" />
-              <i v-else
-                 class="el-icon-plus avatar-uploader-icon" />
-              <div slot="tip"
-                   class="el-upload__tip">点击上传头像，只能上传jpg/png文件，且不超过1mb</div>
-            </el-upload>
+            <div class="avatar-uploader"
+                 @click="selectHandle">
+              <div class="el-upload">
+                <el-link type="primary">上传图片</el-link>
+                <input v-show="false"
+                       ref="picker"
+                       multiple
+                       type="file"
+                       accept="image/*"
+                       @change="beforeAvatarUpload">
+              </div>
+              <div class="el-upload__tip">点击上传头像，只能上传jpg/png文件，且不超过1mb</div>
+            </div>
           </li>
         </ul>
         <div class=" saveInfobtn">
@@ -102,6 +103,7 @@ import { mapActions, mapState } from 'vuex'
 import { userTag } from '@/utils/constants'
 import _ from 'lodash'
 import Detail from './components/detail.vue'
+import resourceAPI from '@/api/resource'
 export default {
   name: 'UserInfo',
   data() { // 选项 / 数据
@@ -136,7 +138,12 @@ export default {
         this.$message.error('上传图片失败')
       }
     },
-    beforeAvatarUpload(file) { // 判断头像大小
+    selectHandle() {
+      this.$refs.picker && this.$refs.picker.click()
+    },
+    beforeAvatarUpload(e) { // 判断头像大小
+      const targetFile = e.target.files[0]
+      const file = new File([targetFile], targetFile.name.replace(/_/g, '-'), { type: targetFile.type })
       const isJPG = file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 1
       // console.log(file);
@@ -146,7 +153,18 @@ export default {
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 1MB!')
       }
-      return isJPG && isLt2M
+      if (isJPG && isLt2M) {
+        this.uploadHandler(file)
+      }
+    },
+    async uploadHandler(file) {
+      var params = new FormData()
+      params.append('name', file.name)
+      params.append('file', file)
+      const res = await resourceAPI.uploadFile(params)
+      if (res.code === 0) {
+        this.editUser.webBlogIcon = res.data.url
+      }
     },
     handleLogoSuccess(res) { // 上传网站logo
       if (res.code == 1001) { // 存储
@@ -156,19 +174,6 @@ export default {
         this.$message.error('上传图片失败')
       }
     },
-    beforeLogoUpload(file) { // 控制网站logo图片大小
-      const isJPG = file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 1
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG/JPEG/PNG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 1MB!')
-      }
-      return isJPG && isLt2M
-    },
-
     async saveInfoFun() {
       if (this.editUser.webBlogState) {
         var pattern = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
@@ -200,26 +205,26 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 .userInfoBox .avatarlist {
   position: relative;
 }
 
 .avatar-uploader {
-  display: inline-block;
-  vertical-align: top;
+  // display: inline-block;
+  // vertical-align: top;
 }
 .avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 50%;
+  // border: 1px dashed #d9d9d9;
+  // border-radius: 50%;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  width: 120px;
-  height: 120px;
+  // width: 120px;
+  // height: 120px;
 }
 .avatar-uploader .el-upload:hover {
-  border-color: #20a0ff;
+  // border-color: #20a0ff;
 }
 .avatar-uploader-icon {
   font-size: 28px;
@@ -291,5 +296,47 @@ export default {
 }
 .userInfoBox .fa-asterisk {
   color: #df2050;
+}
+.avatar-uploader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+.upload-box {
+  width: 100%;
+}
+.upload-table-image {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 </style>
