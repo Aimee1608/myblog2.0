@@ -44,7 +44,7 @@
             <template slot="title">
               <i class="fa fa-wa fa-user-circle-o" /> 我的
             </template>
-            <el-menu-item index="/userInfo">个人中心</el-menu-item>
+            <el-menu-item index="/user">个人中心</el-menu-item>
             <el-menu-item index="/likeCollect?like=1">喜欢的文章</el-menu-item>
             <el-menu-item index="/likeCollect?collect=1">收藏的文章</el-menu-item>
             <el-menu-item index

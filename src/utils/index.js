@@ -25,7 +25,6 @@ export const initDate = (oldDate, full) => {
 export function filterName(list, value) {
   // console.log('state', state)
   const item = list.find(item => item._id === value) || {}
-  console.log('item', item.name)
   return item.name
 }
 

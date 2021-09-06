@@ -10,7 +10,7 @@
                 class="tf-item">
           <a :href="item.webBlog"
              target="_blank">
-            <HeadImg :src="item.avwebBlogIconatar" />
+            <HeadImg :src="item.webBlogIcon" />
             <h4>{{ item.webBlogName }}</h4>
             <p>{{ item.webBlogDesc }}</p>
           </a>

@@ -8,13 +8,13 @@
           :class="item._id === classId ? 'class-selected': ''"><a href="javascript:void(0);"
            @click="goClassList(item._id)">{{ item.name }}</a><span>（{{ item.count }}）</span></li>
     </ul>
-    <div v-if="children.length>0"
+    <div v-if="tags.length>0"
          class="archive-class-children">
-      <div v-for="item in children"
+      <div v-for="item in tags"
            :key="item._id"
-           :class="['archive-class-children-item',item._id === child && 'archive-class-children-item-selected']">
+           :class="['archive-class-children-item', item._id === tagsId && 'archive-class-children-item-selected']">
         <a href="javascript:void(0);"
-           @click="goClassListChildren(item._id)">{{ item.name }}</a><span>（{{ item.count }}）</span>
+           @click="goClassListChildren(item._id)">{{ item.name }}</a>
       </div>
     </div>
     <div v-for="item in articleList"
@@ -49,37 +49,28 @@ export default {
       articleList: [
       ],
       classId: null,
-      child: null,
-      children: []
+      tagsId: null,
+      tags: []
     }
   },
   async created() {
     this.classId = this.$route.query.classId || null
-    this.child = this.$route.query.child || null
-    if (this.child) {
-      await this.getAllList(this.child)
-    } else {
-      await this.getAllList(this.classId)
-    }
-    this.children = this.getClassChildren(this.classId)
+    this.tagsId = this.$route.query.tagsId || null
+    await this.getAllList(this.classId, this.tagsId)
   },
   methods: {
     ...mapActions('common', ['goDetail']),
     getTimeLine,
-    async getAllList(classId) {
-      const res = await articleAPI.getListByClass({ classId })
+    async getAllList(classId, tagsId) {
+      const res = await articleAPI.getListByClass({ classId, tagsId })
       this.classList = res.data.classList
       this.articleList = res.data.articleList
+      this.tags = res.data.tags
       console.log('res--', res)
-    },
-    getClassChildren(id) {
-      const item = this.classList.find((item) => item._id === id) || {}
-      return item.children || []
     },
     async goClassList(id) {
       this.classId = id
-      this.children = this.getClassChildren(id)
-      await this.getAllList(id)
+      await this.getAllList(id, null)
       this.$router.push({
         name: 'Archive',
         query: {
@@ -88,13 +79,13 @@ export default {
       })
     },
     async goClassListChildren(id) {
-      this.child = id
-      await this.getAllList(id)
+      this.tagsId = id
+      await this.getAllList(this.classId, id)
       this.$router.push({
         name: 'Archive',
         query: {
           classId: this.classId,
-          child: id
+          tagsId: id
         }
       })
     }

@@ -9,8 +9,8 @@
     </span>
     <header class="article-head">
       <h1 class="article-head-title">
-        <a :href="'#/DetailShare?aid='+item._id"
-           target="_blank">
+        <a href="javascript:void();"
+           @click="goDetail(item._id)">
           {{ item.title }}
         </a>
       </h1>
@@ -26,14 +26,15 @@
       </h2>
       <div v-if="activeCateList.length>0"
            class="ui label">
-        <a :href="'#/Share?classId='+item.classId">{{ filterName(activeCateList, item.classId) }}</a>
+        <a href="javascript:void(0);"
+           @click="goArchive(item.classId)">{{ filterName(activeCateList, item.classId) }}</a>
       </div>
     </header>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { initDate, filterName } from '@/utils/index.js'
 export default {
   name: 'ArticleHead',
@@ -56,7 +57,16 @@ export default {
   },
   methods: { // 事件处理器
     filterName,
-    showInitDate: initDate
+    showInitDate: initDate,
+    ...mapActions('common', ['goDetail']),
+    goArchive(classId) {
+      this.$router.push({
+        name: 'Archive',
+        query: {
+          classId
+        }
+      })
+    }
   }
 }
 </script>

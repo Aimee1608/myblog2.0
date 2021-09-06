@@ -221,6 +221,7 @@ export default {
         // 到达顶部，清除定时器
         if (osTop === 0) {
           this.going = false
+          this.top = '-950px'
           clearInterval(timer)
           timer = null
         }
