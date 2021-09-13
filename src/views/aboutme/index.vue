@@ -7,7 +7,7 @@
       </div>
       <section class="aboutme-content">
         <p class="">
-          <img src="./../../assets/img/maoto.png"
+          <img src="@/assets/img/maoto.png"
                alt=""
                class="aboutmeImg">
         </p>

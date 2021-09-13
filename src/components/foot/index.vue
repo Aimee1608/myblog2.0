@@ -4,7 +4,7 @@
     <div class="fcontainer">
       <p>
         博客已萌萌哒运行
-        <span v-html="longTime">{{ longTime }}</span>
+        <span v-html="longTime" />
         <span class="timeJump">(●'◡'●)ﾉ♥</span>
       </p>
       <p>
@@ -29,7 +29,7 @@
       <p>
         <span>Made with</span>
         <img class="fheart"
-             src="@/assets/img/heart02.png">
+             src="./../../assets/img/heart02.png">
         <span>by Aimee.</span>
       </p>
     </div>
@@ -99,7 +99,7 @@ export default {
   width: 100%;
   bottom: -74px;
   pointer-events: none;
-  background: url(../../assets/img/footer01.png) no-repeat 50%;
+  background: url('./../../assets/img/footer01.png') no-repeat 50%;
 }
 
 .footBack p {

@@ -30,8 +30,10 @@
     "@vue/cli-plugin-eslint": "^4.2.3",
     "@vue/cli-service": "~4.2.0",
     "babel-eslint": "^10.1.0",
+    "compression-webpack-plugin": "^8.0.1",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.2.2",
+    "image-webpack-loader": "^7.0.1",
     "less": "^3.12.2",
     "less-loader": "^6.2.0",
     "vue-template-compiler": "^2.6.11"
