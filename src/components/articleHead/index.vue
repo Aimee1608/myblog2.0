@@ -2,10 +2,8 @@
   <!-- 添加文章 -->
   <div>
     <span class="s-round-date">
-      <span class="month"
-            v-html="showInitDate(item.createDate,'month')+'月'" />
-      <span class="day"
-            v-html="showInitDate(item.createDate,'date')" />
+      <span class="month">{{ showInitDate(item.createDate,'month')+'月' }}</span>
+      <span class="day">{{ showInitDate(item.createDate,'date') }}</span>
     </span>
     <header class="article-head">
       <h1 class="article-head-title">

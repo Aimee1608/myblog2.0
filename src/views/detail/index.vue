@@ -52,7 +52,7 @@ import likeAPI from '@/api/like'
 import { initDate } from '@/utils'
 import articleHead from '@/components/articleHead'
 import Message from '@/components/message'
-import Content from './components/content'
+import Content from '@/components/content'
 import _ from 'lodash'
 
 export default {
@@ -166,64 +166,64 @@ export default {
 </script>
 
 <style lang="less">
-.detailBox .article-content {
-  font-size: 15px;
-  white-space: normal;
-  word-wrap: break-word;
-  word-break: break-all;
-  overflow-x: hidden;
-}
-.detailBox .article-content p {
-  margin: 10px 0;
-  line-height: 24px;
-  word-wrap: break-word;
-  word-break: break-all;
-  overflow-x: hidden;
-}
-.detailBox .article-content pre {
-  word-wrap: break-word;
-  word-break: break-all;
-  overflow-x: hidden;
-}
-.detailBox .article-content img {
-  max-width: 100% !important;
-  height: auto !important;
-  overflow-x: hidden;
-}
-.detailBox .article-content a {
-  color: #df2050 !important;
-}
-.detailBox .article-content a:hover {
-  text-decoration: underline;
-  color: #f00 !important;
-}
-.detailBox .article-content i {
-  font-style: italic;
-}
-.detailBox .article-content strong {
-  font-weight: bold;
-}
-.detailBox .article-content ul {
-  list-style-type: disc !important;
-  list-style: disc !important;
-  padding-left: 40px !important;
-  li {
-    list-style-type: disc !important;
-    list-style: disc !important;
-  }
-}
-.detailBox .article-content h1,
-.detailBox .article-content h2,
-.detailBox .article-content h3 {
-  font-size: 200%;
-  font-weight: bold;
-}
-.detailBox .article-content h4,
-.detailBox .article-content h5,
-.detailBox .article-content h6 {
-  font-size: 150%;
-  font-weight: bold;
-}
+// .detailBox .article-content {
+//   font-size: 15px;
+//   white-space: normal;
+//   word-wrap: break-word;
+//   word-break: break-all;
+//   overflow-x: hidden;
+// }
+// .detailBox .article-content p {
+//   margin: 10px 0;
+//   line-height: 24px;
+//   word-wrap: break-word;
+//   word-break: break-all;
+//   overflow-x: hidden;
+// }
+// .detailBox .article-content pre {
+//   word-wrap: break-word;
+//   word-break: break-all;
+//   overflow-x: hidden;
+// }
+// .detailBox .article-content img {
+//   max-width: 100% !important;
+//   height: auto !important;
+//   overflow-x: hidden;
+// }
+// .detailBox .article-content a {
+//   color: #df2050 !important;
+// }
+// .detailBox .article-content a:hover {
+//   text-decoration: underline;
+//   color: #f00 !important;
+// }
+// .detailBox .article-content i {
+//   font-style: italic;
+// }
+// .detailBox .article-content strong {
+//   font-weight: bold;
+// }
+// .detailBox .article-content ul {
+//   list-style-type: disc !important;
+//   list-style: disc !important;
+//   padding-left: 40px !important;
+//   li {
+//     list-style-type: disc !important;
+//     list-style: disc !important;
+//   }
+// }
+// .detailBox .article-content h1,
+// .detailBox .article-content h2,
+// .detailBox .article-content h3 {
+//   font-size: 200%;
+//   font-weight: bold;
+// }
+// .detailBox .article-content h4,
+// .detailBox .article-content h5,
+// .detailBox .article-content h6 {
+//   font-size: 150%;
+//   font-weight: bold;
+// }
 .detailBox .viewdetail {
   margin: 10px 0;
   line-height: 24px;

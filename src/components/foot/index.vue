@@ -4,7 +4,7 @@
     <div class="fcontainer">
       <p>
         博客已萌萌哒运行
-        <span v-html="longTime" />
+        <span>{{ longTime }}</span>
         <span class="timeJump">(●'◡'●)ﾉ♥</span>
       </p>
       <p>

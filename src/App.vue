@@ -130,17 +130,17 @@ body {
   font-size: 15px;
 }
 
-.s-item .article-content {
-  font-size: 15px;
-  white-space: normal;
-  word-wrap: break-word;
-  word-break: break-all;
-}
-/* //标题和按钮 */
-.s-item .article-content p {
-  margin: 10px 0;
-  line-height: 24px;
-}
+// .s-item .article-content {
+//   font-size: 15px;
+//   white-space: normal;
+//   word-wrap: break-word;
+//   word-break: break-all;
+// }
+// /* //标题和按钮 */
+// .s-item .article-content p {
+//   margin: 10px 0;
+//   line-height: 24px;
+// }
 .s-item .viewdetail {
   margin: 10px 0;
   line-height: 24px;

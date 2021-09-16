@@ -31,6 +31,9 @@
       <el-menu-item index="/friendslink">
         <i class="fa fa-wa fa-users" /> 伙伴
       </el-menu-item>
+      <el-menu-item index="/message">
+        <i class="fa fa-wa fa-pencil" /> 留言板
+      </el-menu-item>
       <el-menu-item index="/aboutme">
         <i class="fa fa-wa fa-vcard" /> 关于
       </el-menu-item>

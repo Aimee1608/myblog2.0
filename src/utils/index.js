@@ -1,5 +1,6 @@
 // 初始化时间
 import Moment from 'moment'
+import { OwOlist } from '@/utils/constants'
 export const initDate = (oldDate, full) => {
   var odate = new Date(oldDate)
   var year = odate.getFullYear()
@@ -35,9 +36,9 @@ export function analyzeEmoji(cont) { // 编译表情替换成图片展示出来
   var str = cont
   if (content) {
     for (var i = 0; i < content.length; i++) {
-      for (var j = 0; j < this.OwOlist.length; j++) {
-        if ('[' + this.OwOlist[j].title + ']' === content[i]) {
-          var src = this.OwOlist[j].url
+      for (var j = 0; j < OwOlist.length; j++) {
+        if ('[' + OwOlist[j].title + ']' === content[i]) {
+          var src = OwOlist[j].url
           break
         }
       }

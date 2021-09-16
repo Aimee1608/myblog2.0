@@ -37,8 +37,10 @@
         <el-row class="tmsg-r-info">
           <el-col :span="24"
                   class="info-submit">
-            <p class="tcolors-bg"
-               @click="sendMsg">{{ sendTip }}</p>
+            <!-- <p class="tcolors-bg"
+               @click="sendMsg"></p> -->
+            <AButton size="large"
+                     @click="sendMsg">{{ sendTip }}</AButton>
           </el-col>
         </el-row>
       </form>
@@ -67,7 +69,7 @@
                 </div>
               </header>
               <section>
-                <p v-html="analyzeEmoji(item.content)">{{ analyzeEmoji(item.content) }}</p>
+                <p v-html="analyzeEmoji(item.content)" />
                 <div v-if="haslogin"
                      class="tmsg-replay"
                      @click="respondMsg({leaveIndex: index, pIndex: -1, pid: item._id})">
@@ -109,11 +111,16 @@
           </li>
 
         </ul>
-        <h1 v-show="hasMore"
+        <!-- <h1 v-show="hasMore"
             class="tcolors-bg"
-            @click="addMoreFun">查看更多</h1>
-        <h1 v-show="!hasMore"
-            class="tcolors-bg">没有更多</h1>
+            @click="addMoreFun">查看更多</h1> -->
+        <AButton v-show="hasMore"
+                 size="large"
+                 @click="sendMsg">查看更多</AButton>
+        <!-- <h1 v-show="!hasMore"
+            class="tcolors-bg">没有更多</h1> -->
+        <AButton v-show="!hasMore"
+                 size="large">没有更多</AButton>
       </div>
     </div>
   </div>
@@ -126,10 +133,12 @@ import { OwOlist } from '@/utils/constants'
 import { analyzeEmoji } from '@/utils'
 import { mapActions, mapState } from 'vuex'
 import { initDate, filterName } from '@/utils/index.js'
+import AButton from '@/components/abutton'
+import xss from 'xss'
 export default {
   name: 'Message',
   components: { // 定义组件
-
+    AButton
   },
   props: ['id'],
   computed: {
@@ -178,11 +187,18 @@ export default {
       this.textarea += '[' + inner + ']'
     },
     // 编译表情替换成图片展示出来
-    analyzeEmoji,
+    // analyzeEmoji(value) {
+    //   const data = analyzeEmoji(value)
+    //   console.log(value, data)
+    //   return data
+    // },
+    analyzeEmoji(value) {
+      return xss(analyzeEmoji(value))
+    },
     // 发送留言
     async sendMsg() {
-      if (this.textarea) {
-        const res = await commentAPI.add({ content: this.textarea, articleId: this.id, parentId: this.isRespond ? this.pid : null })
+      if (this.textarea && this.textarea.trim()) {
+        const res = await commentAPI.add({ content: xss(this.textarea.trim()), articleId: this.id, parentId: this.isRespond ? this.pid : null })
         if (res.code === 0) {
           // this.routeChange()
           this.textarea = ''
@@ -259,7 +275,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 .tmsgBox {
   position: relative;
   background: #fff;
@@ -856,14 +872,21 @@ export default {
 }
 .tmsg-c-item article section {
   margin-left: 80px;
+  word-wrap: break-word;
+  word-break: normal;
 }
-.tmsg-c-item article section p img {
-  vertical-align: middle;
-}
+// .tmsg-c-item article section p img {
+//   vertical-align: middle;
+// }
 .tmsg-c-item article section .tmsg-replay {
   margin: 10px 0;
   font-size: 12px;
   color: #64609e;
   cursor: pointer;
+}
+</style>
+<style>
+.tmsg-c-item article section p img {
+  vertical-align: middle;
 }
 </style>

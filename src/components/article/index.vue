@@ -6,23 +6,26 @@
             :span="24"
             class="s-item tcommonBox">
       <articleHead :item="item" />
-      <div class="article-content"
+      <div class="article-content-list"
            @click="goDetail(item._id)">
-        <div class="article-description">
+        <Content :content="item.content" />
+        <!-- <div class="article-description" >
           {{ item.description }}
-        </div>
-        <div class="article-img">
+        </div> -->
+        <!-- <div class="article-img">
           <img :src="item.image"
                alt=""
                class="maxW">
-        </div>
+        </div> -->
       </div>
       <div class="viewdetail">
-        <a class="tcolors-bg"
+        <!-- <a class="tcolors-bg"
            @click="goDetail(item._id)">
           阅读全文
           <i class="el-icon-d-arrow-right" />
-        </a>
+        </a> -->
+        <AButton icon="el-icon-d-arrow-right"
+                 @click="goDetail(item._id)">阅读全文</AButton>
       </div>
     </el-col>
     <el-col class="tcommonBox">
@@ -42,10 +45,14 @@
 import { mapActions } from 'vuex'
 import articleAPI from '@/api/article'
 import articleHead from '@/components/articleHead'
+import Content from '@/components/content'
+import AButton from '@/components/abutton'
 export default {
   name: 'Article',
   components: { // 定义组件
-    articleHead
+    articleHead,
+    Content,
+    AButton
   },
   props: ['type'],
   data() { // 选项 / 数据
@@ -142,6 +149,10 @@ export default {
     line-height: 24px;
     margin: 10px 0;
   }
+}
+.article-content-list {
+  overflow: hidden;
+  max-height: 300px;
 }
 </style>
 

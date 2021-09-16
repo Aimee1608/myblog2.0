@@ -117,7 +117,7 @@ export default {
       setTimeout(() => {
         loading.close()
         this.$message.error('跳转超时，可尝试开启vpn')
-      }, 30000)
+      }, 50000)
     },
     async userlogout() {
       this.$confirm('是否确认退出?', '退出提示', {

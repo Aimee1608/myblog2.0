@@ -8,6 +8,7 @@ import aboutme from '@/views/aboutme/index'
 import reward from '@/views/reward/index'
 import user from '@/views/user/index'
 import likeCollect from '@/views/likeCollect'
+import message from '@/views/message'
 
 Vue.use(Router)
 let savedPosition = false
@@ -66,6 +67,14 @@ export default new Router({
       component: reward,
       meta: {
         title: '赞赏'
+      }
+    },
+    {
+      path: '/message',
+      name: 'Message',
+      component: message,
+      meta: {
+        title: '留言板'
       }
     },
     {
