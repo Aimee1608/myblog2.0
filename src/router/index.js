@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import detail from '@/views/detail/index'
-import home from '@/views/home/index'
-import friendslink from '@/views/friendslink/index'
-import archive from '@/views/archive/index'
-import aboutme from '@/views/aboutme/index'
-import reward from '@/views/reward/index'
-import user from '@/views/user/index'
-import likeCollect from '@/views/likeCollect'
-import message from '@/views/message'
+// import detail from '@/views/detail/index'
+// import home from '@/views/home/index'
+// import friendslink from '@/views/friendslink/index'
+// import archive from '@/views/archive/index'
+// import aboutme from '@/views/aboutme/index'
+// import reward from '@/views/reward/index'
+// import user from '@/views/user/index'
+// import likeCollect from '@/views/likeCollect'
+// import message from '@/views/message'
 
 Vue.use(Router)
 let savedPosition = false
@@ -31,7 +31,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: home,
+      component: () => import('@/views/home/index'),
       meta: {
         title: '首页'
       }
@@ -39,7 +39,7 @@ export default new Router({
     {
       path: '/detail/:id',
       name: 'Detail',
-      component: detail,
+      component: () => import('@/views/detail/index'),
       meta: {
         title: '详情页'
       }
@@ -48,7 +48,7 @@ export default new Router({
     {
       path: '/archive',
       name: 'Archive',
-      component: archive,
+      component: () => import('@/views/archive/index'),
       meta: {
         title: '归档'
       }
@@ -56,7 +56,7 @@ export default new Router({
     {
       path: '/friendslink',
       name: 'Friendslink',
-      component: friendslink,
+      component: () => import('@/views/friendslink/index'),
       meta: {
         title: '友链'
       }
@@ -64,7 +64,7 @@ export default new Router({
     {
       path: '/reward',
       name: 'Reward',
-      component: reward,
+      component: () => import('@/views/reward/index'),
       meta: {
         title: '赞赏'
       }
@@ -72,7 +72,7 @@ export default new Router({
     {
       path: '/message',
       name: 'Message',
-      component: message,
+      component: () => import('@/views/message/index'),
       meta: {
         title: '留言板'
       }
@@ -80,7 +80,7 @@ export default new Router({
     {
       path: '/aboutme',
       name: 'Aboutme',
-      component: aboutme,
+      component: () => import('@/views/aboutme/index'),
       meta: {
         title: '关于'
       }
@@ -88,7 +88,7 @@ export default new Router({
     {
       path: '/user',
       name: 'User',
-      component: user,
+      component: () => import('@/views/user/index'),
       meta: {
         title: '个人中心'
       }
@@ -96,7 +96,7 @@ export default new Router({
     {
       path: '/likeCollect',
       name: 'LikeCollect',
-      component: likeCollect,
+      component: () => import('@/views/likeCollect/index'),
       meta: {
         title: '喜欢/收藏'
       }

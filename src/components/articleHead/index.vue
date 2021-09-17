@@ -6,13 +6,13 @@
       <span class="day">{{ showInitDate(item.createDate,'date') }}</span>
     </span>
     <header class="article-head">
-      <h1 class="article-head-title">
+      <div class="article-head-title">
         <a href="javascript:void();"
            @click="goDetail(item._id)">
           {{ item.title }}
         </a>
-      </h1>
-      <h2 class="article-head-count">
+      </div>
+      <div class="article-head-count">
         <i class="fa fa-fw fa-user" />发表于
         <i class="fa fa-fw fa-clock-o" /><span>{{ showInitDate(item.createDate) }}</span> •
         <i class="fa fa-fw fa-eye" />{{ item.browseCount }} 次围观 •
@@ -21,7 +21,7 @@
           <i class="fa fa-fw fa-heart" />{{ item.likeCount?item.likeCount:0 }}点赞 •
           <i class="fa fa-fw fa-star" />{{ item.collectCount?item.collectCount:0 }}收藏
         </span>
-      </h2>
+      </div>
       <div v-if="activeCateList.length>0"
            class="ui label">
         <a href="javascript:void(0);"

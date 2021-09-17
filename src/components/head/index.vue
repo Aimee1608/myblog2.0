@@ -34,11 +34,11 @@
           <img src="@/assets/img/tou.png"
                alt="">
         </span>
-        <h2 class="h-description">
+        <div class="h-description">
           <span @click="goHandle({name: 'Aboutme'})">
             Write the Code. Change the World.
           </span>
-        </h2>
+        </div>
       </div>
     </div>
   </div>
@@ -74,6 +74,8 @@ export default {
     ])
   },
   async created() {
+    this.activeIndex = '/' + (window.location.hash.split('/').length > 1 ? window.location.hash.split('/')[1] : '')
+    // console.log('path', this.activeIndex)
     this.changeTitle()
     this.setLogId()
     await this.getActiveCate()
@@ -184,7 +186,7 @@ export default {
   width: 70%;
   margin: auto;
   position: relative;
-  top: 480px;
+  top: 498px;
   padding: 40px 0;
   font-size: 16px;
   opacity: 0.98;
@@ -193,6 +195,24 @@ export default {
   z-index: 1;
   animation: b 1s ease-out;
   -webkit-animation: b 1s ease-out;
+}
+.h-description {
+  margin: 20px 0 0;
+  span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #97dffd;
+    text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff,
+      0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+  }
 }
 
 @-webkit-keyframes b {

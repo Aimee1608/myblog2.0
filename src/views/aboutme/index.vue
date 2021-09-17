@@ -15,13 +15,13 @@
           欢迎来到Mango Ya！我是Aimee，是一个可爱的girl，前端程序媛，喜欢各种有趣的事物，爱好各种动手的小玩意儿
         </p>
         <p class="aboutme-description">
-          90后小美女😍，前端小萌新，
+          90后小姐姐😍，前端小萌新，
         </p>
         <p class="aboutme-description">
           爱美食，爱动手做美食，想长胖的尽管来。
         </p>
         <p class="aboutme-description">
-          博客2018年1月23日更新到Vue
+          博客2021年9月16日更新2.0
         </p>
       </section>
     </div>

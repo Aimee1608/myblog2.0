@@ -20,9 +20,7 @@
       </p>
       <p>
         © 2021
-        <a href="#">Mango Ya</a>. 由
-        <a href="https://cn.vuejs.org/"
-           target="_blank">Vue</a> 强力驱动. Theme By
+        <a href="#">Mango Ya</a>. Theme By
         <a href="https://diygod.me/"
            target="_blank">diygod.me</a>. 京ICP备17071595号-1.
       </p>
@@ -76,7 +74,7 @@ export default {
   text-align: center;
   width: 100%;
   min-height: 50px;
-  margin-top: -25px;
+  margin-top: -100px;
   position: relative;
   // position: absolute;
   /*min-height: 368px;*/

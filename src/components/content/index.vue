@@ -1,6 +1,6 @@
 <template>
   <div class="article-content markdown-body"
-       v-html="xss(contentInner)" />
+       v-html="contentInner" />
 </template>
 
 <script>
@@ -8,6 +8,7 @@ import Marked from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import xss from 'xss'
+import clipboard from '@/utils/clipboard'
 Marked.setOptions({
   renderer: new Marked.Renderer(),
   highlight(code) {
@@ -40,6 +41,9 @@ export default {
     }
   },
   created() { },
+  mounted() {
+    clipboard()
+  },
   methods: {
     xss
   }
@@ -48,4 +52,7 @@ export default {
 
 <style lang="less">
 @import '@/assets/css/markdown.less';
+.markdown-body {
+  padding: 0 10px;
+}
 </style>

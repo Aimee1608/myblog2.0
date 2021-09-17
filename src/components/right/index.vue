@@ -206,7 +206,7 @@ export default {
             clearTimeout(timer)
           }, 3000)
         } else if (res.data.status === -1) {
-          this.$message({ message: '已定点赞过哦', duration: 3000 })
+          this.$message({ message: '已点赞过哦', duration: 3000 })
         }
       }
     },

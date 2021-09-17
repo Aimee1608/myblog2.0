@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <Head v-if="hidden" />
+    <Head />
     <div class="container">
       <el-row :gutter="30">
         <el-col :sm="24"
@@ -16,6 +16,11 @@
       </el-row>
     </div>
     <Foot />
+
+    <canvas id="evanyou"
+            ref="evanyou"
+            class="evanyou" />
+
   </div>
 </template>
 
@@ -23,6 +28,8 @@
 import Head from './components/head/index'
 import Foot from './components/foot/index'
 import Right from './components/right/index'
+import CursorSpecialEffects from '@/utils/cursor-effect'
+import evanyouFun from '@/utils/evanyou'
 export default {
   name: 'App',
   components: {
@@ -32,23 +39,24 @@ export default {
   },
   data() {
     return {
-      hidden: false
+      // hidden: false
     }
   },
   computed: {
 
   },
   created() {
-    if (this.$router.name === 'Login') {
-      this.hidden = false
-    } else {
-      this.hidden = true
-    }
+  },
+  mounted() {
+    const cursorSpecialEffects = new CursorSpecialEffects()
+    cursorSpecialEffects.init()
+    evanyouFun(this.$refs.evanyou)
   }
 }
 </script>
-<style src="@/assets/css/reset.css"></style>
+
 <style lang="less">
+@import url('@/assets/css/reset.less');
 // 原博客主提色
 @tcolors: #97dffd; //按钮和标签颜色
 @tcolorm: #64609e; //分类的选中的颜色
@@ -78,6 +86,7 @@ body {
   overflow-x: hidden;
   -webkit-overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+  cursor: url('./assets/img/cursor.png'), auto;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -94,6 +103,16 @@ body {
   padding: 0 10px;
   /* overflow-x: hidden; */
   /* -webkit-overflow-x: hidden; */
+}
+
+.evanyou {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: #efefef;
 }
 /* //时间和标题 */
 .s-round-date {

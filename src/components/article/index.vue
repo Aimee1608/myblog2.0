@@ -1,6 +1,7 @@
 <!-- 文章列表 -->
 <template>
-  <el-row class="sharelistBox">
+  <el-row v-loading="listLoading"
+          class="sharelistBox">
     <el-col v-for="(item,index) in list"
             :key="'article'+index"
             :span="24"
@@ -28,7 +29,8 @@
                  @click="goDetail(item._id)">阅读全文</AButton>
       </div>
     </el-col>
-    <el-col class="tcommonBox">
+    <el-col v-if="!listLoading"
+            class="tcommonBox">
       <el-pagination class="pagination-list"
                      background
                      :page-size="pageSize"
@@ -47,6 +49,7 @@ import articleAPI from '@/api/article'
 import articleHead from '@/components/articleHead'
 import Content from '@/components/content'
 import AButton from '@/components/abutton'
+
 export default {
   name: 'Article',
   components: { // 定义组件
@@ -63,7 +66,8 @@ export default {
       pageSize: 10,
       current: 1,
       total: 0,
-      totalPage: 0
+      totalPage: 0,
+      listLoading: true
     }
   },
   watch: {
@@ -121,6 +125,7 @@ export default {
 .sharelistBox {
   transition: all 0.5s ease-out;
   font-size: 15px;
+  min-height: 500px;
 }
 .pagination-list {
   text-align: center;
@@ -151,8 +156,8 @@ export default {
   }
 }
 .article-content-list {
-  overflow: hidden;
-  max-height: 300px;
+  // overflow: hidden;
+  // max-height: 300px;
 }
 </style>
 

@@ -1,7 +1,11 @@
 <!-- 文章详情模块 -->
 <template>
   <div class="detailBox tcommonBox">
-    <articleHead :item="detailObj" />
+    <div v-if="!content"
+         v-loading="!content"
+         class="detail-loading" />
+    <articleHead v-show="content"
+                 :item="detailObj" />
     <Content :content="content" />
     <div class="dshareBox bdsharebuttonbox"
          data-tag="share_1">
@@ -43,7 +47,6 @@
 </template>
 
 <script>
-// import {getArticleInfo,getArtLikeCollect,initDate} from '../utils/server.js'
 import { mapActions, mapState } from 'vuex'
 
 import articleAPI from '@/api/article'
@@ -308,5 +311,8 @@ export default {
 
 .bd_weixin_popup {
   position: fixed !important;
+}
+.detail-loading {
+  height: 500px;
 }
 </style>

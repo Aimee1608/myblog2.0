@@ -9,6 +9,11 @@ const configs = {
 }
 const config = configs[env]
 const GITHUB_OAUTH = config.GITHUB_OAUTH
+const SITE = {
+  author: 'aimee',
+  title: 'mango ya'
+}
 export {
-  GITHUB_OAUTH
+  GITHUB_OAUTH,
+  SITE
 }
