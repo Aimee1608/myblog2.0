@@ -103,7 +103,7 @@ export default {
     },
     searchChangeFun(value) {
       this.searchkey = value
-      console.log('999988', this.searchkey)
+      // console.log('999988', this.searchkey)
       if (!this.searchkey) {
         this.$router.push({ name: 'Home' })
       }

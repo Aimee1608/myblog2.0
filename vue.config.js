@@ -96,7 +96,7 @@ module.exports = {
         }
       }
     },
-    host: 'mangoya.cn',
+    host: 'aimeeblog.mangoya.cn',
     port: port,
     open: true,
     overlay: {

@@ -6,7 +6,7 @@
 <script>
 import Marked from 'marked'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/monokai-sublime.css'
+import 'highlight.js/styles/github.css'
 import xss from 'xss'
 import clipboard from '@/utils/clipboard'
 Marked.setOptions({

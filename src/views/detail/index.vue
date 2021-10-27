@@ -144,7 +144,7 @@ export default {
     },
     async getInfo(id) {
       const res = await articleAPI.getInfo({ id })
-      console.log('articleAPI.info---res', res)
+      // console.log('articleAPI.info---res', res)
 
       this.detailObj = _.cloneDeep(res.data)
       this.content = this.detailObj.content

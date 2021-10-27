@@ -90,7 +90,7 @@ export default {
         currentPage: this.current
       }
       const res = await articleAPI.getList(options)
-      console.log('list---data', res.data, options)
+      // console.log('list---data', res.data, options)
       const {
         list,
         pagination
@@ -113,7 +113,7 @@ export default {
       this.keywords = keywords
       this.like = this.type === 'like' ? 1 : 0
       this.collect = this.type === 'collect' ? 1 : 0
-      console.log('this.like', this.like, this.collect, this.type)
+      // console.log('this.like', this.like, this.collect, this.type)
       await this.getList()
     }
   }

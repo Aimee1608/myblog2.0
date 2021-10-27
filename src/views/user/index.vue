@@ -179,7 +179,7 @@ export default {
         var pattern = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
         // const pattern = new RegExp('(https?|ftp|file)://[-w+&@#/%=~|?!:,.;]+[-w+&@#/%=~|]')
         // console.log(pattern.test(that.userInfo.url));
-        console.log('this.editUser.webBlog', this.editUser)
+        // console.log('this.editUser.webBlog', this.editUser)
         if (!this.editUser.webBlog || !pattern.test(this.editUser.webBlog)) { // 如果展示友链 网址为必填项
           this.$message.error('请正确填写网址，如http://www.xxx.com')
           return

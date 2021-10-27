@@ -66,7 +66,7 @@ export default {
       this.classList = res.data.classList
       this.articleList = res.data.articleList
       this.tags = res.data.tags
-      console.log('res--', res)
+      // console.log('res--', res)
     },
     async goClassList(id) {
       this.classId = id

@@ -28,7 +28,7 @@ const mutations = {
     if (!logId) {
       const newLogId = md5(window.navigator.userAgent + parseInt(Math.random() * 1000, 10) +
         new Date().getTime())
-      Cookies.set('aimee_blog_log_id', newLogId, { expires: 1 / 12 })
+      Cookies.set('aimee_blog_log_id', newLogId, { expires: 1 / 12, domain: '.mangoya.cn' })
     }
   }
 }

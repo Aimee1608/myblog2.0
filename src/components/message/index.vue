@@ -251,7 +251,7 @@ export default {
       }
 
       const res = await commentAPI.getList(options)
-      console.log('list---data', res.data)
+      // console.log('list---data', res.data)
       const {
         list,
         pagination
