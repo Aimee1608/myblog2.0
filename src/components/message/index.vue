@@ -116,7 +116,7 @@
             @click="addMoreFun">查看更多</h1> -->
         <AButton v-show="hasMore"
                  size="large"
-                 @click="sendMsg">查看更多</AButton>
+                 @click="addMoreFun">查看更多</AButton>
         <!-- <h1 v-show="!hasMore"
             class="tcolors-bg">没有更多</h1> -->
         <AButton v-show="!hasMore"
@@ -132,7 +132,7 @@ import commentAPI from '@/api/comment'
 import { OwOlist } from '@/utils/constants'
 import { analyzeEmoji } from '@/utils'
 import { mapActions, mapState } from 'vuex'
-import { initDate, filterName } from '@/utils/index.js'
+import { initDate } from '@/utils/index.js'
 import AButton from '@/components/abutton'
 import xss from 'xss'
 export default {
@@ -169,12 +169,10 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    // '$route':'routeChange'
+    '$route': 'routeChange'
   },
   created() { // 生命周期函数
-    // console.log(this.$route);
-    // var that = this;
-    // that.routeChange();
+
   },
   async mounted() { // 页面加载完成后
     await this.routeChange()
@@ -193,7 +191,7 @@ export default {
     //   return data
     // },
     analyzeEmoji(value) {
-      return xss(analyzeEmoji(value))
+      return analyzeEmoji(xss(value))
     },
     // 发送留言
     async sendMsg() {
@@ -268,6 +266,7 @@ export default {
       this.getList(false)
     },
     async routeChange() { // 重新加载
+      // console.log('重新加载')
       this.current = 1
       await this.getList(true)
     }
@@ -886,6 +885,9 @@ export default {
 }
 </style>
 <style>
+.tmsg-c-item article section p {
+  line-height: 1.3;
+}
 .tmsg-c-item article section p img {
   vertical-align: middle;
 }

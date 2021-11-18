@@ -16,11 +16,9 @@
       </el-row>
     </div>
     <Foot />
-
     <canvas id="evanyou"
             ref="evanyou"
             class="evanyou" />
-
   </div>
 </template>
 
@@ -42,15 +40,14 @@ export default {
       // hidden: false
     }
   },
-  computed: {
-
-  },
   created() {
   },
   mounted() {
-    const cursorSpecialEffects = new CursorSpecialEffects()
-    cursorSpecialEffects.init()
-    evanyouFun(this.$refs.evanyou)
+    setTimeout(() => {
+      const cursorSpecialEffects = new CursorSpecialEffects()
+      cursorSpecialEffects.init()
+      evanyouFun(this.$refs.evanyou)
+    }, 800)
   }
 }
 </script>

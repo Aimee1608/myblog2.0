@@ -37,13 +37,12 @@
 <script>
 export default {
   name: 'Foot',
-  components: {},
   data() {
     return {
       longTime: 0
     }
   },
-  created() {
+  mounted() {
     this.runTime()
   },
   methods: {
@@ -74,7 +73,7 @@ export default {
   text-align: center;
   width: 100%;
   min-height: 50px;
-  margin-top: -100px;
+  // margin-top: -100px;
   position: relative;
   // position: absolute;
   /*min-height: 368px;*/

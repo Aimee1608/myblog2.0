@@ -416,6 +416,7 @@ export default {
 .rightlistBox .rs4 li {
   padding: 8px 0;
   text-align: justify;
+  line-height: 1.2;
 }
 .rightlistBox .rs4 li a {
   font-weight: 600;

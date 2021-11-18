@@ -1,7 +1,9 @@
 'use strict'
 const path = require('path')
 const port = process.env.port || 8087 // dev port
-
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const webpack = require('webpack')
 // const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 // const compress = new CompressionWebpackPlugin({
@@ -68,14 +70,26 @@ module.exports = {
       }
     })
     // 压缩图片
-    // config.module
-    //   .rule('images')
-    //   .use('image-webpack-loader')
-    //   .loader('image-webpack-loader')
-    //   .options({
-    //     bypassOnDebug: true
-    //   })
-    //   .end()
+    config.module
+      .rule('images')
+      .use('url-loader')
+      .loader('url-loader')
+      .options({
+        limit: 1024,
+        fallback: {
+          loader: 'file-loader',
+          options: {
+            name: 'img/[name].[hash:8].[ext]'
+          }
+        }
+      })
+      .end()
+      .use('image-webpack-loader')
+      .loader('image-webpack-loader')
+      .options({
+        bypassOnDebug: true
+      })
+      .end()
   },
   devServer: {
     proxy: {
@@ -112,9 +126,21 @@ module.exports = {
         'vue$': 'vue/dist/vue.esm.js',
         '@': path.join(__dirname, 'src')
       }
-    }
+    },
     // 通过 compression-webpack-plugin 插件对js文件进行gzip压缩
-    // plugins: [compress]
+    plugins: [
+      new BundleAnalyzerPlugin(),
+      new LodashModuleReplacementPlugin(),
+      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ja|it/)
+      // new CompressionWebpackPlugin({
+      //   filename: "[path].gz[query]",
+      //   algorithm: "gzip",
+      //   test: new RegExp('\\.(js|css)$'), //匹配文件名
+      //   threshold: 10240, //对10K以上的数据进行压缩
+      //   minRatio: 0.8,
+      //   deleteOriginalAssets: true //是否删除源文件,删除的话不会有js文件，都是gz文件
+      // })
+    ]
   }
 
 }

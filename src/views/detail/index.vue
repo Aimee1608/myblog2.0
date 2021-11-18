@@ -56,7 +56,7 @@ import { initDate } from '@/utils'
 import articleHead from '@/components/articleHead'
 import Message from '@/components/message'
 import Content from '@/components/content'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash'
 
 export default {
   name: 'Detail',
@@ -146,7 +146,7 @@ export default {
       const res = await articleAPI.getInfo({ id })
       // console.log('articleAPI.info---res', res)
 
-      this.detailObj = _.cloneDeep(res.data)
+      this.detailObj = cloneDeep(res.data)
       this.content = this.detailObj.content
       if (this.haslogin) {
         const likeRes = await likeAPI.getInfo({ id })

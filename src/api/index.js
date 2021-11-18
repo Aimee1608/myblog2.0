@@ -2,7 +2,7 @@ import axios from 'axios'
 import {
   Message as Message
 } from 'element-ui'
-const baseURL = process.env.NODE_ENV === 'development' ? 'v1' : '//mangoya.cn/v1'
+const baseURL = process.env.NODE_ENV === 'development' ? 'v1' : '/v1'
 
 // create an axios instance
 const service = axios.create({

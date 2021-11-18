@@ -24,6 +24,7 @@
       <el-timeline>
         <el-timeline-item v-for="a in item.list"
                           :key="a._id"
+                          class="archive-class-item-box"
                           :hide-timestamp="true">
           <span class="archive-class-item-time">{{ getTimeLine(a.createDate) }}</span> <a class="archive-class-item-title"
              href="javascript:void(0);"
@@ -181,6 +182,13 @@ export default {
     width: 6px;
     height: 6px;
     left: 2px;
+  }
+  .archive-class-item-box {
+    .el-timeline-item__content {
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .archive-class-item-time {
     color: #00a7e0;

@@ -101,7 +101,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { userTag } from '@/utils/constants'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash'
 import Detail from './components/detail.vue'
 import resourceAPI from '@/api/resource'
 export default {
@@ -199,7 +199,7 @@ export default {
     },
     gotoEdit() {
       this.isEdit = !this.isEdit
-      this.editUser = _.cloneDeep(this.userInfo)
+      this.editUser = cloneDeep(this.userInfo)
     }
   }
 }
