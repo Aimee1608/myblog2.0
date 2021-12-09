@@ -1,42 +1,40 @@
 <!-- 文章详情模块 -->
 <template>
   <div class="detailBox tcommonBox">
-    <div v-if="!content"
-         v-loading="!content"
-         class="detail-loading" />
-    <articleHead v-show="content"
-                 :item="detailObj" />
+    <div v-if="!content" v-loading="!content" class="detail-loading" />
+    <articleHead v-show="content" :item="detailObj" />
     <Content :content="content" />
-    <div class="dshareBox bdsharebuttonbox"
-         data-tag="share_1">
+    <div class="dshareBox bdsharebuttonbox" data-tag="share_1">
       <div class="dlikeColBox">
-        <div class="dlikeBox"
-             @click="likecollectHandle(1)">
-          <i :class="likeArt?'fa fa-fw fa-heart':'fa fa-fw fa-heart-o'" />喜欢 | {{ detailObj.likeCount }}
+        <div class="dlikeBox" @click="likecollectHandle(1)">
+          <i
+            :class="likeArt ? 'fa fa-fw fa-heart' : 'fa fa-fw fa-heart-o'"
+          />喜欢 | {{ detailObj.likeCount }}
         </div>
-        <div class="dcollectBox"
-             @click="likecollectHandle(2)">
-          <i :class="collectArt?'fa fa-fw fa-star':'fa fa-fw fa-star-o'" />收藏 | {{ detailObj.collectCount }}
+        <div class="dcollectBox" @click="likecollectHandle(2)">
+          <i
+            :class="collectArt ? 'fa fa-fw fa-star' : 'fa fa-fw fa-star-o'"
+          />收藏 | {{ detailObj.collectCount }}
         </div>
       </div>
     </div>
     <div class="donate">
       <div class="donate-word">
-        <span @click="pdonate=!pdonate">赞赏</span>
+        <span @click="pdonate = !pdonate">赞赏</span>
       </div>
-      <el-row :class="pdonate?'donate-body':'donate-body donate-body-show'"
-              :gutter="30">
-        <el-col :span="12"
-                class="donate-item">
+      <el-row
+        :class="pdonate ? 'donate-body' : 'donate-body donate-body-show'"
+        :gutter="30"
+      >
+        <el-col :span="12" class="donate-item">
           <div class="donate-tip">
-            <img src="./../../assets/img/aimee/reward-wechat.jpg">
+            <img src="./../../assets/img/aimee/reward-wechat.jpg" />
             <span>微信扫一扫，向我赞赏</span>
           </div>
         </el-col>
-        <el-col :span="12"
-                class="donate-item">
+        <el-col :span="12" class="donate-item">
           <div class="donate-tip">
-            <img src="./../../assets/img/aimee/reward-zfb.jpg">
+            <img src="./../../assets/img/aimee/reward-zfb.jpg" />
             <span>支付宝扫一扫，向我赞赏</span>
           </div>
         </el-col>
@@ -60,12 +58,14 @@ import { cloneDeep } from 'lodash'
 
 export default {
   name: 'Detail',
-  components: { // 定义组件
+  components: {
+    // 定义组件
     articleHead,
     Message,
     Content
   },
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
       aid: '', // 文章ID
       pdonate: true, // 打开赞赏控制,
@@ -80,22 +80,24 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', [
-      'haslogin'
-    ])
+    ...mapState('user', ['haslogin'])
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route': 'routeChange'
+    $route: 'routeChange'
   },
-  async created() { // 生命周期函数
+  async created() {
+    // 生命周期函数
     await this.routeChange()
   },
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     ...mapActions('user', ['login']),
     showInitDate: initDate,
-    async likecollectHandle(islike) { // 用户点击喜欢0,用户点击收藏1
-      if (this.haslogin) { // 判断是否登录
+    async likecollectHandle(islike) {
+      // 用户点击喜欢0,用户点击收藏1
+      if (this.haslogin) {
+        // 判断是否登录
         var tip = ''
         let res
         if (islike === 1) {
@@ -128,18 +130,22 @@ export default {
           })
           await this.getInfo(this.id)
         }
-      } else { // 未登录 前去登录。
+      } else {
+        // 未登录 前去登录。
         this.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(() => { // 确定，跳转至登录页面
-          // 储存当前页面路径，登录成功后跳回来
-          localStorage.setItem('logUrl', this.$route.fullPath)
-          this.login()
-        }).catch(() => { // 取消关闭弹窗
-
         })
+          .then(() => {
+            // 确定，跳转至登录页面
+            // 储存当前页面路径，登录成功后跳回来
+            localStorage.setItem('logUrl', this.$route.fullPath)
+            this.login()
+          })
+          .catch(() => {
+            // 取消关闭弹窗
+          })
       }
     },
     async getInfo(id) {
@@ -164,7 +170,6 @@ export default {
       await this.getInfo(this.id)
     }
   }
-
 }
 </script>
 

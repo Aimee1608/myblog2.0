@@ -1,24 +1,22 @@
 <template>
   <div id="app">
-
     <Head />
     <div class="container">
       <el-row :gutter="30">
-        <el-col :sm="24"
-                :md="16"
-                style="transition:all .5s ease-out;margin-bottom:30px;">
+        <el-col
+          :sm="24"
+          :md="16"
+          style="transition: all 0.5s ease-out; margin-bottom: 30px"
+        >
           <router-view />
         </el-col>
-        <el-col :sm="24"
-                :md="8">
+        <el-col :sm="24" :md="8">
           <Right />
         </el-col>
       </el-row>
     </div>
     <Foot />
-    <canvas id="evanyou"
-            ref="evanyou"
-            class="evanyou" />
+    <canvas id="evanyou" ref="evanyou" class="evanyou" />
   </div>
 </template>
 
@@ -40,8 +38,7 @@ export default {
       // hidden: false
     }
   },
-  created() {
-  },
+  created() {},
   mounted() {
     setTimeout(() => {
       const cursorSpecialEffects = new CursorSpecialEffects()

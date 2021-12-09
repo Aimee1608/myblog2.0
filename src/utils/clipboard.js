@@ -3,7 +3,10 @@ function clipboard() {
   var arCon = document.getElementsByClassName('markdown-body')
   for (var i = 0; i < arCon.length; i++) {
     arCon[i].addEventListener('copy', function (e) {
-      if (window.getSelection().toString() && window.getSelection().toString().length > 42) {
+      if (
+        window.getSelection().toString() &&
+        window.getSelection().toString().length > 42
+      ) {
         setClipboardText(e)
         // alert('商业转载请联系作者获得授权，非商业转载请注明出处，谢谢合作。');
         // notie('商业转载请联系作者获得授权，非商业转载请注明出处，谢谢合作。', {
@@ -19,19 +22,33 @@ function clipboard() {
     if (clipboardData) {
       event.preventDefault()
 
-      var htmlData = '' +
+      var htmlData =
+        '' +
         '著作权归作者所有。<br>' +
         '商业转载请联系作者获得授权，非商业转载请注明出处。<br>' +
-        '作者：' + SITE.author + '<br>' +
-        '链接：' + window.location.href + '<br>' +
-        '来源：' + SITE.title + '<br><br>' +
+        '作者：' +
+        SITE.author +
+        '<br>' +
+        '链接：' +
+        window.location.href +
+        '<br>' +
+        '来源：' +
+        SITE.title +
+        '<br><br>' +
         window.getSelection().toString()
-      var textData = '' +
+      var textData =
+        '' +
         '著作权归作者所有。\n' +
         '商业转载请联系作者获得授权，非商业转载请注明出处。\n' +
-        '作者：' + SITE.author + '\n' +
-        '链接：' + window.location.href + '\n' +
-        '来源：' + SITE.title + '\n\n' +
+        '作者：' +
+        SITE.author +
+        '\n' +
+        '链接：' +
+        window.location.href +
+        '\n' +
+        '来源：' +
+        SITE.title +
+        '\n\n' +
         window.getSelection().toString()
 
       clipboardData.setData('text/html', htmlData)

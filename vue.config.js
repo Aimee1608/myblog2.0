@@ -21,11 +21,10 @@ const webpack = require('webpack')
 // })
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? './' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // 最小化代码
     config.optimization.minimize(true)
     // 分割代码
@@ -36,18 +35,21 @@ module.exports = {
       maxInitialRequests: 6, // 每个入口和它的同步依赖最多能被拆分的数量
       enforceSizeThreshold: 50000, // 强制执行拆分的体积阈值并忽略其他限制
       cacheGroups: {
-        libs: { // 第三方库
+        libs: {
+          // 第三方库
           name: 'chunk-libs',
           test: /[\\/]node_modules[\\/]/,
           priority: 10
           // chunks: "initial" // 只打包初始时依赖的第三方
         },
-        elementUI: { // elementUI 单独拆包
+        elementUI: {
+          // elementUI 单独拆包
           name: 'chunk-elementUI',
           test: /[\\/]node_modules[\\/]element-ui[\\/]/,
           priority: 20 // 权重要大于 libs
         },
-        svgIcon: { // svg 图标
+        svgIcon: {
+          // svg 图标
           name: 'chunk-svgIcon',
           test(module) {
             // `module.resource` 是文件的绝对路径
@@ -61,7 +63,8 @@ module.exports = {
           },
           priority: 30
         },
-        commons: { // 公共模块包
+        commons: {
+          // 公共模块包
           name: `chunk-commons`,
           minChunks: 2,
           priority: 0,
@@ -123,7 +126,7 @@ module.exports = {
     resolve: {
       extensions: ['.js', '.vue', '.json'],
       alias: {
-        'vue$': 'vue/dist/vue.esm.js',
+        vue$: 'vue/dist/vue.esm.js',
         '@': path.join(__dirname, 'src')
       }
     },
@@ -142,5 +145,4 @@ module.exports = {
       // })
     ]
   }
-
 }

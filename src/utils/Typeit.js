@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * The MIT License (MIT)
  *
@@ -83,12 +84,13 @@ TheaterJS.prototype = {
 
   utils: {
     merge: function (dest, origin) {
-      for (var key in origin) if (origin.hasOwnProperty(key)) dest[key] = origin[key]
+      for (var key in origin)
+        if (origin.hasOwnProperty(key)) dest[key] = origin[key]
       return dest
     },
 
     getPercentageBetween: function (min, max, perc) {
-      return (min - (min * perc)) + (max * perc)
+      return min - min * perc + max * perc
     },
 
     randomChar: function () {
@@ -108,7 +110,10 @@ TheaterJS.prototype = {
 
     hasClass: function (el, className) {
       if (el.classList) return el.classList.contains(className)
-      else return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className)
+      else
+        return new RegExp('(^| )' + className + '( |$)', 'gi').test(
+          el.className
+        )
     },
 
     addClass: function (el, className) {
@@ -118,7 +123,14 @@ TheaterJS.prototype = {
 
     removeClass: function (el, className) {
       if (el.classList) el.classList.remove(className)
-      else el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ')
+      else
+        el.className = el.className.replace(
+          new RegExp(
+            '(^|\\b)' + className.split(' ').join('|') + '(\\b|$)',
+            'gi'
+          ),
+          ' '
+        )
     }
   },
 
@@ -127,7 +139,9 @@ TheaterJS.prototype = {
     var self = this
     var defaults = {
       experience: 0.6,
-      voice: function (newValue, newChar, prevChar, str) { console.log(newValue) },
+      voice: function (newValue, newChar, prevChar, str) {
+        console.log(newValue)
+      },
       type: 'function',
       model: ''
     }
@@ -137,7 +151,8 @@ TheaterJS.prototype = {
 
   // Add a new actor to the casting
   describe: function (name, experience, voice) {
-    if (typeof name !== 'string') throw ("actor's name has wrong type: " + typeof name)
+    if (typeof name !== 'string')
+      throw "actor's name has wrong type: " + typeof name
 
     var self = this
     var actor = { name: name }
@@ -148,7 +163,9 @@ TheaterJS.prototype = {
       actor.type = typeof voice === 'function' ? 'function' : 'DOM'
 
       // If actor's voice is a DOM element and a string, assume it's a query selector
-      if (actor.type === 'DOM') actor.voice = typeof voice === 'string' ? document.querySelector(voice) : voice
+      if (actor.type === 'DOM')
+        actor.voice =
+          typeof voice === 'string' ? document.querySelector(voice) : voice
       else actor.voice = voice
     }
 
@@ -209,8 +226,8 @@ TheaterJS.prototype = {
     events = events.split(',')
 
     for (var i = 0, l = events.length, event; i < l; i++) {
-      event = events[i] = events[i].trim();
-      (self.events[event] || (self.events[event] = [])).push(fn)
+      event = events[i] = events[i].trim()
+      ;(self.events[event] || (self.events[event] = [])).push(fn)
     }
 
     return self
@@ -218,7 +235,7 @@ TheaterJS.prototype = {
 
   // emit event
   emit: function (scope, event, args) {
-    if (typeof scope !== 'string') throw ('emit: scope missing')
+    if (typeof scope !== 'string') throw 'emit: scope missing'
 
     if (typeof event !== 'string') event = void 0
     else if (event !== void 0 && args === void 0) args = event
@@ -226,19 +243,18 @@ TheaterJS.prototype = {
     var self = this
     var eventName = scope + (event ? ':' + event : '')
 
-    self
-      .trigger(eventName, args)
-      .trigger('*', [eventName].concat(args))
+    self.trigger(eventName, args).trigger('*', [eventName].concat(args))
 
     return self
   },
 
   trigger: function (eventName, args) {
     var self = this
-    var events = self.events[eventName] || [];
+    var events = self.events[eventName] || []
 
-    (args instanceof Array || (args = [args]))
-    for (var i = 0, l = events.length; i < l; i++) events[i].apply(self, [eventName].concat(args))
+    args instanceof Array || (args = [args])
+    for (var i = 0, l = events.length; i < l; i++)
+      events[i].apply(self, [eventName].concat(args))
 
     return self
   },
@@ -256,7 +272,8 @@ TheaterJS.prototype = {
     var self = this
     var prevScene = self.scenario[self.scene]
 
-    if (prevScene) self.emit(prevScene.name, 'end', [prevScene.name].concat(prevScene.args))
+    if (prevScene)
+      self.emit(prevScene.name, 'end', [prevScene.name].concat(prevScene.args))
 
     if (self.scene + 1 >= self.scenario.length) {
       // If there's no next scene, set state to ready
@@ -267,7 +284,11 @@ TheaterJS.prototype = {
 
       var nextScene = self.scenario[++self.scene]
 
-      self.emit(nextScene.name, 'start', [nextScene.name].concat(nextScene.args))
+      self.emit(
+        nextScene.name,
+        'start',
+        [nextScene.name].concat(nextScene.args)
+      )
       self[nextScene.name].apply(self, nextScene.args)
     }
 
@@ -285,7 +306,8 @@ TheaterJS.prototype = {
     var self = this
     var mistaken = false
     var invincible = self.getInvincibility()
-    var cursor; var model
+    var cursor
+    var model
 
     if (append) {
       // When appending instead of replacing, there's several things we need to do:
@@ -302,7 +324,8 @@ TheaterJS.prototype = {
 
     var timeout = setTimeout(function nextChar() {
       var prevChar = model.charAt(cursor)
-      var newChar; var newValue
+      var newChar
+      var newValue
 
       if (mistaken) {
         // After a mistake, depending on the current actor's experience,
@@ -317,7 +340,10 @@ TheaterJS.prototype = {
       } else {
         cursor++
 
-        newChar = --invincible < 0 && self.isMistaking() ? self.utils.randomChar() : speech.charAt(cursor)
+        newChar =
+          --invincible < 0 && self.isMistaking()
+            ? self.utils.randomChar()
+            : speech.charAt(cursor)
 
         if (newChar !== speech.charAt(cursor)) mistaken = true
         newValue = model += newChar
@@ -325,7 +351,8 @@ TheaterJS.prototype = {
 
       self.set(newValue, [newValue, newChar, prevChar, speech])
 
-      if (mistaken || cursor < speech.length) timeout = setTimeout(nextChar, self.getSayingSpeed())
+      if (mistaken || cursor < speech.length)
+        timeout = setTimeout(nextChar, self.getSayingSpeed())
       else self.next()
     }, self.getSayingSpeed())
 
@@ -334,7 +361,8 @@ TheaterJS.prototype = {
 
   erase: function (n) {
     var self = this
-    var cursor = typeof self.current.model === 'string' ? self.current.model.length : -1
+    var cursor =
+      typeof self.current.model === 'string' ? self.current.model.length : -1
     var min = typeof n === 'number' && n < 0 ? cursor + 1 + n : 0
 
     if (cursor < 0) return self.next()
@@ -354,7 +382,9 @@ TheaterJS.prototype = {
 
   wait: function (delay) {
     var self = this
-    setTimeout(function () { self.next() }, delay)
+    setTimeout(function () {
+      self.next()
+    }, delay)
     return self
   }
 }
@@ -376,15 +406,20 @@ const Typeit = (emId) => {
 
   theater.describe('Luke', 0.9, emId)
   // conosle.log()
-  theater.on('*', function (eventName, originalEvent, sceneName, arg) { // 做点什么
-
-  })
-    .on('say:start, erase:start', function (eventName) { // 添加闪烁的插入符号
-      var self = this; var current = self.current.voice
+  theater
+    .on('*', function (eventName, originalEvent, sceneName, arg) {
+      // 做点什么
+    })
+    .on('say:start, erase:start', function (eventName) {
+      // 添加闪烁的插入符号
+      var self = this
+      var current = self.current.voice
       self.utils.addClass(current, 'saying')
     })
-    .on('say:end, erase:end', function (eventName) { // 消除闪烁的插入符号
-      var self = this; var current = self.current.voice
+    .on('say:end, erase:end', function (eventName) {
+      // 消除闪烁的插入符号
+      var self = this
+      var current = self.current.voice
       self.utils.removeClass(current, 'saying')
     })
 
@@ -393,7 +428,9 @@ const Typeit = (emId) => {
     //                .write("Vader:I am your father.", toggleClass)
     .write('Luke:Hi,' + world, 500)
     .write({ name: 'call', args: [kill, true] })
-    .write(function () { theater.play(true) })
+    .write(function () {
+      theater.play(true)
+    })
   function kill() {
     //             var self    = this,
     //                     delay   = 500,

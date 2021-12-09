@@ -9,25 +9,33 @@
       </p>
       <p>
         托管于
-        <a href="https://github.com/Aimee1608/myblogvue"
-           target="_blank">GitHub</a>.
-        <a href="https://www.aliyun.com/?spm=a2c49.11131515.0.0.5Z9AkR"
-           target="_blank">阿里云</a> 提供静态文件云存储服务.
-        <a href="https://tongji.baidu.com/web/welcome/login"
-           target="_blank">百度统计</a> 提供网站统计服务.
-        <a href="https://www.cloudxns.net/Order/index.html"
-           target="_blank">CloudXNS</a> 提供 DNS 解析服务.
+        <a href="https://github.com/Aimee1608/myblogvue" target="_blank"
+          >GitHub</a
+        >.
+        <a
+          href="https://www.aliyun.com/?spm=a2c49.11131515.0.0.5Z9AkR"
+          target="_blank"
+          >阿里云</a
+        >
+        提供静态文件云存储服务.
+        <a href="https://tongji.baidu.com/web/welcome/login" target="_blank"
+          >百度统计</a
+        >
+        提供网站统计服务.
+        <a href="https://www.cloudxns.net/Order/index.html" target="_blank"
+          >CloudXNS</a
+        >
+        提供 DNS 解析服务.
       </p>
       <p>
         © 2021
         <a href="#">Mango Ya</a>. Theme By
-        <a href="https://diygod.me/"
-           target="_blank">diygod.me</a>. 京ICP备17071595号-1.
+        <a href="https://diygod.me/" target="_blank">diygod.me</a>.
+        京ICP备17071595号-1.
       </p>
       <p>
         <span>Made with</span>
-        <img class="fheart"
-             src="./../../assets/img/heart02.png">
+        <img class="fheart" src="./../../assets/img/heart02.png" />
         <span>by Aimee.</span>
       </p>
     </div>

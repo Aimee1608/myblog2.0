@@ -1,3 +1,4 @@
+/* eslint-disable */
 class Circle {
   constructor({ origin, speed, color, angle, context }) {
     this.origin = origin
@@ -17,8 +18,11 @@ class Circle {
   }
 
   move() {
-    this.position.x = (Math.sin(this.angle) * this.speed) + this.position.x
-    this.position.y = (Math.cos(this.angle) * this.speed) + this.position.y + (this.renderCount * 0.3)
+    this.position.x = Math.sin(this.angle) * this.speed + this.position.x
+    this.position.y =
+      Math.cos(this.angle) * this.speed +
+      this.position.y +
+      this.renderCount * 0.3
     this.renderCount++
   }
 }
@@ -41,7 +45,15 @@ class Boom {
 
   randomColor() {
     const range = ['8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
-    return '#' + this.randomArray(range) + this.randomArray(range) + this.randomArray(range) + this.randomArray(range) + this.randomArray(range) + this.randomArray(range)
+    return (
+      '#' +
+      this.randomArray(range) +
+      this.randomArray(range) +
+      this.randomArray(range) +
+      this.randomArray(range) +
+      this.randomArray(range) +
+      this.randomArray(range)
+    )
   }
 
   randomRange(start, end) {
@@ -63,18 +75,21 @@ class Boom {
 
   move() {
     this.circles.forEach((circle, index) => {
-      if (circle.position.x > this.area.width || circle.position.y > this.area.height) {
+      if (
+        circle.position.x > this.area.width ||
+        circle.position.y > this.area.height
+      ) {
         return this.circles.splice(index, 1)
       }
       circle.move()
     })
-    if (this.circles.length == 0) {
+    if (this.circles.length === 0) {
       this.stop = true
     }
   }
 
   draw() {
-    this.circles.forEach(circle => circle.draw())
+    this.circles.forEach((circle) => circle.draw())
   }
 }
 
@@ -119,8 +134,14 @@ class CursorSpecialEffects {
     style.zIndex = '999999999999999999999999999999999999999999'
     style.pointerEvents = 'none'
 
-    style.width = this.renderCanvas.width = this.computerCanvas.width = this.globalWidth
-    style.height = this.renderCanvas.height = this.computerCanvas.height = this.globalHeight
+    style.width =
+      this.renderCanvas.width =
+      this.computerCanvas.width =
+        this.globalWidth
+    style.height =
+      this.renderCanvas.height =
+      this.computerCanvas.height =
+        this.globalHeight
 
     document.body.append(this.renderCanvas)
 
@@ -130,8 +151,8 @@ class CursorSpecialEffects {
 
   run() {
     this.running = true
-    if (this.booms.length == 0) {
-      return this.running = false
+    if (this.booms.length === 0) {
+      return (this.running = false)
     }
 
     requestAnimationFrame(this.run.bind(this))
@@ -146,7 +167,13 @@ class CursorSpecialEffects {
       boom.move()
       boom.draw()
     })
-    this.renderContext.drawImage(this.computerCanvas, 0, 0, this.globalWidth, this.globalHeight)
+    this.renderContext.drawImage(
+      this.computerCanvas,
+      0,
+      0,
+      this.globalWidth,
+      this.globalHeight
+    )
   }
 }
 

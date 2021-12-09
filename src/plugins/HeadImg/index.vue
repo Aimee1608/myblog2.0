@@ -1,6 +1,5 @@
 <template>
-  <img :src="src"
-       :onerror="errorAvatar">
+  <img :src="src" :onerror="errorAvatar" />
 </template>
 <script>
 export default {
@@ -13,7 +12,8 @@ export default {
   },
   data() {
     return {
-      errorAvatar: 'this.onerror=null;this.src="' + require('@/assets/img/tou.jpg') + '"'
+      errorAvatar:
+        'this.onerror=null;this.src="' + require('@/assets/img/tou.jpg') + '"'
     }
   }
 }

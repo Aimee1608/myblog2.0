@@ -1,30 +1,36 @@
 <!-- 留言评论模块 -->
 <template>
-  <div ref="tmsgBox"
-       class="tmsgBox">
-    <div ref="respondBox"
-         class="tmsg-respond">
-      <h3>发表评论 <small v-show="isRespond"
-               class="tcolorm"
-               @click="removeRespond">取消回复</small></h3>
+  <div ref="tmsgBox" class="tmsgBox">
+    <div ref="respondBox" class="tmsg-respond">
+      <h3>
+        发表评论
+        <small v-show="isRespond" class="tcolorm" @click="removeRespond"
+          >取消回复</small
+        >
+      </h3>
       <form class="">
-        <el-input v-model="textarea"
-                  type="textarea"
-                  :rows="2"
-                  placeholder="说点什么呢``" />
-        <div :class="pBody?'OwO':'OwO OwO-open'">
-          <div class="OwO-logo"
-               @click="pBody=!pBody">
+        <el-input
+          v-model="textarea"
+          type="textarea"
+          :rows="2"
+          placeholder="说点什么呢``"
+        />
+        <div :class="pBody ? 'OwO' : 'OwO OwO-open'">
+          <div class="OwO-logo" @click="pBody = !pBody">
             <span>OwO表情</span>
           </div>
           <div class="OwO-body">
             <ul class="OwO-items OwO-items-show">
-              <li v-for="(oitem,index) in OwOlist"
-                  :key="'oitem'+index"
-                  class="OwO-item"
-                  @click="choseEmoji(oitem.title)">
-                <img :src="require('@/assets/img/emot/image/'+oitem.url)"
-                     alt="">
+              <li
+                v-for="(oitem, index) in OwOlist"
+                :key="'oitem' + index"
+                class="OwO-item"
+                @click="choseEmoji(oitem.title)"
+              >
+                <img
+                  :src="require('@/assets/img/emot/image/' + oitem.url)"
+                  alt=""
+                />
               </li>
             </ul>
             <div class="OwO-bar">
@@ -35,33 +41,30 @@
           </div>
         </div>
         <el-row class="tmsg-r-info">
-          <el-col :span="24"
-                  class="info-submit">
+          <el-col :span="24" class="info-submit">
             <!-- <p class="tcolors-bg"
                @click="sendMsg"></p> -->
-            <AButton size="large"
-                     @click="sendMsg">{{ sendTip }}</AButton>
+            <AButton size="large" @click="sendMsg">{{ sendTip }}</AButton>
           </el-col>
         </el-row>
       </form>
     </div>
-    <div ref="listDom"
-         class="tmsg-comments">
-      <a href="#"
-         class="tmsg-comments-tip">活捉 {{ total }} 条</a>
+    <div ref="listDom" class="tmsg-comments">
+      <a href="#" class="tmsg-comments-tip">活捉 {{ total }} 条</a>
       <div class="tmsg-commentshow">
         <ul class="tmsg-commentlist">
-          <li v-for="(item,index) in list"
-              :key="'common'+index"
-              class="tmsg-c-item">
+          <li
+            v-for="(item, index) in list"
+            :key="'common' + index"
+            class="tmsg-c-item"
+          >
             <article class="">
               <header>
                 <HeadImg :src="item.avatar" />
                 <div class="i-name">
                   {{ item.username }}
                 </div>
-                <div v-show="item.label"
-                     class="i-class">
+                <div v-show="item.label" class="i-class">
                   {{ item.label }}
                 </div>
                 <div class="i-time">
@@ -70,27 +73,35 @@
               </header>
               <section>
                 <p v-html="analyzeEmoji(item.content)" />
-                <div v-if="haslogin"
-                     class="tmsg-replay"
-                     @click="respondMsg({leaveIndex: index, pIndex: -1, pid: item._id})">
+                <div
+                  v-if="haslogin"
+                  class="tmsg-replay"
+                  @click="
+                    respondMsg({ leaveIndex: index, pIndex: -1, pid: item._id })
+                  "
+                >
                   回复
                 </div>
               </section>
             </article>
-            <ul v-if="item.children && item.children.length>0"
-                class="tmsg-commentlist"
-                style="padding-left:60px;">
-              <li v-for="(citem,cindex) in item.children"
-                  :key="'citem'+cindex"
-                  class="tmsg-c-item">
+            <ul
+              v-if="item.children && item.children.length > 0"
+              class="tmsg-commentlist"
+              style="padding-left: 60px"
+            >
+              <li
+                v-for="(citem, cindex) in item.children"
+                :key="'citem' + cindex"
+                class="tmsg-c-item"
+              >
                 <article class="">
                   <header>
                     <HeadImg :src="citem.avatar" />
                     <div class="i-name">
-                      {{ citem.username }} <span>回复</span> {{ citem.parentUsername }}
+                      {{ citem.username }} <span>回复</span>
+                      {{ citem.parentUsername }}
                     </div>
-                    <div v-show="citem.label"
-                         class="i-class">
+                    <div v-show="citem.label" class="i-class">
                       {{ citem.label }}
                     </div>
                     <div class="i-time">
@@ -98,10 +109,20 @@
                     </div>
                   </header>
                   <section>
-                    <p v-html="analyzeEmoji(citem.content)">{{ citem.content }}</p>
-                    <div v-show="haslogin"
-                         class="tmsg-replay"
-                         @click="respondMsg({leaveIndex: index, pIndex: cindex, pid: citem._id})">
+                    <p v-html="analyzeEmoji(citem.content)">
+                      {{ citem.content }}
+                    </p>
+                    <div
+                      v-show="haslogin"
+                      class="tmsg-replay"
+                      @click="
+                        respondMsg({
+                          leaveIndex: index,
+                          pIndex: cindex,
+                          pid: citem._id
+                        })
+                      "
+                    >
                       回复
                     </div>
                   </section>
@@ -109,18 +130,16 @@
               </li>
             </ul>
           </li>
-
         </ul>
         <!-- <h1 v-show="hasMore"
             class="tcolors-bg"
             @click="addMoreFun">查看更多</h1> -->
-        <AButton v-show="hasMore"
-                 size="large"
-                 @click="addMoreFun">查看更多</AButton>
+        <AButton v-show="hasMore" size="large" @click="addMoreFun"
+          >查看更多</AButton
+        >
         <!-- <h1 v-show="!hasMore"
             class="tcolors-bg">没有更多</h1> -->
-        <AButton v-show="!hasMore"
-                 size="large">没有更多</AButton>
+        <AButton v-show="!hasMore" size="large">没有更多</AButton>
       </div>
     </div>
   </div>
@@ -137,16 +156,16 @@ import AButton from '@/components/abutton'
 import xss from 'xss'
 export default {
   name: 'Message',
-  components: { // 定义组件
+  components: {
+    // 定义组件
     AButton
   },
   props: ['id'],
   computed: {
-    ...mapState('user', [
-      'haslogin'
-    ])
+    ...mapState('user', ['haslogin'])
   },
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
       respondBox: '', // 评论表单
       listDom: '',
@@ -169,15 +188,17 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route': 'routeChange'
+    $route: 'routeChange'
   },
-  created() { // 生命周期函数
-
+  created() {
+    // 生命周期函数
   },
-  async mounted() { // 页面加载完成后
+  async mounted() {
+    // 页面加载完成后
     await this.routeChange()
   },
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     initDate,
     ...mapActions('user', ['login']),
     // 选择表情包
@@ -196,7 +217,11 @@ export default {
     // 发送留言
     async sendMsg() {
       if (this.textarea && this.textarea.trim()) {
-        const res = await commentAPI.add({ content: xss(this.textarea.trim()), articleId: this.id, parentId: this.isRespond ? this.pid : null })
+        const res = await commentAPI.add({
+          content: xss(this.textarea.trim()),
+          articleId: this.id,
+          parentId: this.isRespond ? this.pid : null
+        })
         if (res.code === 0) {
           // this.routeChange()
           this.textarea = ''
@@ -223,7 +248,8 @@ export default {
         }, 3000)
       }
     },
-    respondMsg({ leaveIndex, pIndex, pid }) { // 回复留言
+    respondMsg({ leaveIndex, pIndex, pid }) {
+      // 回复留言
       // console.log(leavePid,pid);
       if (this.haslogin) {
         var dom = event.currentTarget
@@ -235,7 +261,8 @@ export default {
         dom.appendChild(this.$refs.respondBox)
       }
     },
-    removeRespond() { // 取消回复留言
+    removeRespond() {
+      // 取消回复留言
       this.isRespond = false
       this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom)
     },
@@ -250,10 +277,7 @@ export default {
 
       const res = await commentAPI.getList(options)
       // console.log('list---data', res.data)
-      const {
-        list,
-        pagination
-      } = res.data
+      const { list, pagination } = res.data
       this.list = initData ? list : this.list.concat(list)
       this.total = pagination.countTotal
       this.totalPage = pagination.totalPage
@@ -261,11 +285,13 @@ export default {
       this.hasMore = pagination.totalPage > pagination.currentPage
       this.listLoading = false
     },
-    addMoreFun() { // 查看更多
+    addMoreFun() {
+      // 查看更多
       ++this.current
       this.getList(false)
     },
-    async routeChange() { // 重新加载
+    async routeChange() {
+      // 重新加载
       // console.log('重新加载')
       this.current = 1
       await this.getList(true)

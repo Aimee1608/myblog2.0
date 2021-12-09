@@ -2,7 +2,29 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
-import { Row, Col, Pagination, Submenu, Menu, MenuItem, Input, Tooltip, Timeline, TimelineItem, Alert, Steps, Step, Table, Radio, Switch, RadioGroup, Link, Loading, TableColumn } from 'element-ui'
+import {
+  Row,
+  Col,
+  Pagination,
+  Submenu,
+  Menu,
+  MenuItem,
+  Input,
+  Tooltip,
+  Timeline,
+  TimelineItem,
+  Alert,
+  Steps,
+  Step,
+  Table,
+  Radio,
+  Switch,
+  RadioGroup,
+  Link,
+  Loading,
+  TableColumn,
+  Message
+} from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 // import 'element-ui/lib/theme-chalk/index.css'
 import HeadImg from '@/plugins/HeadImg'
@@ -29,8 +51,10 @@ Vue.use(Radio)
 Vue.use(Switch)
 Vue.use(RadioGroup)
 Vue.use(Link)
-Vue.use(Loading)
 Vue.use(TableColumn)
+Vue.prototype.$message = Message
+Vue.prototype.$loading = Loading.service
+
 Vue.component(CollapseTransition.name, CollapseTransition)
 
 Vue.component(HeadImg.name, HeadImg)

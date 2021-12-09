@@ -6,127 +6,137 @@
         <a href="/">Aimee 的博客</a>
       </h1>
       <!-- 登录注册 -->
-      <div v-show="!err2005"
-           class="">
-        <div v-if="login==1"
-             class="loginBox">
+      <div v-show="!err2005" class="">
+        <div v-if="login == 1" class="loginBox">
           <div class="lr-title">
             <h1>登录</h1>
-            <p>
-              新用户<a href="#/Login?login=0"
-                 class="tcolors">注册</a>
-            </p>
+            <p>新用户<a href="#/Login?login=0" class="tcolors">注册</a></p>
           </div>
-          <el-alert v-show="loginErr"
-                    :title="loginTitle"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="email"
-                    type="email"
-                    placeholder="邮箱" />
-          <el-alert v-show="emailErr"
-                    title="请输入邮箱"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="password"
-                    type="password"
-                    placeholder="密码"
-                    @keyup.enter.native="loginEnterFun" />
-          <el-alert v-show="passwordErr"
-                    title="请输入密码"
-                    type="error"
-                    show-icon
-                    :closable="false" />
+          <el-alert
+            v-show="loginErr"
+            :title="loginTitle"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input v-model="email" type="email" placeholder="邮箱" />
+          <el-alert
+            v-show="emailErr"
+            title="请输入邮箱"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input
+            v-model="password"
+            type="password"
+            placeholder="密码"
+            @keyup.enter.native="loginEnterFun"
+          />
+          <el-alert
+            v-show="passwordErr"
+            title="请输入密码"
+            type="error"
+            show-icon
+            :closable="false"
+          />
           <h3><a href="">忘记密码？</a></h3>
-          <div class="lr-btn tcolors-bg"
-               @click="gotoHome">登录</div>
+          <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
           <div class="otherLogin">
             <a href="javascript:void(0)"><i class="fa fa-fw fa-wechat" /></a>
             <a href="javascript:void(0)"><i class="fa fa-fw fa-qq" /></a>
             <a href="javascript:void(0)"><i class="fa fa-fw fa-weibo" /></a>
           </div>
         </div>
-        <div v-else
-             class="registerBox">
+        <div v-else class="registerBox">
           <div class="lr-title">
             <h1>注册</h1>
-            <p>
-              已有账号<a href="#/Login?login=1"
-                 class="tcolors">登录</a>
-            </p>
+            <p>已有账号<a href="#/Login?login=1" class="tcolors">登录</a></p>
           </div>
-          <el-alert v-show="registerErr"
-                    :title="registerTitle"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="nusername"
-                    type="text"
-                    placeholder="用户名" />
-          <el-alert v-show="nusernameErr"
-                    title="用户名错误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="nemail"
-                    type="email"
-                    placeholder="邮箱" />
-          <el-alert v-show="nemailErr"
-                    title="邮箱错误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="npassword"
-                    type="password"
-                    placeholder="密码:6-12位英文、数字、下划线" />
-          <el-alert v-show="npasswordErr"
-                    title="密码错误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="npassword2"
-                    type="password"
-                    placeholder="确认密码"
-                    @keyup.enter.native="registerEnterFun" />
-          <el-alert v-show="npassword2Err"
-                    title="重复密码有误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <div v-loading.fullscreen.lock="fullscreenLoading"
-               class="lr-btn tcolors-bg"
-               element-loading-text="提交中"
-               @click="newRegister">注册</div>
+          <el-alert
+            v-show="registerErr"
+            :title="registerTitle"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input v-model="nusername" type="text" placeholder="用户名" />
+          <el-alert
+            v-show="nusernameErr"
+            title="用户名错误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input v-model="nemail" type="email" placeholder="邮箱" />
+          <el-alert
+            v-show="nemailErr"
+            title="邮箱错误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input
+            v-model="npassword"
+            type="password"
+            placeholder="密码:6-12位英文、数字、下划线"
+          />
+          <el-alert
+            v-show="npasswordErr"
+            title="密码错误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input
+            v-model="npassword2"
+            type="password"
+            placeholder="确认密码"
+            @keyup.enter.native="registerEnterFun"
+          />
+          <el-alert
+            v-show="npassword2Err"
+            title="重复密码有误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <div
+            v-loading.fullscreen.lock="fullscreenLoading"
+            class="lr-btn tcolors-bg"
+            element-loading-text="提交中"
+            @click="newRegister"
+          >
+            注册
+          </div>
         </div>
       </div>
       <!-- 注册进度状态 -->
-      <div v-show="err2005"
-           class="registerSuc">
+      <div v-show="err2005" class="registerSuc">
         <div class="sucIcon">
-          <el-steps :space="100"
-                    :active="step"
-                    finish-status="success">
+          <el-steps :space="100" :active="step" finish-status="success">
             <el-step title="注册" />
             <el-step title="验证" />
             <el-step title="登录" />
           </el-steps>
         </div>
-        <div v-show="urlstate==0"
-             class="sucContent">
+        <div v-show="urlstate == 0" class="sucContent">
           账号激活链接已发送至您的邮箱：{{ nemail }}
           <p>请您在24小时内登录邮箱，按邮件中的提示完成账号激活操作</p>
         </div>
-        <div v-show="urlstate=='urlInvalid'"
-             class="sucContent">
-          账号已激活，现在去登录 &nbsp;&nbsp;<span class="tcolors-bg lastbtn"
-                @click="goLogin">登录</span>
+        <div v-show="urlstate == 'urlInvalid'" class="sucContent">
+          账号已激活，现在去登录 &nbsp;&nbsp;<span
+            class="tcolors-bg lastbtn"
+            @click="goLogin"
+            >登录</span
+          >
         </div>
-        <div v-show="urlstate=='urlErr'"
-             class="sucContent">
-          OwO邮箱激活地址已超时，验证失败，请重新注册 &nbsp;&nbsp;<span class="tcolors-bg lastbtn"
-                @click="goRegister">注册</span>
+        <div v-show="urlstate == 'urlErr'" class="sucContent">
+          OwO邮箱激活地址已超时，验证失败，请重新注册 &nbsp;&nbsp;<span
+            class="tcolors-bg lastbtn"
+            @click="goRegister"
+            >注册</span
+          >
         </div>
       </div>
     </div>
@@ -137,10 +147,11 @@
 // import {getRegister,UserLogin} from '../utils/server.js'
 export default {
   name: 'Login',
-  components: { // 定义组件
-
+  components: {
+    // 定义组件
   },
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
       username: '', // 用户名
       email: '', // 邮箱
@@ -163,17 +174,23 @@ export default {
       err2005: false, // 是否展示注册进度条状态
       step: 1, // 注册进度
       fullscreenLoading: false, // 全屏loading
-      urlstate: 0// 重新注册
+      urlstate: 0 // 重新注册
     }
   },
-  created() { // 生命周期函数
+  created() {
+    // 生命周期函数
     // that.routeChange();
   },
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     routeChange: function () {
       var that = this
-      that.login = that.$route.query.login == undefined ? 1 : parseInt(that.$route.query.login)// 获取传参的login
-      that.urlstate = that.$route.query.urlstate == undefined ? 0 : that.$route.query.urlstate// 获取传参的usrlstate状态码
+      that.login =
+        that.$route.query.login == undefined
+          ? 1
+          : parseInt(that.$route.query.login) // 获取传参的login
+      that.urlstate =
+        that.$route.query.urlstate == undefined ? 0 : that.$route.query.urlstate // 获取传参的usrlstate状态码
       // console.log(that.login,that.urlstate);
       if (that.urlstate == 0) {
         that.err2005 = false
@@ -193,7 +210,8 @@ export default {
         this.gotoHome()
       }
     },
-    gotoHome: function () { // 用户登录
+    gotoHome: function () {
+      // 用户登录
       var that = this
       var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
       var preg = /^(\w){6,12}$/
@@ -218,7 +236,6 @@ export default {
         //     } else {
         //       that.$router.push({ path: '/' });
         //     }
-
         //   } else if (msg.code == 2008 || msg.code == 2007) {//邮箱或密码错误
         //     that.loginErr = true;
         //     that.loginTitle = '邮箱或密码错误';
@@ -243,7 +260,8 @@ export default {
         this.newRegister()
       }
     },
-    newRegister: function () { // 注册提交
+    newRegister: function () {
+      // 注册提交
       var that = this
       var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
       var preg = /^(\w){6,12}$/
@@ -289,15 +307,16 @@ export default {
         // })
       }
     },
-    goLogin: function () { // 邮箱验证成功,去登陆
+    goLogin: function () {
+      // 邮箱验证成功,去登陆
       this.err2005 = false
       this.$router.push({ path: '/Login?login=1' })
     },
-    goRegister: function () { // 去注册
+    goRegister: function () {
+      // 去注册
       this.err2005 = false
       this.$router.push({ path: '/Login?login=0' })
     }
-
   }
 }
 </script>

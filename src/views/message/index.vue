@@ -2,15 +2,13 @@
 <template>
   <div class="messageBox">
     <div class="tMSGbox tcommonBox">
-      <div class="message-title">
-        留言板
-      </div>
+      <div class="message-title">留言板</div>
       <section>
-        <h2>走过路过不要错过！交流、咨询、吐槽、感叹、勾搭都在这里，尽情畅谈！</h2>
+        <h2>
+          走过路过不要错过！交流、咨询、吐槽、感叹、勾搭都在这里，尽情畅谈！
+        </h2>
         <div class="">
-          <img src="@/assets/img/timg.jpg"
-               class="maxW"
-               alt="">
+          <img src="@/assets/img/timg.jpg" class="maxW" alt="" />
         </div>
       </section>
     </div>
@@ -21,19 +19,19 @@
 <script>
 import Message from './../../components/message/index'
 export default {
-  components: { // 定义组件
+  components: {
+    // 定义组件
     Message
   },
-  data() { // 选项 / 数据
-    return {
-
-    }
+  data() {
+    // 选项 / 数据
+    return {}
   },
-  created() { // 生命周期函数
-
+  created() {
+    // 生命周期函数
   },
-  methods: { // 事件处理器
-
+  methods: {
+    // 事件处理器
   }
 }
 </script>

@@ -1,14 +1,14 @@
 <!-- 文章列表 -->
 <template>
-  <el-row v-loading="listLoading"
-          class="sharelistBox">
-    <el-col v-for="(item,index) in list"
-            :key="'article'+index"
-            :span="24"
-            class="s-item tcommonBox">
+  <el-row v-loading="listLoading" class="sharelistBox">
+    <el-col
+      v-for="(item, index) in list"
+      :key="'article' + index"
+      :span="24"
+      class="s-item tcommonBox"
+    >
       <articleHead :item="item" />
-      <div class="article-content-list"
-           @click="goDetail(item._id)">
+      <div class="article-content-list" @click="goDetail(item._id)">
         <Content :content="item.content" />
         <!-- <div class="article-description" >
           {{ item.description }}
@@ -25,21 +25,22 @@
           阅读全文
           <i class="el-icon-d-arrow-right" />
         </a> -->
-        <AButton icon="el-icon-d-arrow-right"
-                 @click="goDetail(item._id)">阅读全文</AButton>
+        <AButton icon="el-icon-d-arrow-right" @click="goDetail(item._id)"
+          >阅读全文</AButton
+        >
       </div>
     </el-col>
-    <el-col v-if="!listLoading"
-            class="tcommonBox">
-      <el-pagination class="pagination-list"
-                     background
-                     :page-size="pageSize"
-                     :current-page.sync="current"
-                     layout="prev, pager, next"
-                     :total="total"
-                     @current-change="handleCurrentChange" />
+    <el-col v-if="!listLoading" class="tcommonBox">
+      <el-pagination
+        class="pagination-list"
+        background
+        :page-size="pageSize"
+        :current-page.sync="current"
+        layout="prev, pager, next"
+        :total="total"
+        @current-change="handleCurrentChange"
+      />
     </el-col>
-
   </el-row>
 </template>
 
@@ -52,13 +53,15 @@ import AButton from '@/components/abutton'
 
 export default {
   name: 'Article',
-  components: { // 定义组件
+  components: {
+    // 定义组件
     articleHead,
     Content,
     AButton
   },
   props: ['type'],
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
       keywords: '',
       hasMore: true,
@@ -73,13 +76,15 @@ export default {
   watch: {
     // 如果路由有变化，会再次执行该方法
     // 'type': 'routeChange',
-    '$route': 'routeChange'
+    $route: 'routeChange'
   },
-  async created() { // 生命周期函数
+  async created() {
+    // 生命周期函数
     await this.routeChange()
   },
 
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     ...mapActions('common', ['goDetail']),
     async getList() {
       const options = {
@@ -91,10 +96,7 @@ export default {
       }
       const res = await articleAPI.getList(options)
       // console.log('list---data', res.data, options)
-      const {
-        list,
-        pagination
-      } = res.data
+      const { list, pagination } = res.data
       this.list = list
       this.total = pagination.total
       this.totalPage = pagination.totalPage
@@ -160,4 +162,3 @@ export default {
   // max-height: 300px;
 }
 </style>
-

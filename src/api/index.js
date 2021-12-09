@@ -1,7 +1,5 @@
 import axios from 'axios'
-import {
-  Message as Message
-} from 'element-ui'
+import { Message as Message } from 'element-ui'
 const baseURL = process.env.NODE_ENV === 'development' ? 'v1' : '/v1'
 
 // create an axios instance
@@ -13,10 +11,10 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(
-  config => {
+  (config) => {
     return config
   },
-  error => {
+  (error) => {
     // do something with request error
     console.log(error) // for debug
     return Promise.reject(error)
@@ -25,7 +23,7 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  response => {
+  (response) => {
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
@@ -40,7 +38,7 @@ service.interceptors.response.use(
       return res
     }
   },
-  error => {
+  (error) => {
     console.log('err' + error) // for debug
     Message({
       message: error.message,

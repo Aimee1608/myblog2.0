@@ -4,12 +4,13 @@
     <div class="tFriendsBox tcommonBox">
       <div class="friendslink-title">棒棒哒</div>
       <el-row>
-        <el-col v-for="(item,index) in friendslink"
-                :key="'f'+index"
-                :span="12"
-                class="tf-item">
-          <a :href="item.webBlog"
-             target="_blank">
+        <el-col
+          v-for="(item, index) in friendslink"
+          :key="'f' + index"
+          :span="12"
+          class="tf-item"
+        >
+          <a :href="item.webBlog" target="_blank">
             <HeadImg :src="item.webBlogIcon" />
             <h4>{{ item.webBlogName }}</h4>
             <p>{{ item.webBlogDesc }}</p>
@@ -22,7 +23,6 @@
 </template>
 
 <script>
-
 import userAPI from '@/api/user'
 import Message from '@/components/message'
 export default {
@@ -30,15 +30,18 @@ export default {
   components: {
     Message
   },
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
-      friendslink: []// 友情链接
+      friendslink: [] // 友情链接
     }
   },
-  async created() { // 生命周期函数
+  async created() {
+    // 生命周期函数
     await this.getList()
   },
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     async getList() {
       const res = await userAPI.getWebBlogUser()
       this.friendslink = res.data

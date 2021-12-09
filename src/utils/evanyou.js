@@ -1,3 +1,4 @@
+/*eslint-disable*/
 function evanyouFun(dom) {
   if (dom) {
     var c = dom
@@ -18,7 +19,10 @@ function evanyouFun(dom) {
     x.globalAlpha = 0.6
     function evanyou() {
       x.clearRect(0, 0, w, h)
-      q = [{ x: 0, y: h * 0.7 + f }, { x: 0, y: h * 0.7 - f }]
+      q = [
+        { x: 0, y: h * 0.7 + f },
+        { x: 0, y: h * 0.7 - f }
+      ]
       while (q[1].x < w + f) d(q[0], q[1])
     }
     function d(i, j) {
@@ -30,14 +34,20 @@ function evanyouFun(dom) {
       x.lineTo(k, n)
       x.closePath()
       r -= u / -50
-      x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 + 128).toString(16)
+      x.fillStyle =
+        '#' +
+        (
+          ((v(r) * 127 + 128) << 16) |
+          ((v(r + u / 3) * 127 + 128) << 8) |
+          (v(r + (u / 3) * 2) * 127 + 128)
+        ).toString(16)
       x.fill()
       q[0] = q[1]
       q[1] = { x: k, y: n }
     }
     function y(p) {
       var t = p + (z() * 2 - 1.1) * f
-      return (t > h || t < 0) ? y(p) : t
+      return t > h || t < 0 ? y(p) : t
     }
     document.onclick = evanyou
     document.ontouchstart = evanyou
@@ -45,3 +55,4 @@ function evanyouFun(dom) {
   }
 }
 export default evanyouFun
+/* eslint-enable */

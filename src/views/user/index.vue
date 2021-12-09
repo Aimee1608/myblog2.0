@@ -1,100 +1,108 @@
 <!-- 用户中心 -->
 <template>
   <div v-if="haslogin">
-    <div v-if="isEdit"
-         class="tcommonBox">
+    <div v-if="isEdit" class="tcommonBox">
       <header>
-        <h1>
-          编辑个人资料
-        </h1>
+        <h1>编辑个人资料</h1>
       </header>
       <section>
         <ul class="userInfoBox">
           <li class="avatarlist">
             <span class="leftTitle">头像</span>
             <div class="avatar-uploader">
-              <HeadImg :src="editUser.avatar"
-                       class="avatar" />
+              <HeadImg :src="editUser.avatar" class="avatar" />
             </div>
           </li>
           <li class="username">
             <span class="leftTitle">昵称</span>
-            <span>{{ editUser.username || "无" }}</span>
+            <span>{{ editUser.username || '无' }}</span>
           </li>
           <li>
             <span class="leftTitle">个性标签</span>
             <template>
               <el-radio-group v-model="editUser.label">
-                <el-radio v-for="(item,index) in usertab"
-                          :key="'usertab'+index"
-                          :label="item">{{ item }}</el-radio>
+                <el-radio
+                  v-for="(item, index) in usertab"
+                  :key="'usertab' + index"
+                  :label="item"
+                  >{{ item }}</el-radio
+                >
               </el-radio-group>
             </template>
           </li>
           <li>
             <span class="leftTitle">是否展示友链</span>
-            <el-switch v-model="editUser.webBlogState"
-                       :active-value="1"
-                       :inactive-value="0"
-                       on-color="#13ce66"
-                       off-color="#aaa" />
+            <el-switch
+              v-model="editUser.webBlogState"
+              :active-value="1"
+              :inactive-value="0"
+              on-color="#13ce66"
+              off-color="#aaa"
+            />
           </li>
           <li v-show="editUser.webBlogState">
             <span class="leftTitle">网站名称</span>
-            <el-input v-model="editUser.webBlogName"
-                      placeholder="网站名称" /><i v-show="editUser.webBlogState"
-               class="fa fa-wa fa-asterisk" />
+            <el-input v-model="editUser.webBlogName" placeholder="网站名称" /><i
+              v-show="editUser.webBlogState"
+              class="fa fa-wa fa-asterisk"
+            />
           </li>
           <li v-show="editUser.webBlogState">
             <span class="leftTitle">网站地址</span>
-            <el-input v-model="editUser.webBlog"
-                      placeholder="网站"
-                      value="userWeb" /> <i v-show="editUser.webBlogState"
-               class="fa fa-wa fa-asterisk" />
+            <el-input
+              v-model="editUser.webBlog"
+              placeholder="网站"
+              value="userWeb"
+            />
+            <i v-show="editUser.webBlogState" class="fa fa-wa fa-asterisk" />
           </li>
           <li v-show="editUser.webBlogState">
             <span class="leftTitle">网站简介</span>
-            <el-input v-model="editUser.webBlogDesc"
-                      type="textarea"
-                      :rows="3"
-                      placeholder="请输入内容" /><i v-show="editUser.webBlogState"
-               class="fa fa-wa fa-asterisk" />
+            <el-input
+              v-model="editUser.webBlogDesc"
+              type="textarea"
+              :rows="3"
+              placeholder="请输入内容"
+            /><i v-show="editUser.webBlogState" class="fa fa-wa fa-asterisk" />
           </li>
-          <li v-show="editUser.webBlogState"
-              class="avatarlist">
+          <li v-show="editUser.webBlogState" class="avatarlist">
             <span class="leftTitle">网站logo</span>
             <div>
-              <img :src="editUser.webBlogIcon">
+              <img :src="editUser.webBlogIcon" />
             </div>
             <!-- 上传图片 -->
-            <div class="avatar-uploader"
-                 @click="selectHandle">
+            <div class="avatar-uploader" @click="selectHandle">
               <div class="el-upload">
                 <el-link type="primary">上传图片</el-link>
-                <input v-show="false"
-                       ref="picker"
-                       multiple
-                       type="file"
-                       accept="image/*"
-                       @change="beforeAvatarUpload">
+                <input
+                  v-show="false"
+                  ref="picker"
+                  multiple
+                  type="file"
+                  accept="image/*"
+                  @change="beforeAvatarUpload"
+                />
               </div>
-              <div class="el-upload__tip">点击上传头像，只能上传jpg/png文件，且不超过1mb</div>
+              <div class="el-upload__tip">
+                点击上传头像，只能上传jpg/png文件，且不超过1mb
+              </div>
             </div>
           </li>
         </ul>
-        <div class=" saveInfobtn">
-          <a class="tcolors-bg"
-             href="javascript:void(0);"
-             @click="isEdit=!isEdit">取消</a>
-          <a class="tcolors-bg"
-             href="javascript:void(0);"
-             @click="saveInfoFun">保 存</a>
+        <div class="saveInfobtn">
+          <a
+            class="tcolors-bg"
+            href="javascript:void(0);"
+            @click="isEdit = !isEdit"
+            >取消</a
+          >
+          <a class="tcolors-bg" href="javascript:void(0);" @click="saveInfoFun"
+            >保 存</a
+          >
         </div>
       </section>
     </div>
-    <Detail v-show="!isEdit"
-            :userInfo="userInfo"
-            @gotoEdit="gotoEdit" />
+    <Detail v-show="!isEdit" :userInfo="userInfo" @gotoEdit="gotoEdit" />
   </div>
 </template>
 
@@ -106,7 +114,8 @@ import Detail from './components/detail.vue'
 import resourceAPI from '@/api/resource'
 export default {
   name: 'UserInfo',
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
       isEdit: false,
       state: true, // 是否展示友链开关
@@ -116,22 +125,20 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', [
-      'username',
-      'haslogin',
-      'avatar',
-      'userInfo'
-    ])
+    ...mapState('user', ['username', 'haslogin', 'avatar', 'userInfo'])
   },
   components: {
     Detail
   },
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     ...mapActions('user', ['edit']),
-    handleAvatarSuccess(res) { // 上传头像
+    handleAvatarSuccess(res) {
+      // 上传头像
       // console.log('用户头像',res.image_name,file);
       // console.log(URL.createObjectURL(file.raw));
-      if (res.code == 1001) { // 存储
+      if (res.code == 1001) {
+        // 存储
         this.userInfo.avatar = res.image_name
         this.userInfo.head_start = 1
       } else {
@@ -141,10 +148,16 @@ export default {
     selectHandle() {
       this.$refs.picker && this.$refs.picker.click()
     },
-    beforeAvatarUpload(e) { // 判断头像大小
+    beforeAvatarUpload(e) {
+      // 判断头像大小
       const targetFile = e.target.files[0]
-      const file = new File([targetFile], targetFile.name.replace(/_/g, '-'), { type: targetFile.type })
-      const isJPG = file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg'
+      const file = new File([targetFile], targetFile.name.replace(/_/g, '-'), {
+        type: targetFile.type
+      })
+      const isJPG =
+        file.type == 'image/png' ||
+        file.type == 'image/jpg' ||
+        file.type == 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 1
       // console.log(file);
       if (!isJPG) {
@@ -166,8 +179,10 @@ export default {
         this.editUser.webBlogIcon = res.data.url
       }
     },
-    handleLogoSuccess(res) { // 上传网站logo
-      if (res.code == 1001) { // 存储
+    handleLogoSuccess(res) {
+      // 上传网站logo
+      if (res.code == 1001) {
+        // 存储
         this.userInfo.image = res.image_name
         this.userInfo.logo_start = 1
       } else {
@@ -176,19 +191,23 @@ export default {
     },
     async saveInfoFun() {
       if (this.editUser.webBlogState) {
-        var pattern = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
+        var pattern =
+          /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/
         // const pattern = new RegExp('(https?|ftp|file)://[-w+&@#/%=~|?!:,.;]+[-w+&@#/%=~|]')
         // console.log(pattern.test(that.userInfo.url));
         // console.log('this.editUser.webBlog', this.editUser)
-        if (!this.editUser.webBlog || !pattern.test(this.editUser.webBlog)) { // 如果展示友链 网址为必填项
+        if (!this.editUser.webBlog || !pattern.test(this.editUser.webBlog)) {
+          // 如果展示友链 网址为必填项
           this.$message.error('请正确填写网址，如http://www.xxx.com')
           return
         }
-        if (!this.editUser.webBlogName) { // 如果展示友链 网址为必填项
+        if (!this.editUser.webBlogName) {
+          // 如果展示友链 网址为必填项
           this.$message.error('请填写网站名称')
           return
         }
-        if (!this.editUser.webBlogDesc) { // 如果展示友链 网址为必填项
+        if (!this.editUser.webBlogDesc) {
+          // 如果展示友链 网址为必填项
           this.$message.error('请填写网站简介')
           return
         }

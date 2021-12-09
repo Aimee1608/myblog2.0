@@ -1,4 +1,3 @@
-
 import dev from './dev.js'
 import prod from './prod.js'
 
@@ -13,7 +12,4 @@ const SITE = {
   author: 'aimee',
   title: 'mango ya'
 }
-export {
-  GITHUB_OAUTH,
-  SITE
-}
+export { GITHUB_OAUTH, SITE }

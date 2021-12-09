@@ -2,97 +2,107 @@
   <div class="rightlistBox">
     <section>
       <div class="r1-head">
-        <img src="@/assets/img/headtou02.jpg"
-             alt="">
-        <h1>
-          <span>女王</span>Aimee
-        </h1>
+        <img src="@/assets/img/headtou02.jpg" alt="" />
+        <h1><span>女王</span>Aimee</h1>
       </div>
       <div class="r1-body">
         <p>你能抓到我么？</p>
         <div class="catch-me">
           <div class="">
-            <el-tooltip class="item"
-                        content="Github"
-                        placement="top">
-              <a :href="catchMeObj.git"
-                 target="_blank"><i class="fa fa-fw fa-github" /></a>
+            <el-tooltip class="item" content="Github" placement="top">
+              <a :href="catchMeObj.git" target="_blank"
+                ><i class="fa fa-fw fa-github"
+              /></a>
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="QQ"
-                        placement="top">
-              <a :href="catchMeObj.qq"
-                 target="_blank"><i class="fa fa-fw fa-qq" /></a>
+            <el-tooltip class="item" effect="dark" content="QQ" placement="top">
+              <a :href="catchMeObj.qq" target="_blank"
+                ><i class="fa fa-fw fa-qq"
+              /></a>
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="微博"
-                        placement="top">
-              <a :href="catchMeObj.sina"
-                 target="_blank"><i class="fa fa-fw fa-weibo" /></a>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="微博"
+              placement="top"
+            >
+              <a :href="catchMeObj.sina" target="_blank"
+                ><i class="fa fa-fw fa-weibo"
+              /></a>
             </el-tooltip>
           </div>
           <div class="">
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="微信"
-                        placement="top">
-              <a :href="catchMeObj.wechat"
-                 target="_blank"><i class="fa fa-fw fa-wechat" /></a>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="微信"
+              placement="top"
+            >
+              <a :href="catchMeObj.wechat" target="_blank"
+                ><i class="fa fa-fw fa-wechat"
+              /></a>
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="CSDN"
-                        placement="top">
-              <a :href="catchMeObj.csdn"
-                 target="_blank"><i class="">C</i></a>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="CSDN"
+              placement="top"
+            >
+              <a :href="catchMeObj.csdn" target="_blank"><i class="">C</i></a>
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="简历"
-                        placement="top">
-              <a :href="catchMeObj.job"
-                 target="_blank"><i class="fa fa-fw fa-file-word-o" /></a>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="简历"
+              placement="top"
+            >
+              <a :href="catchMeObj.job" target="_blank"
+                ><i class="fa fa-fw fa-file-word-o"
+              /></a>
             </el-tooltip>
-            <el-tooltip class="item"
-                        effect="dark"
-                        content="更多"
-                        placement="top">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="更多"
+              placement="top"
+            >
               <a href="#/Aboutme"><i class="el-icon-more" /></a>
             </el-tooltip>
           </div>
         </div>
       </div>
     </section>
-    <section :class="fixDo?'rs2 fixed':'rs2'"
-             @click="lovemeFun">
-      <p>
-        Do you like me?
-      </p>
+    <section :class="fixDo ? 'rs2 fixed' : 'rs2'" @click="lovemeFun">
+      <p>Do you like me?</p>
       <div class="">
-        <i :class="loveme?'heart active':'heart'" />
+        <i :class="loveme ? 'heart active' : 'heart'" />
         <span>{{ likeNum }}</span>
       </div>
     </section>
-    <div v-show="fixDo"
-         class="rs2 rs2-block" />
+    <div v-show="fixDo" class="rs2 rs2-block" />
     <section />
     <section class="rs3">
-      <h2 class="ui label">
-        这些人都排着队来跟我说话
-      </h2>
+      <h2 class="ui label">这些人都排着队来跟我说话</h2>
       <ul class="rs3-textwidget">
-        <li v-for="(item,index) in artCommentList"
-            :key="'artCommentList'+index"
-            class="rs3-item">
-          <a href="javascript:void(0);"
-             @click="item.isArticle ? goDetail(item.articleId) : goOther(item.articleId)">
+        <li
+          v-for="(item, index) in artCommentList"
+          :key="'artCommentList' + index"
+          class="rs3-item"
+        >
+          <a
+            href="javascript:void(0);"
+            @click="
+              item.isArticle
+                ? goDetail(item.articleId)
+                : goOther(item.articleId)
+            "
+          >
             <div class="rs3-photo">
               <HeadImg :src="item.avatar" />
             </div>
             <div class="rs3-inner">
-              <p class="rs3-author">{{ item.username }} 在「{{ item.title }}」中说:</p>
+              <p class="rs3-author">
+                {{ item.username }} 在「{{ item.title }}」中说:
+              </p>
               <p class="rs3-text">{{ item.content }}</p>
             </div>
           </a>
@@ -100,23 +110,19 @@
       </ul>
     </section>
     <section class="rs4">
-      <h2 class="ui label">
-        大家都排队来看这些
-      </h2>
+      <h2 class="ui label">大家都排队来看这些</h2>
       <ul>
-        <li v-for="(item,index) in browseList"
-            :key="'browseList'+index">
-          <a href="javascript:void(0);"
-             @click="goDetail(item.articleId)">{{ item.title }}</a> —— {{ item.count }} 次围观
+        <li v-for="(item, index) in browseList" :key="'browseList' + index">
+          <a href="javascript:void(0);" @click="goDetail(item.articleId)">{{
+            item.title
+          }}</a>
+          —— {{ item.count }} 次围观
         </li>
       </ul>
     </section>
     <!-- 右侧上滑小图片 -->
-    <div class="toTop  hidden"
-         :style="'top:'+top"
-         @click="toTopfun">
-      <img src="@/assets/img/scroll.png"
-           alt="">
+    <div class="toTop hidden" :style="'top:' + top" @click="toTopfun">
+      <img src="@/assets/img/scroll.png" alt="" />
     </div>
   </div>
 </template>
@@ -138,7 +144,8 @@ export default {
       artCommentList: [], // 评论量最多
       likeNum: 0, // do you like me 点击量
       initLikeNum: 0, // 初始化喜欢数量
-      catchMeObj: {// 抓住我 个人信息{
+      catchMeObj: {
+        // 抓住我 个人信息{
         git: 'https://github.com/Aimee1608',
         qq: require('./../../assets/img/aimee/QQ.jpg'),
         sina: 'https://weibo.com/u/2242812941',
@@ -214,9 +221,11 @@ export default {
       this.going = true
       var timer = setInterval(() => {
         // 获取滚动条距离顶部高度
-        var osTop = document.documentElement.scrollTop || document.body.scrollTop
+        var osTop =
+          document.documentElement.scrollTop || document.body.scrollTop
         var ispeed = Math.floor(-osTop / 7)
-        document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed
+        document.documentElement.scrollTop = document.body.scrollTop =
+          osTop + ispeed
         // 到达顶部，清除定时器
         if (osTop === 0) {
           this.going = false

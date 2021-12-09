@@ -3,32 +3,49 @@
     <div class="archive-title">归档</div>
     <div class="archive-class-title">分类</div>
     <ul class="archive-class-all">
-      <li v-for="item in classList"
-          :key="item._id"
-          :class="item._id === classId ? 'class-selected': ''"><a href="javascript:void(0);"
-           @click="goClassList(item._id)">{{ item.name }}</a><span>（{{ item.count }}）</span></li>
+      <li
+        v-for="item in classList"
+        :key="item._id"
+        :class="item._id === classId ? 'class-selected' : ''"
+      >
+        <a href="javascript:void(0);" @click="goClassList(item._id)">{{
+          item.name
+        }}</a
+        ><span>（{{ item.count }}）</span>
+      </li>
     </ul>
-    <div v-if="tags.length>0"
-         class="archive-class-children">
-      <div v-for="item in tags"
-           :key="item._id"
-           :class="['archive-class-children-item', item._id === tagsId && 'archive-class-children-item-selected']">
-        <a href="javascript:void(0);"
-           @click="goClassListChildren(item._id)">{{ item.name }}</a>
+    <div v-if="tags.length > 0" class="archive-class-children">
+      <div
+        v-for="item in tags"
+        :key="item._id"
+        :class="[
+          'archive-class-children-item',
+          item._id === tagsId && 'archive-class-children-item-selected'
+        ]"
+      >
+        <a href="javascript:void(0);" @click="goClassListChildren(item._id)">{{
+          item.name
+        }}</a>
       </div>
     </div>
-    <div v-for="item in articleList"
-         :key="item.year"
-         class="article-time">
+    <div v-for="item in articleList" :key="item.year" class="article-time">
       <div class="archive-class-title">{{ item.year }}</div>
       <el-timeline>
-        <el-timeline-item v-for="a in item.list"
-                          :key="a._id"
-                          class="archive-class-item-box"
-                          :hide-timestamp="true">
-          <span class="archive-class-item-time">{{ getTimeLine(a.createDate) }}</span> <a class="archive-class-item-title"
-             href="javascript:void(0);"
-             @click="goDetail(a._id)">{{ a.title }}</a>
+        <el-timeline-item
+          v-for="a in item.list"
+          :key="a._id"
+          class="archive-class-item-box"
+          :hide-timestamp="true"
+        >
+          <span class="archive-class-item-time">{{
+            getTimeLine(a.createDate)
+          }}</span>
+          <a
+            class="archive-class-item-title"
+            href="javascript:void(0);"
+            @click="goDetail(a._id)"
+            >{{ a.title }}</a
+          >
         </el-timeline-item>
       </el-timeline>
     </div>
@@ -44,11 +61,8 @@ export default {
   components: {},
   data() {
     return {
-      classList: [
-
-      ],
-      articleList: [
-      ],
+      classList: [],
+      articleList: [],
       classId: null,
       tagsId: null,
       tags: []

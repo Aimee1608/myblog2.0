@@ -1,18 +1,23 @@
 <!-- 首页 -->
 <template>
-  <span :class="['tcolors-bg', 'abutton', size =='small'?'abutton-small':'abutton-large']"
-        @click="handle">
+  <span
+    :class="[
+      'tcolors-bg',
+      'abutton',
+      size == 'small' ? 'abutton-small' : 'abutton-large'
+    ]"
+    @click="handle"
+  >
     <slot />
-    <i v-if="icon"
-       :class="icon" />
+    <i v-if="icon" :class="icon" />
   </span>
 </template>
 
 <script>
 export default {
   name: 'AButton',
-  components: { // 定义组件
-
+  components: {
+    // 定义组件
   },
   props: {
     icon: {
@@ -24,15 +29,15 @@ export default {
       default: 'small'
     }
   },
-  data() { // 选项 / 数据
-    return {
-
-    }
+  data() {
+    // 选项 / 数据
+    return {}
   },
-  created() { // 生命周期函数
-
+  created() {
+    // 生命周期函数
   },
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     handle() {
       this.$emit('click')
     }

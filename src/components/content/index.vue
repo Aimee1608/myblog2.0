@@ -1,6 +1,5 @@
 <template>
-  <div class="article-content markdown-body"
-       v-html="contentInner" />
+  <div class="article-content markdown-body" v-html="contentInner" />
 </template>
 
 <script>
@@ -40,7 +39,7 @@ export default {
       return Marked(this.content)
     }
   },
-  created() { },
+  created() {},
   mounted() {
     clipboard()
   },

@@ -4,24 +4,28 @@
       <el-row class="container">
         <el-col :span="24">
           <!-- pc端导航 -->
-          <PCHead class="pc-head"
-                  :activeIndex="activeIndex"
-                  :projectList="projectList"
-                  :haslogin="haslogin"
-                  @searchEnterFun="searchEnterFun"
-                  @searchChangeFun="searchChangeFun"
-                  @logoinFun="logoinFun"
-                  @goHandle="goHandle"
-                  @userlogout="userlogout" />
+          <PCHead
+            class="pc-head"
+            :activeIndex="activeIndex"
+            :projectList="projectList"
+            :haslogin="haslogin"
+            @searchEnterFun="searchEnterFun"
+            @searchChangeFun="searchChangeFun"
+            @logoinFun="logoinFun"
+            @goHandle="goHandle"
+            @userlogout="userlogout"
+          />
           <!-- 移动端 -->
-          <H5Head class="h5-head"
-                  :activeIndex="activeIndex"
-                  :projectList="projectList"
-                  :haslogin="haslogin"
-                  @searchEnterFun="searchEnterFun"
-                  @searchChangeFun="searchChangeFun"
-                  @logoinFun="logoinFun"
-                  @userlogout="userlogout" />
+          <H5Head
+            class="h5-head"
+            :activeIndex="activeIndex"
+            :projectList="projectList"
+            :haslogin="haslogin"
+            @searchEnterFun="searchEnterFun"
+            @searchChangeFun="searchChangeFun"
+            @logoinFun="logoinFun"
+            @userlogout="userlogout"
+          />
         </el-col>
       </el-row>
     </div>
@@ -30,12 +34,11 @@
         <div><span id="luke" /></div>
       </div>
       <div class="h-information">
-        <span @click="goHandle({name: 'Aboutme'})">
-          <img src="@/assets/img/tou.png"
-               alt="">
+        <span @click="goHandle({ name: 'Aboutme' })">
+          <img src="@/assets/img/tou.png" alt="" />
         </span>
         <div class="h-description">
-          <span @click="goHandle({name: 'Aboutme'})">
+          <span @click="goHandle({ name: 'Aboutme' })">
             Write the Code. Change the World.
           </span>
         </div>
@@ -66,21 +69,21 @@ export default {
   },
   computed: {
     ...mapState('user', ['haslogin']),
-    ...mapGetters([
-      'sidebar',
-      'username',
-      'userId',
-      'avatar'
-    ])
+    ...mapGetters(['sidebar', 'username', 'userId', 'avatar'])
   },
   async created() {
-    this.activeIndex = '/' + (window.location.hash.split('/').length > 1 ? window.location.hash.split('/')[1] : '')
+    this.activeIndex =
+      '/' +
+      (window.location.hash.split('/').length > 1
+        ? window.location.hash.split('/')[1]
+        : '')
     // console.log('path', this.activeIndex)
     this.changeTitle()
     this.setLogId()
     await this.getActiveCate()
   },
-  mounted() { // 页面元素加载完成
+  mounted() {
+    // 页面元素加载完成
     const timer = setTimeout(() => {
       Typeit('#luke') // 打字机效果
       clearTimeout(timer)
@@ -134,13 +137,21 @@ export default {
       this.$router.push(path)
     },
     changeTitle() {
-      var hiddenProperty = 'hidden' in document ? 'hidden'
-        : 'webkitHidden' in document ? 'webkitHidden'
-          : 'mozHidden' in document ? 'mozHidden'
-            : null
-      var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange')
+      var hiddenProperty =
+        'hidden' in document
+          ? 'hidden'
+          : 'webkitHidden' in document
+          ? 'webkitHidden'
+          : 'mozHidden' in document
+          ? 'mozHidden'
+          : null
+      var visibilityChangeEvent = hiddenProperty.replace(
+        /hidden/i,
+        'visibilitychange'
+      )
       var onVisibilityChange = () => {
-        if (document[hiddenProperty]) { // 被隐藏
+        if (document[hiddenProperty]) {
+          // 被隐藏
           document.title = '藏好啦(つд⊂)'
         } else {
           document.title = '被发现啦(*´∇｀*)' // 当前窗口打开
@@ -320,4 +331,3 @@ export default {
   }
 }
 </style>
-
