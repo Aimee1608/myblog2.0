@@ -20,6 +20,11 @@ const webpack = require('webpack')
 //   deleteOriginalAssets: false // 删除原文件
 // })
 
+const analyzer = []
+// 只有分析命令的时候才执行
+if (process.env.ENV_BUILD === 'analyzer') {
+  analyzer.push(new BundleAnalyzerPlugin())
+}
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -132,7 +137,7 @@ module.exports = {
     },
     // 通过 compression-webpack-plugin 插件对js文件进行gzip压缩
     plugins: [
-      new BundleAnalyzerPlugin(),
+      ...analyzer,
       new LodashModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ja|it/)
       // new CompressionWebpackPlugin({

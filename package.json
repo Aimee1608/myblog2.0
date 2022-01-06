@@ -6,6 +6,7 @@
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "analyzer": "cross-env ENV_BUILD=analyzer vue-cli-service build ",
     "lint": "vue-cli-service lint  --ignore-path .eslintignore ",
     "prettier": "prettier --write .",
     "prepare": "husky install"
@@ -37,6 +38,7 @@
     "babel-plugin-component": "^1.1.1",
     "babel-plugin-lodash": "^3.3.4",
     "compression-webpack-plugin": "^8.0.1",
+    "cross-env": "7.0.3",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-vue": "^6.2.2",
