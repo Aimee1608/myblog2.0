@@ -50,5 +50,5 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd /home/www/Aimee/myblog2.0
-          wget https://github.com/Aimee1608/myblog2.0/releases/latest/download/release.tgz --no-check-certificate -O release.tgz
+          wget https://github.com/Aimee1608/myblog2.0/releases/latest/download/release.tgz --user-agent="Mozilla/5.0 (X11;U;Linux i686;en-US;rv:1.9.0.3) Geco/2008092416 Firefox/3.0.3" --no-check-certificate -O release.tgz
           tar zxvf release.tgz
