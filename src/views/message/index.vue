@@ -7,8 +7,12 @@
         <h2>
           走过路过不要错过！交流、咨询、吐槽、感叹、勾搭都在这里，尽情畅谈！
         </h2>
+        <h2>
+          欢迎加博主微信进前端学习交流群，不定期会发送学习资料，共同进步哦！
+        </h2>
+        <!-- <h2>感兴趣的也可以关注博主微信公众号 微信搜索 Aimee来啦</h2> -->
         <div class="">
-          <img src="@/assets/img/timg.jpg" class="maxW" alt="" />
+          <img src="@/assets/img/timg.jpg" class="maxW" alt="">
         </div>
       </section>
     </div>
