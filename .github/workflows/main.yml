@@ -50,5 +50,5 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd /home/www/Aimee/myblog2.0
-          wget https://github.com/Aimee1608/myblog2.0/releases/latest/download/release.tgz -O release.tgz
+          wget https://github.com/Aimee1608/myblog2.0/releases/latest/download/release.tgz --no-check-certificate -O release.tgz
           tar zxvf release.tgz
