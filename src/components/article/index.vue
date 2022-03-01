@@ -1,33 +1,26 @@
 <!-- 文章列表 -->
 <template>
-  <el-row v-loading="listLoading" class="sharelistBox">
-    <el-col
-      v-for="(item, index) in list"
-      :key="'article' + index"
-      :span="24"
-      class="s-item tcommonBox"
-    >
+  <el-row ref="article" class="sharelistBox">
+    <el-col v-for="(item, index) in list" :key="'article' + index" :span="24" class="s-item tcommonBox">
       <articleHead :item="item" />
       <div class="article-content-list" @click="goDetail(item._id)">
         <Content :content="item.content" />
         <!-- <div class="article-description" >
           {{ item.description }}
-        </div> -->
+        </div>-->
         <!-- <div class="article-img">
           <img :src="item.image"
                alt=""
                class="maxW">
-        </div> -->
+        </div>-->
       </div>
       <div class="viewdetail">
         <!-- <a class="tcolors-bg"
            @click="goDetail(item._id)">
           阅读全文
           <i class="el-icon-d-arrow-right" />
-        </a> -->
-        <AButton icon="el-icon-d-arrow-right" @click="goDetail(item._id)"
-          >阅读全文</AButton
-        >
+        </a>-->
+        <AButton icon="el-icon-d-arrow-right" @click="goDetail(item._id)">阅读全文</AButton>
       </div>
     </el-col>
     <el-col v-if="!listLoading" class="tcommonBox">
@@ -50,7 +43,6 @@ import articleAPI from '@/api/article'
 import articleHead from '@/components/articleHead'
 import Content from '@/components/content'
 import AButton from '@/components/abutton'
-
 export default {
   name: 'Article',
   components: {
@@ -102,6 +94,7 @@ export default {
       this.totalPage = pagination.totalPage
       this.current = pagination.currentPage
       this.listLoading = false
+      this.loadingInstance && this.loadingInstance.close()
     },
 
     handleCurrentChange(val) {
@@ -110,6 +103,7 @@ export default {
     },
 
     async routeChange() {
+      this.loadingInstance = this.$loading({ target: this.$refs.article })
       const { keywords } = this.$route.query
 
       this.keywords = keywords

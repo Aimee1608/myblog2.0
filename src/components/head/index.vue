@@ -31,16 +31,16 @@
     </div>
     <div class="headImgBox">
       <div class="scene">
-        <div><span id="luke" /></div>
+        <div>
+          <span id="luke" />
+        </div>
       </div>
       <div class="h-information">
         <span @click="goHandle({ name: 'Aboutme' })">
-          <img src="@/assets/img/tou.png" alt="" />
+          <img src="@/assets/img/tou.png" alt />
         </span>
         <div class="h-description">
-          <span @click="goHandle({ name: 'Aboutme' })">
-            Write the Code. Change the World.
-          </span>
+          <span @click="goHandle({ name: 'Aboutme' })">Write the Code. Change the World.</span>
         </div>
       </div>
     </div>
@@ -49,10 +49,12 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { MessageBox } from 'element-ui'
 import H5Head from './components/h5-head.vue'
 import PCHead from './components/pc-head.vue'
 import { projectList } from '@/utils/constants'
 import Typeit from '@/utils/Typeit'
+import { loginType } from '@/utils/constants'
 export default {
   name: 'Head',
   components: {
@@ -112,20 +114,40 @@ export default {
       }
     },
     logoinFun() {
-      const loading = this.$loading({
-        lock: true,
-        text: '跳转中请稍等...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.5)'
-      })
-      this.login()
-      setTimeout(() => {
-        loading.close()
-        this.$message.error('跳转超时，可尝试开启vpn')
-      }, 50000)
+      MessageBox.confirm(
+        '本博客支持github 和 微博授权登录，仅获取对外开放的用户信息',
+        '登录说明',
+        {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '微博授权登录',
+          cancelButtonText: 'github授权登录'
+        }
+      )
+        .then(() => {
+          console.log('then')
+          // this.$message({
+          //   type: 'info',
+          //   message: '保存修改'
+          // })
+          this.login(loginType.WEIBO)
+        })
+        .catch((action) => {
+          console.log('catch', action)
+          const loading = this.$loading({
+            lock: true,
+            text: '跳转中请稍等...',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.5)'
+          })
+          this.login(action === 'cancel' ? loginType.GITHUB : loginType.WEIBO)
+          setTimeout(() => {
+            loading.close()
+            this.$message.error('跳转超时，可尝试开启vpn')
+          }, 50000)
+        })
     },
     async userlogout() {
-      this.$confirm('是否确认退出?', '退出提示', {
+      MessageBox.confirm('是否确认退出?', '退出提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

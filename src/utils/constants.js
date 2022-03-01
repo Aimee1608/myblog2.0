@@ -106,4 +106,8 @@ const projectList = [
     nav_name: 'resume'
   }
 ]
-export { shareClass, OwOlist, userTag, projectList }
+const loginType = {
+  GITHUB: 'github',
+  WEIBO: 'weibo'
+}
+export { shareClass, OwOlist, userTag, projectList, loginType }

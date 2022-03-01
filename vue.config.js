@@ -4,21 +4,6 @@ const port = process.env.port || 8087 // dev port
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const webpack = require('webpack')
-// const CompressionWebpackPlugin = require('compression-webpack-plugin')
-
-// const compress = new CompressionWebpackPlugin({
-//   filename: info => {
-//     return `${info.path}.gz${info.query}`
-//   },
-//   algorithm: 'gzip',
-//   threshold: 10240,
-//   test: new RegExp(
-//     '\\.(' + ['js'].join('|') +
-//     ')$'
-//   ),
-//   minRatio: 0.8, // 只有压缩率小于这个值的资源才会被处理
-//   deleteOriginalAssets: false // 删除原文件
-// })
 
 const analyzer = []
 // 只有分析命令的时候才执行
@@ -92,17 +77,17 @@ module.exports = {
         }
       })
       .end()
-      .use('image-webpack-loader')
-      .loader('image-webpack-loader')
-      .options({
-        bypassOnDebug: true
-      })
-      .end()
+    // .use('image-webpack-loader')
+    // .loader('image-webpack-loader')
+    // .options({
+    //   bypassOnDebug: true
+    // })
+    // .end()
   },
   devServer: {
     proxy: {
       '/v1': {
-        target: 'http://localhost:8899/v1',
+        target: 'http://aimeeserver.mangoya.cn:8899/v1',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -140,14 +125,6 @@ module.exports = {
       ...analyzer,
       new LodashModuleReplacementPlugin(),
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ja|it/)
-      // new CompressionWebpackPlugin({
-      //   filename: "[path].gz[query]",
-      //   algorithm: "gzip",
-      //   test: new RegExp('\\.(js|css)$'), //匹配文件名
-      //   threshold: 10240, //对10K以上的数据进行压缩
-      //   minRatio: 0.8,
-      //   deleteOriginalAssets: true //是否删除源文件,删除的话不会有js文件，都是gz文件
-      // })
     ]
   }
 }

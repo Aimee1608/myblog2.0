@@ -12,15 +12,11 @@
       <el-menu-item index="/">
         <i class="fa fa-wa fa-home" /> 首页
       </el-menu-item>
-      <el-submenu index="" :popper-append-to-body="false">
+      <el-submenu index :popper-append-to-body="false">
         <template slot="title">
           <i class="fa fa-wa fa-flask" /> 实验室
         </template>
-        <el-menu-item
-          v-for="(item, index) in projectList"
-          :key="'class2' + index"
-          index
-        >
+        <el-menu-item v-for="(item, index) in projectList" :key="'class2' + index" index>
           <a :href="item.nav_url" target="_blank">{{ item.nav_name }}</a>
         </el-menu-item>
       </el-submenu>
@@ -42,27 +38,14 @@
       <div class="pcsearchbox">
         <i class="el-icon-search pcsearchicon" />
         <div class="pcsearchinput" :class="searchkey ? 'hasSearched' : ''">
-          <el-input
-            v-model="searchkey"
-            placeholder="搜索"
-            @keyup.enter.native="searchEnterFun"
-            @change="searchChangeFun"
-          >
-            <i
-              slot="suffix"
-              class="el-input__icon el-icon-search"
-              @click="searchEnterFun"
-            />
+          <el-input v-model="searchkey" placeholder="搜索" @keyup.enter.native="searchEnterFun" @change="searchChangeFun">
+            <i slot="suffix" class="el-input__icon el-icon-search" @click="searchEnterFun" />
           </el-input>
         </div>
       </div>
       <div class="userInfo">
         <div v-show="!haslogin" class="nologin">
-          <el-tooltip
-            effect="dark"
-            content="跳往github授权登录"
-            placement="left-end"
-          >
+          <el-tooltip effect="dark" content="登录" placement="left-end">
             <a href="javascript:void(0);" @click="logoinFun(1)">登录</a>
           </el-tooltip>
         </div>
@@ -73,17 +56,12 @@
               <a @click="goHandle({ name: 'User' })">个人中心</a>
             </li>
             <li>
-              <a @click="goHandle({ name: 'LikeCollect', query: { like: 1 } })"
-                >喜欢列表</a
-              >
+              <a @click="goHandle({ name: 'LikeCollect', query: { like: 1 } })">喜欢列表</a>
             </li>
             <li>
-              <a
-                @click="
+              <a @click="
                   goHandle({ name: 'LikeCollect', query: { collect: 1 } })
-                "
-                >收藏列表</a
-              >
+                ">收藏列表</a>
             </li>
             <li>
               <a href="javascript:void(0);" @click="userlogout">退出登录</a>

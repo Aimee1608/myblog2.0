@@ -1,20 +1,18 @@
 <!-- 文章详情模块 -->
 <template>
   <div class="detailBox tcommonBox">
-    <div v-if="!content" v-loading="!content" class="detail-loading" />
+    <div v-if="!content" ref="loading" class="detail-loading" />
     <articleHead v-show="content" :item="detailObj" />
     <Content :content="content" />
     <div class="dshareBox bdsharebuttonbox" data-tag="share_1">
       <div class="dlikeColBox">
         <div class="dlikeBox" @click="likecollectHandle(1)">
-          <i
-            :class="likeArt ? 'fa fa-fw fa-heart' : 'fa fa-fw fa-heart-o'"
-          />喜欢 | {{ detailObj.likeCount }}
+          <i :class="likeArt ? 'fa fa-fw fa-heart' : 'fa fa-fw fa-heart-o'" />
+          喜欢 | {{ detailObj.likeCount }}
         </div>
         <div class="dcollectBox" @click="likecollectHandle(2)">
-          <i
-            :class="collectArt ? 'fa fa-fw fa-star' : 'fa fa-fw fa-star-o'"
-          />收藏 | {{ detailObj.collectCount }}
+          <i :class="collectArt ? 'fa fa-fw fa-star' : 'fa fa-fw fa-star-o'" />
+          收藏 | {{ detailObj.collectCount }}
         </div>
       </div>
     </div>
@@ -22,10 +20,7 @@
       <div class="donate-word">
         <span @click="pdonate = !pdonate">赞赏</span>
       </div>
-      <el-row
-        :class="pdonate ? 'donate-body' : 'donate-body donate-body-show'"
-        :gutter="30"
-      >
+      <el-row :class="pdonate ? 'donate-body' : 'donate-body donate-body-show'" :gutter="30">
         <el-col :span="12" class="donate-item">
           <div class="donate-tip">
             <img src="./../../assets/img/aimee/reward-wechat.jpg" />
@@ -46,7 +41,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-
+import { MessageBox } from 'element-ui'
 import articleAPI from '@/api/article'
 import collectAPI from '@/api/collect'
 import likeAPI from '@/api/like'
@@ -132,7 +127,7 @@ export default {
         }
       } else {
         // 未登录 前去登录。
-        this.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
+        MessageBox.confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -164,8 +159,12 @@ export default {
           this.collectArt = true
         }
       }
+      this.$$nextTick(() => {
+        this.loadingInstance && this.loadingInstance.close()
+      })
     },
     async routeChange() {
+      this.loadingInstance = this.$loading({ target: this.$refs.loading })
       this.id = this.$route.params.id
       await this.getInfo(this.id)
     }

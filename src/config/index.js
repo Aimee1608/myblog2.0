@@ -8,8 +8,9 @@ const configs = {
 }
 const config = configs[env]
 const GITHUB_OAUTH = config.GITHUB_OAUTH
+const WEIBO_OAUTH = config.WEIBO_OAUTH
 const SITE = {
   author: 'aimee',
   title: 'mango ya'
 }
-export { GITHUB_OAUTH, SITE }
+export { GITHUB_OAUTH, WEIBO_OAUTH, SITE }
