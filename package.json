@@ -12,7 +12,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "core-js": "^3.6.4",
     "element-ui": "^2.13.2",
     "highlight.js": "^11.2.0",
