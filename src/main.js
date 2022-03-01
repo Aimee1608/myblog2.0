@@ -23,7 +23,8 @@ import {
   Link,
   Loading,
   TableColumn,
-  Message
+  Message,
+  Dialog
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 // import 'element-ui/lib/theme-chalk/index.css'
@@ -52,6 +53,7 @@ Vue.use(Switch)
 Vue.use(RadioGroup)
 Vue.use(Link)
 Vue.use(TableColumn)
+Vue.use(Dialog)
 Vue.prototype.$message = Message
 Vue.prototype.$loading = Loading.service
 

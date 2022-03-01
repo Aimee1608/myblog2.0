@@ -1,6 +1,6 @@
 <!-- 文章列表 -->
 <template>
-  <el-row ref="article" class="sharelistBox">
+  <el-row class="sharelistBox">
     <el-col v-for="(item, index) in list" :key="'article' + index" :span="24" class="s-item tcommonBox">
       <articleHead :item="item" />
       <div class="article-content-list" @click="goDetail(item._id)">
@@ -94,7 +94,7 @@ export default {
       this.totalPage = pagination.totalPage
       this.current = pagination.currentPage
       this.listLoading = false
-      this.loadingInstance && this.loadingInstance.close()
+      // this.loadingInstance && this.loadingInstance.close()
     },
 
     handleCurrentChange(val) {
@@ -103,7 +103,7 @@ export default {
     },
 
     async routeChange() {
-      this.loadingInstance = this.$loading({ target: this.$refs.article })
+      // this.loadingInstance = this.$loading({ target: this.$refs.article })
       const { keywords } = this.$route.query
 
       this.keywords = keywords

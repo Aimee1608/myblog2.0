@@ -2,70 +2,51 @@
   <div class="rightlistBox">
     <section>
       <div class="r1-head">
-        <img src="@/assets/img/headtou02.jpg" alt="" />
-        <h1><span>女王</span>Aimee</h1>
+        <img src="@/assets/img/headtou02.jpg" alt />
+        <h1>
+          <span>女王</span>Aimee
+        </h1>
       </div>
       <div class="r1-body">
         <p>你能抓到我么？</p>
         <div class="catch-me">
-          <div class="">
+          <div class>
             <el-tooltip class="item" content="Github" placement="top">
-              <a :href="catchMeObj.git" target="_blank"
-                ><i class="fa fa-fw fa-github"
-              /></a>
+              <a :href="catchMeObj.git" target="_blank">
+                <i class="fa fa-fw fa-github" />
+              </a>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="QQ" placement="top">
-              <a :href="catchMeObj.qq" target="_blank"
-                ><i class="fa fa-fw fa-qq"
-              /></a>
+              <a :href="catchMeObj.qq" target="_blank">
+                <i class="fa fa-fw fa-qq" />
+              </a>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="微博"
-              placement="top"
-            >
-              <a :href="catchMeObj.sina" target="_blank"
-                ><i class="fa fa-fw fa-weibo"
-              /></a>
+            <el-tooltip class="item" effect="dark" content="微博" placement="top">
+              <a :href="catchMeObj.sina" target="_blank">
+                <i class="fa fa-fw fa-weibo" />
+              </a>
             </el-tooltip>
           </div>
-          <div class="">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="微信"
-              placement="top"
-            >
-              <a :href="catchMeObj.wechat" target="_blank"
-                ><i class="fa fa-fw fa-wechat"
-              /></a>
+          <div class>
+            <el-tooltip class="item" effect="dark" content="微信" placement="top">
+              <a :href="catchMeObj.wechat" target="_blank">
+                <i class="fa fa-fw fa-wechat" />
+              </a>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="CSDN"
-              placement="top"
-            >
-              <a :href="catchMeObj.csdn" target="_blank"><i class="">C</i></a>
+            <el-tooltip class="item" effect="dark" content="CSDN" placement="top">
+              <a :href="catchMeObj.csdn" target="_blank">
+                <i class>C</i>
+              </a>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="简历"
-              placement="top"
-            >
-              <a :href="catchMeObj.job" target="_blank"
-                ><i class="fa fa-fw fa-file-word-o"
-              /></a>
+            <el-tooltip class="item" effect="dark" content="简历" placement="top">
+              <a :href="catchMeObj.job" target="_blank">
+                <i class="fa fa-fw fa-file-word-o" />
+              </a>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="更多"
-              placement="top"
-            >
-              <a href="#/Aboutme"><i class="el-icon-more" /></a>
+            <el-tooltip class="item" effect="dark" content="更多" placement="top">
+              <a href="#/Aboutme">
+                <i class="el-icon-more" />
+              </a>
             </el-tooltip>
           </div>
         </div>
@@ -73,7 +54,7 @@
     </section>
     <section :class="fixDo ? 'rs2 fixed' : 'rs2'" @click="lovemeFun">
       <p>Do you like me?</p>
-      <div class="">
+      <div class>
         <i :class="loveme ? 'heart active' : 'heart'" />
         <span>{{ likeNum }}</span>
       </div>
@@ -83,11 +64,7 @@
     <section class="rs3">
       <h2 class="ui label">这些人都排着队来跟我说话</h2>
       <ul class="rs3-textwidget">
-        <li
-          v-for="(item, index) in artCommentList"
-          :key="'artCommentList' + index"
-          class="rs3-item"
-        >
+        <li v-for="(item, index) in artCommentList" :key="'artCommentList' + index" class="rs3-item">
           <a
             href="javascript:void(0);"
             @click="
@@ -100,9 +77,7 @@
               <HeadImg :src="item.avatar" />
             </div>
             <div class="rs3-inner">
-              <p class="rs3-author">
-                {{ item.username }} 在「{{ item.title }}」中说:
-              </p>
+              <p class="rs3-author">{{ item.username }} 在「{{ item.title }}」中说:</p>
               <p class="rs3-text">{{ item.content }}</p>
             </div>
           </a>
@@ -113,16 +88,18 @@
       <h2 class="ui label">大家都排队来看这些</h2>
       <ul>
         <li v-for="(item, index) in browseList" :key="'browseList' + index">
-          <a href="javascript:void(0);" @click="goDetail(item.articleId)">{{
+          <a href="javascript:void(0);" @click="goDetail(item.articleId)">
+            {{
             item.title
-          }}</a>
+            }}
+          </a>
           —— {{ item.count }} 次围观
         </li>
       </ul>
     </section>
     <!-- 右侧上滑小图片 -->
     <div class="toTop hidden" :style="'top:' + top" @click="toTopfun">
-      <img src="@/assets/img/scroll.png" alt="" />
+      <img src="@/assets/img/scroll.png" alt />
     </div>
   </div>
 </template>
@@ -131,6 +108,7 @@
 import { mapActions } from 'vuex'
 import commentAPI from '@/api/comment'
 import loveAPI from '@/api/love'
+import { throttle } from '@/utils'
 export default {
   name: 'Right',
   data() {
@@ -182,24 +160,27 @@ export default {
         topHieght = 100
       }
       this.top = '-950px'
-      window.addEventListener('scroll', () => {
-        var t = document.documentElement.scrollTop || document.body.scrollTop
-        // console.log(t);
-        if (!this.going) {
-          if (t > 600) {
-            this.gotoTop = true
-            this.top = -topHieght + 'px'
-          } else {
-            this.gotoTop = false
-            this.top = '-950px'
+      window.addEventListener(
+        'scroll',
+        throttle(() => {
+          var t = document.documentElement.scrollTop || document.body.scrollTop
+          // console.log(t);
+          if (!this.going) {
+            if (t > 600) {
+              this.gotoTop = true
+              this.top = -topHieght + 'px'
+            } else {
+              this.gotoTop = false
+              this.top = '-950px'
+            }
           }
-        }
-        if (t > 1200) {
-          this.fixDo = true
-        } else {
-          this.fixDo = false
-        }
-      })
+          if (t > 1200) {
+            this.fixDo = true
+          } else {
+            this.fixDo = false
+          }
+        }, 50)
+      )
     },
     async lovemeFun() {
       if (!this.loveme) {

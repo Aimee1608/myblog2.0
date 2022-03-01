@@ -159,7 +159,7 @@ export default {
           this.collectArt = true
         }
       }
-      this.$$nextTick(() => {
+      this.$nextTick(() => {
         this.loadingInstance && this.loadingInstance.close()
       })
     },

@@ -29,6 +29,13 @@
         </el-col>
       </el-row>
     </div>
+    <el-dialog title="登录说明" :visible.sync="showLoginModal" width="50%" center class="login-dialog">
+      <div>本博客支持github 和 微博授权登录，仅获取对外开放的用户信息</div>
+      <div slot="footer" class="dialog-footer">
+        <AButton @click="useLogin(false)">github授权</AButton>
+        <AButton @click="useLogin(true)">新浪微博授权</AButton>
+      </div>
+    </el-dialog>
     <div class="headImgBox">
       <div class="scene">
         <div>
@@ -55,17 +62,20 @@ import PCHead from './components/pc-head.vue'
 import { projectList } from '@/utils/constants'
 import Typeit from '@/utils/Typeit'
 import { loginType } from '@/utils/constants'
+import AButton from '@/components/abutton'
 export default {
   name: 'Head',
   components: {
     H5Head,
-    PCHead
+    PCHead,
+    AButton
   },
   data() {
     return {
       activeIndex: '/',
       projectList,
       searchkey: '',
+      showLoginModal: false,
       pMenu: true // 手机端菜单打开
     }
   },
@@ -114,37 +124,10 @@ export default {
       }
     },
     logoinFun() {
-      MessageBox.confirm(
-        '本博客支持github 和 微博授权登录，仅获取对外开放的用户信息',
-        '登录说明',
-        {
-          distinguishCancelAndClose: true,
-          confirmButtonText: '微博授权登录',
-          cancelButtonText: 'github授权登录'
-        }
-      )
-        .then(() => {
-          console.log('then')
-          // this.$message({
-          //   type: 'info',
-          //   message: '保存修改'
-          // })
-          this.login(loginType.WEIBO)
-        })
-        .catch((action) => {
-          console.log('catch', action)
-          const loading = this.$loading({
-            lock: true,
-            text: '跳转中请稍等...',
-            spinner: 'el-icon-loading',
-            background: 'rgba(0, 0, 0, 0.5)'
-          })
-          this.login(action === 'cancel' ? loginType.GITHUB : loginType.WEIBO)
-          setTimeout(() => {
-            loading.close()
-            this.$message.error('跳转超时，可尝试开启vpn')
-          }, 50000)
-        })
+      this.showLoginModal = true
+    },
+    useLogin(isWeibo) {
+      this.login(!isWeibo ? loginType.GITHUB : loginType.WEIBO)
     },
     async userlogout() {
       MessageBox.confirm('是否确认退出?', '退出提示', {
@@ -350,6 +333,18 @@ export default {
   }
   50% {
     opacity: 0;
+  }
+}
+</style>
+<style lang="less">
+.login-dialog {
+  .el-dialog__body {
+    text-align: center;
+  }
+  .dialog-footer {
+    span {
+      margin: 0 10px;
+    }
   }
 }
 </style>

@@ -57,3 +57,14 @@ export function analyzeEmoji(cont) {
 export function getTimeLine(time) {
   return Moment(time).format('MM-DD')
 }
+
+export function throttle(fn, time) {
+  let last = Date.now()
+  return (...arg) => {
+    let now = Date.now()
+    if (last + time <= now) {
+      fn(...arg)
+      last = now
+    }
+  }
+}
