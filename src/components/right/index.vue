@@ -397,6 +397,7 @@ export default {
 .rightlistBox .rs3 .rs3-inner .rs3-text {
   font-size: 12px;
   text-align: justify;
+  overflow-wrap: break-word;
 }
 .rightlistBox .rs3 .rs3-item:last-child a {
   border-bottom: none;
