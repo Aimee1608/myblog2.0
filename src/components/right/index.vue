@@ -16,31 +16,9 @@
                 <i class="fa fa-fw fa-github" />
               </a>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="QQ" placement="top">
-              <a :href="catchMeObj.qq" target="_blank">
-                <i class="fa fa-fw fa-qq" />
-              </a>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="微博" placement="top">
-              <a :href="catchMeObj.sina" target="_blank">
-                <i class="fa fa-fw fa-weibo" />
-              </a>
-            </el-tooltip>
-          </div>
-          <div class>
             <el-tooltip class="item" effect="dark" content="微信" placement="top">
               <a :href="catchMeObj.wechat" target="_blank">
                 <i class="fa fa-fw fa-wechat" />
-              </a>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="CSDN" placement="top">
-              <a :href="catchMeObj.csdn" target="_blank">
-                <i class>C</i>
-              </a>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="简历" placement="top">
-              <a :href="catchMeObj.job" target="_blank">
-                <i class="fa fa-fw fa-file-word-o" />
               </a>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="更多" placement="top">
